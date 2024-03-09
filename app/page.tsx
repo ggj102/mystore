@@ -5,19 +5,17 @@ import { ProductType } from "@/src/domain/product";
 import { productListFetch } from "@/src/application/useCaseProduct";
 import { listFetch } from "@/src/adaptter/api";
 
-import homeStyles from "../styles/pages/home.module.scss";
+import homeStyles from "../styles/pages/home/home.module.scss";
 import Link from "next/link";
 import CustomImage from "@/components/customImage";
-import SimpleSlider from "@/components/reactSlick/simpleSlider";
 import FiniteSlider from "@/components/reactSlick/finiteSlider";
 import MultipleSlider from "@/components/reactSlick/multipleSlider";
 import ViewInUp from "../components/animation/viewInUp";
 import Timer from "@/components/timer";
+import MainBanner from "./components/mainBanner";
 
 export default function Home() {
   const [productListData, setProductListData] = useState<ProductType[]>([]);
-
-  const [currentBannerIdx, setCurrentBannerIdx] = useState<number>(0);
 
   const categoryArr = [
     "타임특가",
@@ -69,56 +67,9 @@ export default function Home() {
 
   const test = [1, 2, 3];
 
-  const topText = "베스트 어워즈 1위";
-
-  const text = [
-    "베스트 어워즈 1위",
-    "온 몸을 부드럽게 풀어주는",
-    "샌달우드향 신텐시브 샴푸",
-  ];
-
   return (
     <main className={homeStyles.home_container}>
-      <div className={homeStyles.main_banner}>
-        <div className={homeStyles.simple_slider_container}>
-          <SimpleSlider onChangeIdx={setCurrentBannerIdx}>
-            {test.map((val, bannerIdx) => {
-              return (
-                <div key={val} className={homeStyles.main_banner_img}>
-                  <img
-                    height="550px"
-                    src={`/images/test/testbanner${val}.jpg`}
-                    alt="img"
-                  />
-                  <div className={homeStyles.main_banner_text}>
-                    {text.map((val, idx) => {
-                      const delay = 0.5 + idx * 0.5;
-
-                      return (
-                        <div
-                          key={idx}
-                          className={`${
-                            idx === 0
-                              ? homeStyles.top_text
-                              : homeStyles.bottom_text
-                          } ${
-                            currentBannerIdx === bannerIdx
-                              ? `animate__animated animate__fadeInUp`
-                              : homeStyles.invi
-                          } `}
-                          style={{ animationDelay: `${delay}s` }}
-                        >
-                          {val}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </SimpleSlider>
-        </div>
-      </div>
+      <MainBanner />
       <div className={homeStyles.icon_category}>
         <ul>
           {categoryArr.map((val, idx) => {
