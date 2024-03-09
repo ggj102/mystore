@@ -7,13 +7,12 @@ import { listFetch } from "@/src/adaptter/api";
 
 import homeStyles from "../styles/pages/home.module.scss";
 import Link from "next/link";
-import Image from "next/image";
 import CustomImage from "@/components/customImage";
-import Slider from "react-slick";
 import SimpleSlider from "@/components/reactSlick/simpleSlider";
 import FiniteSlider from "@/components/reactSlick/finiteSlider";
 import MultipleSlider from "@/components/reactSlick/multipleSlider";
 import ViewInUp from "../components/animation/viewInUp";
+import Timer from "@/components/timer";
 
 export default function Home() {
   const [productListData, setProductListData] = useState<ProductType[]>([]);
@@ -111,18 +110,6 @@ export default function Home() {
                         >
                           {val}
                         </div>
-
-                        // <ViewInUp key={idx} delay={`${delay}s`} amount="some">
-                        //   <div
-                        //     className={
-                        //       idx === 0
-                        //         ? homeStyles.top_text
-                        //         : homeStyles.bottom_text
-                        //     }
-                        //   >
-                        //     {val}
-                        //   </div>
-                        // </ViewInUp>
                       );
                     })}
                   </div>
@@ -207,6 +194,9 @@ export default function Home() {
                         isLast ? `${homeStyles.last_item}` : ""
                       }`}
                     >
+                      <div className={homeStyles.timer}>
+                        <Timer limitDate="2024-03-30" />
+                      </div>
                       <div className={homeStyles.item_img}>
                         <img
                           width="100%"
