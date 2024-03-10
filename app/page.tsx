@@ -1,13 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ProductType } from "@/src/domain/product";
-import { productListFetch } from "@/src/application/useCaseProduct";
-import { listFetch } from "@/src/adaptter/api";
-
 import homeStyles from "../styles/pages/home/home.module.scss";
 import Link from "next/link";
-import CustomImage from "@/components/customImage";
 import FiniteSlider from "@/components/reactSlick/finiteSlider";
 import MultipleSlider from "@/components/reactSlick/multipleSlider";
 import ViewInUp from "../components/animation/viewInUp";
@@ -15,8 +9,6 @@ import Timer from "@/components/timer";
 import MainBanner from "./components/mainBanner";
 
 export default function Home() {
-  const [productListData, setProductListData] = useState<ProductType[]>([]);
-
   const categoryArr = [
     "타임특가",
     "새로나왔어요",
@@ -59,11 +51,7 @@ export default function Home() {
     },
   ];
 
-  useEffect(() => {
-    productListFetch(listFetch).then((list) => {
-      setProductListData(list);
-    });
-  }, []);
+  const concatArr = testBestsellerData.concat(testBestsellerData);
 
   const test = [1, 2, 3];
 
@@ -135,7 +123,7 @@ export default function Home() {
           </ViewInUp>
           <div className={homeStyles.finite_slider_container}>
             <FiniteSlider>
-              {testBestsellerData.map((val, idx, arr) => {
+              {concatArr.map((val, idx, arr) => {
                 const isLast = idx + 1 === arr.length;
 
                 return (
@@ -224,12 +212,7 @@ export default function Home() {
                 return (
                   <li className={homeStyles.list_item} key={val.name}>
                     <div className={homeStyles.item_img}>
-                      <CustomImage
-                        width="100%"
-                        // height="auto"
-                        src="/images/test/testitem1.jpg"
-                        alt="item"
-                      />
+                      <img src="/images/test/testitem1.jpg" alt="item" />
                     </div>
                     <div className={homeStyles.item_info}>
                       <span className={homeStyles.item_name}>{val.name}</span>
@@ -263,13 +246,12 @@ export default function Home() {
           </h3>
         </ViewInUp>
         <ul>
-          {testBestsellerData.map((val) => {
+          {concatArr.map((val) => {
             return (
               <li className={homeStyles.list_item} key={val.name}>
                 <div className={homeStyles.item_img}>
                   <img
                     width="100%"
-                    // height="auto"
                     src="/images/test/testitem1.jpg"
                     alt="item"
                   />
