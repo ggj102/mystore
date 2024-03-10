@@ -7,6 +7,8 @@ import MultipleSlider from "@/components/reactSlick/multipleSlider";
 import ViewInUp from "../components/animation/viewInUp";
 import Timer from "@/components/timer";
 import MainBanner from "./components/mainBanner";
+import Timesale from "./components/timesale";
+import ProductItem from "@/components/productItem";
 
 export default function Home() {
   const categoryArr = [
@@ -79,95 +81,17 @@ export default function Home() {
             <p>마이스토어의 베스트 아이템을 만나보세요!</p>
           </h3>
         </ViewInUp>
-
         <ul>
           {testBestsellerData.map((val) => {
             return (
-              <li className={homeStyles.list_item} key={val.name}>
-                <div className={homeStyles.item_img}>
-                  <img
-                    width="100%"
-                    src="/images/test/testitem1.jpg"
-                    alt="item"
-                  />
-                </div>
-                <div className={homeStyles.item_info}>
-                  <span className={homeStyles.item_name}>{val.name}</span>
-                  <span className={homeStyles.item_discription}>
-                    {val.discription}
-                  </span>
-                  <span
-                    className={homeStyles.item_price}
-                  >{`${val.price}원`}</span>
-                  <div>
-                    <span
-                      className={homeStyles.item_sale}
-                    >{`${val.sale}%`}</span>
-                    <span className={homeStyles.item_saleprice}>
-                      {`${val.saleprice}원`}
-                    </span>
-                  </div>
-                </div>
+              <li key={val.name}>
+                <ProductItem data={val} />
               </li>
             );
           })}
         </ul>
       </div>
-      <div className={homeStyles.time_sale}>
-        <div className={homeStyles.site_wrap}>
-          <ViewInUp once={true}>
-            <h3>
-              <div>타임특가</div>
-              <p>지금이 쇼핑찬스! 놓치면 후회하는 특가상품</p>
-            </h3>
-          </ViewInUp>
-          <div className={homeStyles.finite_slider_container}>
-            <FiniteSlider>
-              {concatArr.map((val, idx, arr) => {
-                const isLast = idx + 1 === arr.length;
-
-                return (
-                  <div key={val.name}>
-                    <div
-                      className={`${homeStyles.list_item} ${
-                        isLast ? `${homeStyles.last_item}` : ""
-                      }`}
-                    >
-                      <div className={homeStyles.timer}>
-                        <Timer limitDate="2024-03-30" />
-                      </div>
-                      <div className={homeStyles.item_img}>
-                        <img
-                          width="100%"
-                          src="/images/test/testitem1.jpg"
-                          alt="item"
-                        />
-                      </div>
-                      <div className={homeStyles.item_info}>
-                        <span className={homeStyles.item_name}>{val.name}</span>
-                        <span className={homeStyles.item_discription}>
-                          {val.discription}
-                        </span>
-                        <span
-                          className={homeStyles.item_price}
-                        >{`${val.price}원`}</span>
-                        <div>
-                          <span
-                            className={homeStyles.item_sale}
-                          >{`${val.sale}%`}</span>
-                          <span className={homeStyles.item_saleprice}>
-                            {`${val.saleprice}원`}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </FiniteSlider>
-          </div>
-        </div>
-      </div>
+      <Timesale />
       <div className={homeStyles.event}>
         <div className={homeStyles.site_wrap}>
           <ViewInUp once={true}>
