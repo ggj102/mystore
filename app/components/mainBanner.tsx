@@ -3,7 +3,7 @@ import { useState } from "react";
 import SimpleSlider from "@/components/reactSlick/simpleSlider";
 import mainBannerStyle from "@styles/pages/home/mainBanner.module.scss";
 
-function SampleNextArrow(props: any) {
+function NextArrow(props: any) {
   return (
     <div
       className={`${mainBannerStyle.arrow} ${mainBannerStyle.next_arrow}`}
@@ -12,7 +12,7 @@ function SampleNextArrow(props: any) {
   );
 }
 
-function SamplePrevArrow(props: any) {
+function PrevArrow(props: any) {
   return (
     <div
       className={`${mainBannerStyle.arrow} ${mainBannerStyle.pre_arrow}`}
@@ -39,8 +39,8 @@ export default function MainBanner({}) {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     afterChange: (idx: any) => {
       if (setCurrentBannerIdx) setCurrentBannerIdx(idx);
     },
