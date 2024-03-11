@@ -1,9 +1,9 @@
+import Slider from "react-slick";
+
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
-import FiniteSlider from "@/components/reactSlick/finiteSlider";
 import Timer from "@/components/timer";
 
-import homeStyles from "@styles/pages/home/home.module.scss";
 import timesaleStyle from "@styles/pages/home/timesale.module.scss";
 
 export default function Timesale() {
@@ -46,36 +46,33 @@ export default function Timesale() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
-    // adaptiveHeight: true,
   };
 
   return (
     <div className={timesaleStyle.timesale_container}>
-      <div className={homeStyles.site_wrap}>
+      <div className="site_wrap">
         <ViewInUp once={true}>
           <h3>
             <div>타임특가</div>
             <p>지금이 쇼핑찬스! 놓치면 후회하는 특가상품</p>
           </h3>
         </ViewInUp>
-        <div className={timesaleStyle.finite_slider_container}>
-          <FiniteSlider>
-            {concatArr.map((val) => {
-              return (
-                <div key={val.name} className={timesaleStyle.timesale_item}>
-                  <div>
-                    <div className={timesaleStyle.timer}>
-                      <Timer limitDate="2024-04-30" />
-                    </div>
-                    <div className={timesaleStyle.product_item}>
-                      <ProductItem data={val} />
-                    </div>
+        <Slider className={timesaleStyle.slider} {...settings}>
+          {concatArr.map((val, idx) => {
+            return (
+              <div key={idx} className={timesaleStyle.timesale_item}>
+                <div>
+                  <div className={timesaleStyle.timer}>
+                    <Timer limitDate="2024-04-30" />
+                  </div>
+                  <div className={timesaleStyle.product_item}>
+                    <ProductItem data={val} />
                   </div>
                 </div>
-              );
-            })}
-          </FiniteSlider>
-        </div>
+              </div>
+            );
+          })}
+        </Slider>
       </div>
     </div>
   );

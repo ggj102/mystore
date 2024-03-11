@@ -93,7 +93,7 @@ export default function Home() {
       </div>
       <Timesale />
       <div className={homeStyles.event}>
-        <div className={homeStyles.site_wrap}>
+        <div className="site_wrap">
           <ViewInUp once={true}>
             <h3>
               <div>이벤트</div>
@@ -118,7 +118,7 @@ export default function Home() {
         </div>
       </div>
       <div className={homeStyles.prd_ad}>
-        <div className={homeStyles.site_wrap}>
+        <div className="site_wrap">
           <ViewInUp once={true}>
             <h3>
               <div>함께 나누고 싶은 특별함</div>
@@ -170,9 +170,9 @@ export default function Home() {
           </h3>
         </ViewInUp>
         <ul>
-          {concatArr.map((val) => {
+          {concatArr.map((val, idx) => {
             return (
-              <li className={homeStyles.list_item} key={val.name}>
+              <li className={homeStyles.list_item} key={idx}>
                 <div className={homeStyles.item_img}>
                   <img
                     width="100%"
@@ -203,7 +203,7 @@ export default function Home() {
         </ul>
       </div>
       {/* <div className={homeStyles.review}>
-        <div className={homeStyles.site_wrap}>
+        <div className='site_wrap'>
           <h3>
             <div>리뷰</div>
             <p>고객님들이 직접 작성한 리뷰를 확인해보세요</p>

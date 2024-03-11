@@ -15,9 +15,28 @@
   :global(.slick-slide > div > div) {
     height: 100%;
   }
+  :global(.slick-disabled) {
+    opacity: 0;
+  }
+  :global(.slick-arrow) {
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    position: absolute;
 
-  .finite_slider_container {
-    width: 100%;
+    margin-top: -8px;
+
+    border-top: 2px solid #444;
+    border-left: 2px solid #444;
+    transform: rotate(135deg);
+    margin-left: -11px;
+
+    &::before {
+      display: none;
+    }
+  }
+  :global(.slick-prev) {
+    transform: rotate(315deg);
   }
 
   &::before {
@@ -37,6 +56,7 @@
   & > div {
     margin: 0 9px;
     position: relative;
+    height: 100%;
   }
 
   .timer {
