@@ -1,4 +1,5 @@
 import Slider from "react-slick";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
@@ -7,6 +8,9 @@ import Timer from "@/components/timer";
 import timesaleStyle from "@styles/pages/home/timesale.module.scss";
 
 export default function Timesale() {
+  const isMedium = useMediaQuery("only screen and (max-width : 1000px)");
+  const isSmall = useMediaQuery("only screen and (max-width : 768px)");
+
   const testBestsellerData = [
     {
       name: "스킨 하이드로 트리트먼트",
@@ -40,11 +44,23 @@ export default function Timesale() {
 
   const concatArr = testBestsellerData.concat(testBestsellerData);
 
+  const sildesSize = () => {
+    let size = 4;
+    if (isMedium) {
+      size = 3;
+    }
+    if (isSmall) {
+      size = 2;
+    }
+
+    return size;
+  };
+
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: sildesSize(),
     slidesToScroll: 1,
   };
 
