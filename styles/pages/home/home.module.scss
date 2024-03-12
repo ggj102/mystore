@@ -108,6 +108,7 @@
 .slide_item {
   height: 100%;
 }
+
 .list_item {
   .item_img {
     font-size: 0;
@@ -156,80 +157,6 @@
 
 .event_banner_1 {
   margin: 120px 0;
-}
-
-.time_sale {
-  margin: 120px 0;
-  padding: 50px 0 0;
-  position: relative;
-
-  :global(.slick-track) {
-    display: flex;
-    height: auto;
-  }
-  :global(.slick-slide) {
-    height: auto;
-    padding: 3px 0;
-  }
-  :global(.slick-slide > div),
-  :global(.slick-slide > div > div) {
-    height: 100%;
-  }
-
-  .finite_slider_container {
-    width: 100%;
-
-    .list_item {
-      position: relative;
-      height: 100%;
-      padding: 0.6rem;
-      background-color: #fff;
-      overflow: hidden;
-      border-radius: 1.2rem;
-      box-sizing: border-box;
-      margin: 0 9px;
-      border: 0;
-      box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.07);
-
-      .timer {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-      }
-    }
-  }
-
-  &::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: #f5f5f5;
-    width: 100%;
-    height: 80%;
-  }
-}
-
-.event {
-  .multiple_slider_container {
-    width: 100%;
-    height: 325px;
-
-    :global(.slick-track) {
-      display: flex;
-      gap: 50px;
-      height: auto;
-    }
-    :global(.slick-slide) {
-      height: auto;
-    }
-    :global(.slick-slide > div),
-    :global(.slick-slide > div > div) {
-      height: 100%;
-    }
-  }
 }
 
 .prd_ad {
