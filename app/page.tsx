@@ -8,6 +8,7 @@ import IconCategory from "./components/iconCategory";
 import BestsSeller from "./components/bestsSeller";
 import Timesale from "./components/timesale";
 import EventBanner from "./components/eventBanner";
+import IntroVideo from "./components/introVideo";
 
 import homeStyles from "../styles/pages/home/home.module.scss";
 
@@ -52,51 +53,7 @@ export default function Home() {
       <BestsSeller />
       <Timesale />
       <EventBanner />
-      <div className={homeStyles.prd_ad}>
-        <div className="site_wrap">
-          <ViewInUp once={true}>
-            <h3>
-              <div>함께 나누고 싶은 특별함</div>
-              <p>영상 속 화제의 제품을 소개합니다</p>
-            </h3>
-          </ViewInUp>
-          <div className={homeStyles.video_item}>
-            <div className={homeStyles.video}>
-              <video controls width="100%">
-                <source src="/image/test/video1.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <ul className={homeStyles.item}>
-              {testBestsellerData.map((val) => {
-                return (
-                  <li className={homeStyles.list_item} key={val.name}>
-                    <div className={homeStyles.item_img}>
-                      <img src="/images/test/testitem1.jpg" alt="item" />
-                    </div>
-                    <div className={homeStyles.item_info}>
-                      <span className={homeStyles.item_name}>{val.name}</span>
-                      <span className={homeStyles.item_discription}>
-                        {val.discription}
-                      </span>
-                      <span
-                        className={homeStyles.item_price}
-                      >{`${val.price}원`}</span>
-                      <div>
-                        <span
-                          className={homeStyles.item_sale}
-                        >{`${val.sale}%`}</span>
-                        <span className={homeStyles.item_saleprice}>
-                          {`${val.saleprice}원`}
-                        </span>
-                      </div>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </div>
-      </div>
+      <IntroVideo />
       <div className={homeStyles.bests_seller}>
         <ViewInUp once={true}>
           <h3>
@@ -114,47 +71,6 @@ export default function Home() {
           })}
         </ul>
       </div>
-      {/* <div className={homeStyles.review}>
-        <div className='site_wrap'>
-          <h3>
-            <div>리뷰</div>
-            <p>고객님들이 직접 작성한 리뷰를 확인해보세요</p>
-          </h3>
-          <ul>
-            {testBestsellerData.map((val) => {
-              return (
-                <li className={homeStyles.list_item} key={val.name}>
-                  <div className={homeStyles.item_img}>
-                    <CustomImage
-                      width="100%"
-                      // height="auto"
-                      src="/images/test/testitem1.jpg"
-                      alt="item"
-                    />
-                  </div>
-                  <div className={homeStyles.item_info}>
-                    <span className={homeStyles.item_name}>{val.name}</span>
-                    <span className={homeStyles.item_discription}>
-                      {val.discription}
-                    </span>
-                    <span
-                      className={homeStyles.item_price}
-                    >{`${val.price}원`}</span>
-                    <div>
-                      <span
-                        className={homeStyles.item_sale}
-                      >{`${val.sale}%`}</span>
-                      <span className={homeStyles.item_saleprice}>
-                        {`${val.saleprice}원`}
-                      </span>
-                    </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div> */}
     </main>
   );
 }
