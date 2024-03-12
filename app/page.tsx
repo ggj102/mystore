@@ -2,13 +2,11 @@
 
 import homeStyles from "../styles/pages/home/home.module.scss";
 import Link from "next/link";
-import FiniteSlider from "@/components/reactSlick/finiteSlider";
-import MultipleSlider from "@/components/reactSlick/multipleSlider";
 import ViewInUp from "../components/animation/viewInUp";
-import Timer from "@/components/timer";
 import MainBanner from "./components/mainBanner";
 import Timesale from "./components/timesale";
 import ProductItem from "@/components/productItem";
+import EventBanner from "./components/eventBanner";
 
 export default function Home() {
   const categoryArr = [
@@ -55,8 +53,6 @@ export default function Home() {
 
   const concatArr = testBestsellerData.concat(testBestsellerData);
 
-  const test = [1, 2, 3];
-
   return (
     <main className={homeStyles.home_container}>
       <MainBanner />
@@ -92,31 +88,7 @@ export default function Home() {
         </ul>
       </div>
       <Timesale />
-      <div className={homeStyles.event}>
-        <div className="site_wrap">
-          <ViewInUp once={true}>
-            <h3>
-              <div>이벤트</div>
-              <p>진행중인 이벤트를 놓치지 마세요</p>
-            </h3>
-          </ViewInUp>
-        </div>
-        <div className={homeStyles.multiple_slider_container}>
-          <MultipleSlider>
-            {test.map((val) => {
-              return (
-                <div key={val}>
-                  <img
-                    width="100%"
-                    src={`/images/test/eventbanner${val}.jpg`}
-                    alt="item"
-                  />
-                </div>
-              );
-            })}
-          </MultipleSlider>
-        </div>
-      </div>
+      <EventBanner />
       <div className={homeStyles.prd_ad}>
         <div className="site_wrap">
           <ViewInUp once={true}>
