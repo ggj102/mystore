@@ -34,6 +34,8 @@ export default function IntroVideo() {
     },
   ];
 
+  const concatArr = testBestsellerData.concat(testBestsellerData);
+
   return (
     <div className={introVideoStyle.intro_video_container}>
       <div className="site_wrap">
@@ -48,7 +50,7 @@ export default function IntroVideo() {
             <video src="/images/test/video1.mp4" autoPlay></video>
           </div>
           <ul>
-            {testBestsellerData.map((val, idx) => {
+            {concatArr.map((val, idx) => {
               return (
                 <li key={idx}>
                   <div className={introVideoStyle.item_img}>
