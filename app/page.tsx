@@ -1,13 +1,15 @@
 "use client";
 
-import homeStyles from "../styles/pages/home/home.module.scss";
-import Link from "next/link";
 import ViewInUp from "../components/animation/viewInUp";
-import MainBanner from "./components/mainBanner";
-import Timesale from "./components/timesale";
 import ProductItem from "@/components/productItem";
-import EventBanner from "./components/eventBanner";
+
+import MainBanner from "./components/mainBanner";
 import IconCategory from "./components/iconCategory";
+import BestsSeller from "./components/bestsSeller";
+import Timesale from "./components/timesale";
+import EventBanner from "./components/eventBanner";
+
+import homeStyles from "../styles/pages/home/home.module.scss";
 
 export default function Home() {
   const testBestsellerData = [
@@ -47,23 +49,7 @@ export default function Home() {
     <main className={homeStyles.home_container}>
       <MainBanner />
       <IconCategory />
-      <div className={homeStyles.bests_seller}>
-        <ViewInUp once={true}>
-          <h3>
-            <div>베스트셀러</div>
-            <p>마이스토어의 베스트 아이템을 만나보세요!</p>
-          </h3>
-        </ViewInUp>
-        <ul>
-          {testBestsellerData.map((val) => {
-            return (
-              <li key={val.name}>
-                <ProductItem data={val} />
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <BestsSeller />
       <Timesale />
       <EventBanner />
       <div className={homeStyles.prd_ad}>
@@ -121,31 +107,8 @@ export default function Home() {
         <ul>
           {concatArr.map((val, idx) => {
             return (
-              <li className={homeStyles.list_item} key={idx}>
-                <div className={homeStyles.item_img}>
-                  <img
-                    width="100%"
-                    src="/images/test/testitem1.jpg"
-                    alt="item"
-                  />
-                </div>
-                <div className={homeStyles.item_info}>
-                  <span className={homeStyles.item_name}>{val.name}</span>
-                  <span className={homeStyles.item_discription}>
-                    {val.discription}
-                  </span>
-                  <span
-                    className={homeStyles.item_price}
-                  >{`${val.price}원`}</span>
-                  <div>
-                    <span
-                      className={homeStyles.item_sale}
-                    >{`${val.sale}%`}</span>
-                    <span className={homeStyles.item_saleprice}>
-                      {`${val.saleprice}원`}
-                    </span>
-                  </div>
-                </div>
+              <li key={idx}>
+                <ProductItem data={val} />
               </li>
             );
           })}

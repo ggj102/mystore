@@ -1,7 +1,7 @@
+import Slider from "react-slick";
 import ViewInUp from "@/components/animation/viewInUp";
 
 import eventBannerStyle from "@styles/pages/home/eventBanner.module.scss";
-import Slider from "react-slick";
 
 function NextArrow(props: any) {
   return (

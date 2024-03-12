@@ -2,8 +2,6 @@
   width: 100%;
   margin: 0 auto;
 
-  // background-color: green;
-
   h3 {
     text-align: center;
     font-size: 34px;
@@ -30,73 +28,8 @@
   }
 }
 
-.bests_seller {
-  max-width: var(--base-width);
-  padding: 0 1.3rem;
-
-  margin: 0 auto;
-  margin-top: 100px;
-  position: relative;
-
-  ul {
-    height: 500px;
-    display: flex;
-
-    gap: 18px;
-  }
-}
 .slide_item {
   height: 100%;
-}
-
-.list_item {
-  .item_img {
-    font-size: 0;
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    border-radius: 0.9rem;
-  }
-
-  .item_info {
-    display: flex;
-    flex-direction: column;
-
-    margin-top: 20px;
-
-    .item_name {
-      font-size: 17px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .item_discription {
-      font-size: 14px;
-      color: #aaaaaa;
-      margin-bottom: 10px;
-    }
-
-    .item_price {
-      font-size: 14px;
-      color: #aaaaaa;
-      text-decoration: line-through;
-    }
-    .item_sale {
-      font-size: 16px;
-      margin-right: 3px;
-
-      color: var(--color-discount);
-      font-weight: bold;
-    }
-    .item_saleprice {
-      font-size: 16px;
-      color: #000000;
-      font-weight: bold;
-    }
-  }
-}
-
-.event_banner_1 {
-  margin: 120px 0;
 }
 
 .prd_ad {
@@ -173,35 +106,26 @@
   }
 }
 
-.event_banner_2 {
-  margin: 120px 0;
+// .review {
+//   padding: 50px 0;
+//   background: #f9f9f9;
 
-  & > div {
-    display: flex;
-    gap: 18px;
-  }
-}
+//   ul {
+//     display: flex;
+//     gap: 18px;
+//     margin: 0;
+//     padding-bottom: 30px;
 
-.review {
-  padding: 50px 0;
-  background: #f9f9f9;
+//     li {
+//       width: calc(20% - 15px);
+//       padding: 0.6rem;
+//       background-color: #fff;
+//       height: auto;
+//       overflow: hidden;
+//       border-radius: 1.2rem;
 
-  ul {
-    display: flex;
-    gap: 18px;
-    margin: 0;
-    padding-bottom: 30px;
-
-    li {
-      width: calc(20% - 15px);
-      padding: 0.6rem;
-      background-color: #fff;
-      height: auto;
-      overflow: hidden;
-      border-radius: 1.2rem;
-
-      border: 0;
-      box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.07);
-    }
-  }
-}
+//       border: 0;
+//       box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.07);
+//     }
+//   }
+// }
