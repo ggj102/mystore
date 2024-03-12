@@ -19,6 +19,12 @@
     }
   }
 
+  @media (max-width: 768px) {
+    h3 {
+      text-align: left;
+    }
+  }
+
   :global(.site_wrap) {
     margin: 0 auto;
     position: relative;
