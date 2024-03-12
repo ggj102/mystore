@@ -7,19 +7,9 @@ import MainBanner from "./components/mainBanner";
 import Timesale from "./components/timesale";
 import ProductItem from "@/components/productItem";
 import EventBanner from "./components/eventBanner";
+import IconCategory from "./components/iconCategory";
 
 export default function Home() {
-  const categoryArr = [
-    "타임특가",
-    "새로나왔어요",
-    "공식몰혜택",
-    "첫구매",
-    "무료샘플신청",
-    "베스트셀러",
-    "금액별사은품",
-    "고객센터",
-  ];
-
   const testBestsellerData = [
     {
       name: "스킨 하이드로 트리트먼트",
@@ -56,20 +46,7 @@ export default function Home() {
   return (
     <main className={homeStyles.home_container}>
       <MainBanner />
-      <div className={homeStyles.icon_category}>
-        <ul>
-          {categoryArr.map((val, idx) => {
-            return (
-              <li key={val}>
-                <Link href="">
-                  <img src={`/images/test/icon${idx + 1}.svg`} />
-                </Link>
-                <div>{val}</div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <IconCategory />
       <div className={homeStyles.bests_seller}>
         <ViewInUp once={true}>
           <h3>
