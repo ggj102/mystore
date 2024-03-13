@@ -10,6 +10,7 @@ import timesaleStyle from "@styles/pages/home/timesale.module.scss";
 export default function Timesale() {
   const isMedium = useMediaQuery("only screen and (max-width : 1000px)");
   const isSmall = useMediaQuery("only screen and (max-width : 768px)");
+  const isMini = useMediaQuery("only screen and (max-width : 500px)");
 
   const testBestsellerData = [
     {
@@ -51,6 +52,9 @@ export default function Timesale() {
     }
     if (isSmall) {
       size = 2;
+    }
+    if (isMini) {
+      size = 1;
     }
 
     return size;
