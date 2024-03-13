@@ -24,12 +24,4 @@
       text-align: left;
     }
   }
-
-  :global(.site_wrap) {
-    margin: 0 auto;
-    position: relative;
-
-    max-width: var(--base-width);
-    padding: 0 1.3rem;
-  }
 }
