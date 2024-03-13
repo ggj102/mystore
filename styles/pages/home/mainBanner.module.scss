@@ -13,10 +13,12 @@
     overflow: hidden;
     position: relative;
 
+    height: 550px;
     img {
       display: block;
       margin: 0 auto;
-      height: 550px;
+
+      height: 100%;
     }
 
     .main_banner_text {
@@ -42,7 +44,7 @@
         width: 100%;
         height: 38px;
 
-        font-size: 1.2rem;
+        font-size: 20px;
         color: #222;
         display: block;
         margin: 0 0 15px;
@@ -50,12 +52,45 @@
 
       .bottom_text {
         width: 100%;
-        height: 3rem;
+        height: 48px;
 
-        font-size: 2.35rem;
+        font-size: 38px;
         color: #222;
         display: block;
         font-weight: 700;
+      }
+    }
+
+    @media (max-width: 1280px) {
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .main_banner_text {
+        top: 90%;
+
+        .top_text {
+          width: 100%;
+          height: 30px;
+
+          font-size: 16px;
+          color: #222;
+          display: block;
+          margin: 0 0 5px;
+        }
+
+        .bottom_text {
+          width: 100%;
+          height: 30px;
+
+          font-size: 24px;
+          color: #222;
+          display: block;
+          font-weight: 700;
+        }
       }
     }
   }
@@ -94,6 +129,7 @@
   width: 300px;
   position: absolute;
   display: block;
+  cursor: pointer;
 
   opacity: 0;
   top: 50%;
@@ -116,6 +152,10 @@
     border-left: 2px solid #444;
 
     margin-left: -7px;
+  }
+
+  @media (max-width: 1280px) {
+    display: none;
   }
 }
 

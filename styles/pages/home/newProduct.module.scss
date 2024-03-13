@@ -1,0 +1,19 @@
+.new_product_container {
+  max-width: var(--base-width);
+  padding: 0 1.3rem;
+
+  margin: 100px auto;
+  position: relative;
+  height: auto;
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 1280px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    gap: 25px;
+  }
+}
