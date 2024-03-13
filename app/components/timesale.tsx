@@ -1,3 +1,5 @@
+"use client";
+
 import Slider from "react-slick";
 import { useMediaQuery } from "@uidotdev/usehooks";
 
