@@ -52,11 +52,7 @@ export default function MainBanner({}) {
         {test.map((val, bannerIdx) => {
           return (
             <div key={val} className={mainBannerStyle.main_banner_img}>
-              <img
-                height="550px"
-                src={`/images/test/testbanner${val}.jpg`}
-                alt="img"
-              />
+              <img src={`/images/test/testbanner${val}.jpg`} alt="img" />
               <div className={mainBannerStyle.main_banner_text}>
                 {text.map((val, idx) => {
                   const delay = 0.5 + idx * 0.5;
