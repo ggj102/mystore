@@ -8,6 +8,7 @@ export default function Navigation() {
       <Link href="/">홈</Link>
       <Link href="/allProduct">전체 상품</Link>
       <Link href="/timeSaleProduct">타임 특가</Link>
+      <Link href="/productDetail">상품 상세</Link>
       <Link href="/cart">장바구니</Link>
       <Link href="/payment">결제</Link>
     </div>
