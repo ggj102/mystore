@@ -1,0 +1,47 @@
+.bottom_contents_container {
+  width: 100%;
+  position: relative;
+
+  ul {
+    margin-bottom: 120px;
+
+    li {
+      width: 100%;
+
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+  }
+}
+
+.skicky_menu {
+  position: sticky;
+  top: 0;
+  display: flex;
+
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 30px;
+
+  button {
+    all: unset;
+    font-size: 17px;
+    border-bottom: 1px solid #dbdbdb;
+
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.product_buy_guide {
+  h2 {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+}
