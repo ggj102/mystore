@@ -9,10 +9,14 @@ import topContentsStyles from "@styles/pages/productDetail/topContents.module.sc
 
 import { useInView } from "framer-motion";
 import FixedBar from "./fixedBar";
+import Timer from "@/components/timer";
+import clsx from "clsx";
 
 export default function TopContents() {
   const targetRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(targetRef);
+  const isInView = useInView(targetRef || null);
+
+  const [currentImage, setCurrentImage] = useState<number>(1);
 
   const [optionList, setOptionList] = useState<any>([]);
   const [isFixedBarOpen, setIsFixedBarOpen] = useState<boolean>(false);
@@ -66,9 +70,10 @@ export default function TopContents() {
     },
   ];
 
-  const test = [1, 2, 3];
+  const test = [1, 2, 3, 1, 2, 3];
 
   const onChangeOption = (e: any) => {
+    if (e.value === "0") return;
     const filter = optionList.filter((val: any) => val.id === e.value);
 
     if (filter.length === 0) {
@@ -82,6 +87,7 @@ export default function TopContents() {
   };
 
   useEffect(() => {
+    console.log(targetRef.current?.offsetHeight, "인뷰");
     if (isInView) setIsFixedBarOpen(false);
   }, [isInView]);
 
@@ -89,30 +95,36 @@ export default function TopContents() {
     <div ref={targetRef} className={topContentsStyles.top_contents_container}>
       <div className={topContentsStyles.product_image}>
         <div>
-          <img src="/images/test/testitem2.jpg" alt="prd" />
+          <img src={`/images/test/testitem${currentImage}.jpg`} alt="prd" />
         </div>
         <ul>
           {test.map((val, idx) => {
             return (
-              <li key={idx}>
-                <img src={`/images/test/testitem${val}.jpg`} alt="prd" />
+              <li key={idx} onClick={() => setCurrentImage(val)}>
+                <img
+                  className={clsx({ is_current: currentImage === val })}
+                  src={`/images/test/testitem${val}.jpg`}
+                  alt="prd"
+                />
               </li>
             );
           })}
         </ul>
       </div>
       <div className={topContentsStyles.product_order_info}>
-        {/* <div className={topContentsStyles.timer}>
-        <Timer limitDate="2024-04-30" />
-      </div> */}
-        <h1>페이셜 클렌징폼</h1>
-        <div className={topContentsStyles.product_description}>
-          부담없는 데일리 스크럽 클렌징
+        <div className={topContentsStyles.timer}>
+          <Timer limitDate="2024-04-30" />
         </div>
-        <div className={topContentsStyles.product_review}>
+        <div className={topContentsStyles.product_title}>
+          <h1>페이셜 클렌징폼</h1>
+          <div className={topContentsStyles.product_description}>
+            부담없는 데일리 스크럽 클렌징
+          </div>
+          {/* <div className={topContentsStyles.product_review}>
           <div>별점</div>
           <strong>3.8</strong>
           <span>(리뷰5개)</span>
+        </div> */}
         </div>
         <div className={topContentsStyles.price_delivery_info}>
           <div>
@@ -188,7 +200,7 @@ export default function TopContents() {
           </button>
         </div>
       </div>
-      {!isInView && (
+      {!isInView && targetRef.current && (
         <FixedBar
           isFixedBarOpen={isFixedBarOpen}
           options={options}
