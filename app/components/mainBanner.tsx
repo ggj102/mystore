@@ -1,6 +1,6 @@
 import { useState } from "react";
+import Slider from "react-slick";
 
-import SimpleSlider from "@/components/reactSlick/simpleSlider";
 import mainBannerStyle from "@styles/pages/home/mainBanner.module.scss";
 
 function NextArrow(props: any) {
@@ -48,7 +48,7 @@ export default function MainBanner({}) {
 
   return (
     <div className={mainBannerStyle.main_banner_container}>
-      <SimpleSlider {...settings}>
+      <Slider {...settings}>
         {test.map((val, bannerIdx) => {
           return (
             <div key={val} className={mainBannerStyle.main_banner_img}>
@@ -79,7 +79,7 @@ export default function MainBanner({}) {
             </div>
           );
         })}
-      </SimpleSlider>
+      </Slider>
       <div className={mainBannerStyle.slider_page}>
         <span>{currentBannerIdx + 1}</span>/<span>{test.length}</span>
       </div>
