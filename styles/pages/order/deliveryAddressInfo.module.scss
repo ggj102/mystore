@@ -1,0 +1,38 @@
+.delivery_address_info_container {
+  padding: 0 16px;
+
+  :global(.field) {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    span {
+      width: 60px;
+      font-size: 15px;
+      color: #383838;
+    }
+  }
+
+  :global(.select_message) {
+    padding-top: 20px;
+    padding-bottom: 40px;
+
+    border-top: 1px solid #d7d5d5;
+
+    textarea {
+      width: 100%;
+      height: 56px;
+
+      font-size: 16px;
+
+      border: 1px solid #e1e1e1;
+      margin-top: 10px;
+      box-sizing: border-box;
+
+      resize: none;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
