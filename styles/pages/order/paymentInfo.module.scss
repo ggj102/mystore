@@ -1,0 +1,39 @@
+.payment_info_container {
+  :global(.payment) {
+    padding: 0 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    color: #383838;
+
+    strong {
+      span {
+        color: #dc2c2c;
+      }
+    }
+  }
+  :global(.total_payment) {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #f4f7ff;
+
+    padding: 15px 16px;
+    color: #000;
+    font-size: 18px;
+    font-weight: 700;
+    word-wrap: break-word;
+    word-break: break-all;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    strong {
+      font-size: 22px;
+      color: #3971ff;
+    }
+  }
+}
