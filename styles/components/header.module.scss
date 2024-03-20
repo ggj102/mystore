@@ -1,0 +1,19 @@
+.header_container {
+  z-index: 500;
+}
+
+.header_logo {
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  img {
+    height: 40px;
+  }
+
+  a {
+    font-size: 18px;
+    color: #999999;
+  }
+}
