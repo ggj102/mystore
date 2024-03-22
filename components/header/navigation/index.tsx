@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { KeyboardEvent, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -16,6 +16,7 @@ import navigationStyles from "@styles/components/navigation.module.scss";
 
 export default function Navigation({ isSticky }: { isSticky?: boolean }) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState<boolean>(false);
@@ -95,6 +96,16 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
     setIsNavOpen(false);
   };
 
+  const onClickSearch = () => {
+    router.push(`/searchResult`);
+  };
+
+  const onKeyDownSearch = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      router.push(`/searchResult`);
+    }
+  };
+
   useEffect(() => {
     onClickAddBarClose();
   }, [pathname]);
@@ -149,10 +160,10 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
                 <div className={navigationStyles.search_bar}>
                   <strong>SEARCH</strong>
                   <div className="search_input">
-                    <button>
+                    <button onClick={onClickSearch}>
                       <FiSearch size={28} />
                     </button>
-                    <input />
+                    <input onKeyDown={onKeyDownSearch} />
                   </div>
                   <button onClick={onClickIsSearchBarOpen}>
                     <ImCross size={22} />
