@@ -1,9 +1,35 @@
 .header_container {
+  background-color: #fff;
+
   z-index: 500;
+
+  border-bottom: 1px solid #eee;
+}
+
+.sticky_header {
+  position: sticky;
+  top: 0;
+}
+
+.nav_area {
+  position: sticky;
+  top: 0;
+
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+
+  z-index: 500;
+
+  border-bottom: 1px solid #eee;
+
+  img {
+    height: 40px;
+  }
 }
 
 .header_logo {
-  height: 100px;
+  height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;

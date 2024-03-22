@@ -34,24 +34,22 @@
 // }
 
 .menu_toggle_container {
-  button {
-    outline: none;
-    border: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    cursor: pointer;
-    // position: absolute;
-    top: 18px;
-    left: 15px;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #fff;
-    padding: 0;
-  }
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+  // position: absolute;
+  top: 18px;
+  left: 15px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  padding: 0;
 
-  button path {
+  path {
     fill: #000;
   }
 
