@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import clsx from "clsx";
 
+import NavItem from "./navItem";
 import MenuToggle from "./menuToggle";
-import NavOpenBarTable from "./navOpenBarTable";
+import NavOpenBar from "./navOpenBar";
 
 import { FiSearch } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
@@ -10,13 +13,63 @@ import { BsCart2 } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
 
 import navigationStyles from "@styles/components/navigation.module.scss";
-import { usePathname } from "next/navigation";
 
-export default function Navigation() {
+export default function Navigation({ isSticky }: { isSticky?: boolean }) {
   const pathname = usePathname();
 
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState<boolean>(false);
+
+  const categoryData = [
+    { id: 1, name: "홈", link: "/" },
+    {
+      id: 2,
+      name: "전체상품",
+      link: "/allProduct",
+      children: [
+        {
+          id: 21,
+          name: "토너",
+          children: [
+            { id: 21, name: "2" },
+            { id: 22, name: "크림" },
+            { id: 23, name: "선케어" },
+            { id: 24, name: "마스크" },
+            { id: 25, name: "클렌징" },
+            {
+              id: 26,
+              name: "55",
+              children: [
+                { id: 21, name: "555" },
+                { id: 22, name: "크림" },
+                { id: 23, name: "선케어" },
+                { id: 24, name: "마스크" },
+                { id: 25, name: "클렌징" },
+                { id: 26, name: "666" },
+              ],
+            },
+          ],
+        },
+        { id: 22, name: "크림" },
+        { id: 23, name: "선케어" },
+        { id: 24, name: "마스크" },
+        {
+          id: 25,
+          name: "클렌징",
+          children: [
+            { id: 21, name: "33" },
+            { id: 22, name: "크림" },
+            { id: 23, name: "선케어" },
+            { id: 24, name: "마스크" },
+            { id: 25, name: "클렌징" },
+            { id: 26, name: "44" },
+          ],
+        },
+        { id: 26, name: "바디" },
+      ],
+    },
+    { id: 3, name: "타임특가", link: "/timeSaleProduct" },
+  ];
 
   const onClickIsNavOpen = () => {
     if (!isNavOpen) {
@@ -50,13 +103,26 @@ export default function Navigation() {
     <div className={navigationStyles.navigation_container}>
       <div className={navigationStyles.navigation_bar}>
         <div className={navigationStyles.navigation}>
-          <MenuToggle isNavOpen={isNavOpen} toggle={onClickIsNavOpen} />
-          <Link href="/">홈</Link>
-          <Link href="/allProduct">전체 상품</Link>
-          <Link href="/timeSaleProduct">타임 특가</Link>
-          <Link href="/productDetail">상품 상세</Link>
-          <Link href="/order">주문하기</Link>
-          <Link href="/orderComplete">주문완료</Link>
+          <div>
+            <Link className={isSticky ? "show_logo" : "hide_logo"} href="/">
+              <img src="/images/logo.png" alt="logo" />
+            </Link>
+            <MenuToggle isNavOpen={isNavOpen} toggle={onClickIsNavOpen} />
+          </div>
+          <div className={navigationStyles.nav_items}>
+            {categoryData.map((val) => {
+              return (
+                <NavItem
+                  key={val.id}
+                  data={val}
+                  isAddBarOpen={isNavOpen || isSearchBarOpen}
+                />
+              );
+            })}
+            <Link href="/productDetail">상품 상세</Link>
+            <Link href="/order">주문하기</Link>
+            <Link href="/orderComplete">주문완료</Link>
+          </div>
         </div>
         <div className={navigationStyles.user_operation}>
           <button onClick={onClickIsSearchBarOpen}>
@@ -72,25 +138,13 @@ export default function Navigation() {
         </div>
       </div>
       {(isNavOpen || isSearchBarOpen) && (
-        <div>
+        <div className={clsx({ column_bar: isNavOpen })}>
           <div className={navigationStyles.add_bar}>
+            <button className="column_bar_close" onClick={onClickAddBarClose}>
+              <ImCross size={22} color="#fff" />
+            </button>
             <div className="site_wrap">
-              {isNavOpen && (
-                <div className={navigationStyles.nav_open_bar}>
-                  <NavOpenBarTable />
-                  <div className="user_nav">
-                    <Link href="">
-                      <strong>마이페이지</strong>
-                    </Link>
-                    <div>
-                      <Link href="">회원정보 수정</Link>
-                      <Link href="">관심상품</Link>
-                      <Link href="">최근 본 상품</Link>
-                      <Link href="">배송 주소록 관리</Link>
-                    </div>
-                  </div>
-                </div>
-              )}
+              {isNavOpen && <NavOpenBar categoryData={categoryData} />}
               {isSearchBarOpen && (
                 <div className={navigationStyles.search_bar}>
                   <strong>SEARCH</strong>
