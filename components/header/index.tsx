@@ -1,19 +1,25 @@
 "use client";
 
-import headerStyle from "@styles/components/header.module.scss";
 import Navigation from "./navigation";
 import Link from "next/link";
 import { useRef } from "react";
 import { useInView } from "framer-motion";
-import { useMediaQuery } from "@uidotdev/usehooks";
+
+import headerStyle from "@styles/components/header.module.scss";
+import useObserver from "@/utils/useObserver";
 
 export default function Header() {
-  const isMedium = useMediaQuery("only screen and (max-width : 1000px)");
+  const headerRef = useRef<HTMLDivElement>(null);
+  const { observeWidth } = useObserver(headerRef);
+
+  const isMedium = observeWidth < 1000;
+
   const targetRef = useRef<HTMLDivElement>(null);
+
   const isInView = useInView(targetRef);
 
   return (
-    <>
+    <div ref={headerRef}>
       <div
         ref={targetRef}
         className={`${headerStyle.header_container} ${
@@ -35,6 +41,6 @@ export default function Header() {
           <Navigation isSticky />
         </div>
       )}
-    </>
+    </div>
   );
 }
