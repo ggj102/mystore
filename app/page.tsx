@@ -1,5 +1,3 @@
-"use client";
-
 import MainBanner from "./components/mainBanner";
 import IconCategory from "./components/iconCategory";
 import BestsSeller from "./components/bestsSeller";

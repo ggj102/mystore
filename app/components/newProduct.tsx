@@ -1,3 +1,5 @@
+"use client";
+
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
 

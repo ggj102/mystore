@@ -1,3 +1,5 @@
+"use client";
+
 import ViewInUp from "@/components/animation/viewInUp";
 
 import introVideoStyle from "@styles/pages/home/introVideo.module.scss";

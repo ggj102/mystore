@@ -1,7 +1,7 @@
 "use client";
 
 import Slider from "react-slick";
-import { useMediaQuery } from "@uidotdev/usehooks";
+import { useMediaQuery } from "usehooks-ts";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
