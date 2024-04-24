@@ -9,17 +9,15 @@ import headerStyle from "@styles/components/header.module.scss";
 import useObserver from "@/utils/useObserver";
 
 export default function Header() {
-  const headerRef = useRef<HTMLDivElement>(null);
-  const { observeWidth } = useObserver(headerRef);
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { observeWidth } = useObserver(targetRef);
 
   const isMedium = observeWidth < 1000;
-
-  const targetRef = useRef<HTMLDivElement>(null);
 
   const isInView = useInView(targetRef);
 
   return (
-    <div ref={headerRef}>
+    <>
       <div
         ref={targetRef}
         className={`${headerStyle.header_container} ${
@@ -41,6 +39,6 @@ export default function Header() {
           <Navigation isSticky />
         </div>
       )}
-    </div>
+    </>
   );
 }
