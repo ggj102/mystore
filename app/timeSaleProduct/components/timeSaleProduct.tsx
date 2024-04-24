@@ -1,8 +1,9 @@
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
-import bestsSellerStyle from "@styles/pages/home/bestsSeller.module.scss";
+import Timer from "@/components/timer";
+import timeSaleProductStyle from "@styles/pages/timeSaleProduct.module.scss";
 
-export default function BestsSeller() {
+export default function TimeSaleProduct() {
   const testBestsellerData = [
     {
       name: "스킨 하이드로 트리트먼트",
@@ -34,23 +35,31 @@ export default function BestsSeller() {
     },
   ];
 
+  const concat1 = testBestsellerData.concat(testBestsellerData);
+
   return (
-    <div className={bestsSellerStyle.bests_seller_container}>
-      <ViewInUp once={true}>
-        <h3>
-          <div>베스트셀러</div>
-          <p>마이스토어의 베스트 아이템을 만나보세요!</p>
-        </h3>
-      </ViewInUp>
-      <ul>
-        {testBestsellerData.map((val) => {
-          return (
-            <li key={val.name}>
-              <ProductItem data={val} />
-            </li>
-          );
-        })}
-      </ul>
+    <div className={timeSaleProductStyle.time_sale_product_container}>
+      <div className="site_wrap">
+        <ViewInUp once={true}>
+          <h3>타임특가</h3>
+        </ViewInUp>
+      </div>
+      <div className="site_wrap">
+        <div className={timeSaleProductStyle.time_sale_product_list}>
+          <ul>
+            {concat1.map((val, idx) => {
+              return (
+                <li key={idx}>
+                  <div className={timeSaleProductStyle.timer}>
+                    <Timer limitDate="2024-04-30" />
+                  </div>
+                  <ProductItem data={val} />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

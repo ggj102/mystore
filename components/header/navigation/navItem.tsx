@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 import { IoIosArrowForward } from "react-icons/io";
@@ -10,7 +12,7 @@ function SubNav({ data }: any) {
       {data.map((val: any) => {
         return (
           <li key={val.id} className={navItemStyle.sub_nav}>
-            <Link href="">
+            <Link href="#">
               {val.name}
               {val.children && <IoIosArrowForward />}
             </Link>
@@ -32,17 +34,15 @@ export default function NavItem({ isAddBarOpen, data, ...props }: any) {
       {data.name}
     </Link>
   ) : (
-    <Link
-      className={navItemStyle.nav_item_container}
-      href={data.link}
-      {...props}
-    >
-      {data.name}
+    <div className={navItemStyle.nav_item_container}>
+      <Link href={data.link} {...props}>
+        {data.name}
+      </Link>
       {data.children && (
         <div>
           <SubNav data={data.children} />
         </div>
       )}
-    </Link>
+    </div>
   );
 }
