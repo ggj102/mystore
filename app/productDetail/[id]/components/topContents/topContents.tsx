@@ -12,11 +12,16 @@ import FixedBar from "./fixedBar";
 import Timer from "@/components/timer";
 import clsx from "clsx";
 
-export default function TopContents() {
+export default function TopContents({
+  productDetailData,
+}: {
+  productDetailData: any;
+}) {
+  const { product_detail } = productDetailData;
   const targetRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(targetRef || null);
 
-  const [currentImage, setCurrentImage] = useState<number>(1);
+  const [currentImage, setCurrentImage] = useState<string>("");
 
   const [optionList, setOptionList] = useState<any>([]);
   const [isFixedBarOpen, setIsFixedBarOpen] = useState<boolean>(false);
@@ -70,8 +75,6 @@ export default function TopContents() {
     },
   ];
 
-  const test = [1, 2, 3, 1, 2, 3];
-
   const onChangeOption = (e: any) => {
     if (e.value === "0") return;
     const filter = optionList.filter((val: any) => val.id === e.value);
@@ -87,7 +90,6 @@ export default function TopContents() {
   };
 
   useEffect(() => {
-    console.log(targetRef.current?.offsetHeight, "인뷰");
     if (isInView) setIsFixedBarOpen(false);
   }, [isInView]);
 
@@ -95,15 +97,15 @@ export default function TopContents() {
     <div ref={targetRef} className={topContentsStyles.top_contents_container}>
       <div className={topContentsStyles.product_image}>
         <div>
-          <img src={`/images/test/testitem${currentImage}.jpg`} alt="prd" />
+          <img src={product_detail?.image_path} alt="prd" />
         </div>
         <ul>
-          {test.map((val, idx) => {
+          {product_detail?.sub_image_path.map((val: string, idx: number) => {
             return (
               <li key={idx} onClick={() => setCurrentImage(val)}>
                 <img
                   className={clsx({ is_current: currentImage === val })}
-                  src={`/images/test/testitem${val}.jpg`}
+                  src={val}
                   alt="prd"
                 />
               </li>
@@ -113,18 +115,20 @@ export default function TopContents() {
       </div>
       <div className={topContentsStyles.product_order_info}>
         <div className={topContentsStyles.timer}>
-          <Timer limitDate="2024-04-30" />
+          {productDetailData.time_sale && (
+            <Timer limitDate={productDetailData.time_sale} />
+          )}
         </div>
         <div className={topContentsStyles.product_title}>
-          <h1>페이셜 클렌징폼</h1>
+          <h1>{productDetailData.name}</h1>
           <div className={topContentsStyles.product_description}>
-            부담없는 데일리 스크럽 클렌징
+            {productDetailData.description}
           </div>
-          {/* <div className={topContentsStyles.product_review}>
-          <div>별점</div>
-          <strong>3.8</strong>
-          <span>(리뷰5개)</span>
-        </div> */}
+          <div className={topContentsStyles.product_review}>
+            <div>별점</div>
+            <strong>{productDetailData.popularity}</strong>
+            {/* <span>(리뷰5개)</span> */}
+          </div>
         </div>
         <div className={topContentsStyles.price_delivery_info}>
           <div>
@@ -135,14 +139,14 @@ export default function TopContents() {
             <div>배송비</div>
           </div>
           <div>
-            <p>15,000원</p>
+            <p>{productDetailData.defaultPrice}원</p>
             <div className="price">
-              <span>12,000원</span>
-              <span>20%</span>
+              <span>{productDetailData.price}원</span>
+              <span>{productDetailData.discount}%</span>
             </div>
-            <div>국내배송</div>
-            <div>택배</div>
-            <div>2,500원 (50,000원 이상 구매 시 무료)</div>
+            <div>{product_detail?.domestic}</div>
+            <div>{product_detail?.delivery_type}</div>
+            <div>{product_detail?.delivery_price}</div>
           </div>
         </div>
         <div className={topContentsStyles.product_option_select}>

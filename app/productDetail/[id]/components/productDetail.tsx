@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import productDetailStyles from "@styles/pages/productDetail/productDetail.module.scss";
 
@@ -9,17 +9,16 @@ import { productDetailFetch } from "@/src/application/useCaseProduct";
 import { detailFetch } from "@/src/adaptter/api";
 import { ProductType } from "@/src/domain/product";
 
-import Timer from "@/components/timer";
-
 import TopContents from "./topContents/topContents";
 import BottomContents from "./bottomContents/bottomContents";
+import axios from "axios";
 
 export default function ProductDetail() {
-  const [productData, setproductData] = useState<ProductType>();
+  const [productDetailData, setProductDetailData] = useState<any>([]);
 
   const [currentCount, setCurrentCount] = useState<number>(1);
 
-  const searchParams = useSearchParams();
+  const pathname = usePathname();
   const router = useRouter();
 
   // const dispatch = useDispatch();
@@ -54,19 +53,20 @@ export default function ProductDetail() {
   };
 
   useEffect(() => {
-    if (searchParams) {
-      const id = Number(searchParams.get("id"));
-      productDetailFetch(id, detailFetch).then((data) => {
-        setproductData(data);
-      });
-    }
+    const split = pathname.split("/");
+    const id = split[2];
+
+    axios.get(`http://localhost:3005/productDetail/${id}`).then((res: any) => {
+      console.log(res.data, "상세정보");
+      setProductDetailData(res.data);
+    });
   }, []);
 
   return (
     <div className={productDetailStyles.product_detail_container}>
       <div className="site_wrap">
-        <TopContents />
-        <BottomContents />
+        <TopContents productDetailData={productDetailData} />
+        <BottomContents productDetailData={productDetailData} />
       </div>
     </div>
   );

@@ -3,8 +3,12 @@ import { useState } from "react";
 import bottomContentsStyles from "@styles/pages/productDetail/bottomContents.module.scss";
 import clsx from "clsx";
 
-export default function BottomContents() {
-  const prdDetailImgArr = [1, 2, 3, 4, 5, 6];
+export default function BottomContents({
+  productDetailData,
+}: {
+  productDetailData: any;
+}) {
+  const { product_detail } = productDetailData;
 
   const [currnetMenu, setCurrnetMenu] = useState<number>(0);
 
@@ -37,16 +41,15 @@ export default function BottomContents() {
         </button>
       </div>
       <ul>
-        {prdDetailImgArr.map((val, idx) => {
-          return (
-            <li key={idx}>
-              <img
-                src={`/images/test/prddetailimg${val}.jpg`}
-                alt="prd_detail_img"
-              />
-            </li>
-          );
-        })}
+        {product_detail?.product_detail_image_path.map(
+          (val: string, idx: number) => {
+            return (
+              <li key={idx}>
+                <img src={val} alt="prd_detail_img" />
+              </li>
+            );
+          }
+        )}
       </ul>
       <div className={bottomContentsStyles.product_buy_guide}>
         <h2>상품구매안내</h2>
