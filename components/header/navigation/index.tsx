@@ -132,7 +132,6 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
                 />
               );
             })}
-            <Link href="/productDetail">상품 상세</Link>
             <Link href="/order">주문하기</Link>
             <Link href="/orderComplete">주문완료</Link>
           </div>
