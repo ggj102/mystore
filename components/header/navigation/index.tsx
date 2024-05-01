@@ -28,7 +28,7 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
     {
       id: 2,
       name: "전체상품",
-      link: "/allProduct",
+      link: "/allProduct?page=1",
       children: [
         {
           id: 21,
