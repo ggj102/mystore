@@ -9,7 +9,8 @@ export default function Timer({ limitDate }: { limitDate: string }) {
   const [limitTime, setLimitTime] = useState<number>(-1);
 
   const initTimer = () => {
-    const deadline = `${limitDate}T00:00:00+09:00`;
+    const split = limitDate.split("T");
+    const deadline = `${split[0]}T00:00:00+09:00`;
     const currentTime = new Date();
     const endTime = new Date(deadline);
     const timeDifference: number = endTime.getTime() - currentTime.getTime();
