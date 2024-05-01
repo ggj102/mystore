@@ -2,6 +2,11 @@ import productItemStyle from "@styles/components/productItem.module.scss";
 import Link from "next/link";
 
 export default function ProductItem({ data }: any) {
+  const priceFormatter = (price: number) => {
+    const toString = String(price);
+    return toString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   return (
     <div className={productItemStyle.product_item_container}>
       <Link href={`/productDetail/${data.id}`}>
@@ -16,15 +21,15 @@ export default function ProductItem({ data }: any) {
         <span className={productItemStyle.item_description}>
           {data.description}
         </span>
-        <span
-          className={productItemStyle.item_price}
-        >{`${data.defaultPrice}원`}</span>
+        <span className={productItemStyle.item_price}>{`${priceFormatter(
+          data.defaultPrice
+        )}원`}</span>
         <div>
           <span
             className={productItemStyle.item_sale}
           >{`${data.discount}%`}</span>
           <span className={productItemStyle.item_saleprice}>
-            {`${data.price}원`}
+            {`${priceFormatter(data.price)}원`}
           </span>
         </div>
       </div>
