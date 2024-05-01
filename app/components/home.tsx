@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3005/productList").then((res: any) => {
+    axios.get("http://localhost:3005/allProductList").then((res: any) => {
       setProductList(res.data);
       getBestSellerList(res.data);
       getTimesaleList(res.data);
