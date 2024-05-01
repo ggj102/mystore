@@ -1,17 +1,29 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import axios from "axios";
+
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
 import allProductStyle from "@styles/pages/allProduct.module.scss";
 import CustomSelect from "@/components/customSelect";
-import { useEffect, useState } from "react";
-import axios from "axios";
 
 export default function AllProduct() {
   const [allProductList, setAllProductList] = useState<any>([]);
+  const searchParams = useSearchParams();
 
-  const categoryArr = ["토너", "크림", "선케어", "마스크", "클렌징", "바디"];
+  const categoryArr = [
+    { name: "클렌징", category: "cleansing" },
+    { name: "부스터/토너", category: "booster_toner" },
+    { name: "앰플/에센스", category: "ampoule_essence" },
+    { name: "크림", category: "cream" },
+    { name: "팩/마스크", category: "pack_mask" },
+    { name: "미스트", category: "mist" },
+    { name: "선케어", category: "sun_care" },
+    { name: "쿠션/베이스", category: "cushion_base" },
+  ];
 
   const options = [
     { value: "0", label: "-정렬선택-" },
@@ -19,15 +31,25 @@ export default function AllProduct() {
     { value: "2", label: "상품명" },
     { value: "3", label: "낮은가격" },
     { value: "4", label: "높은가격" },
-    { value: "5", label: "제조사" },
-    { value: "6", label: "사용후기" },
+    // { value: "5", label: "제조사" },
+    // { value: "6", label: "사용후기" },
   ];
 
   useEffect(() => {
-    axios.get("http://localhost:3005/productList").then((res: any) => {
-      setAllProductList(res.data);
-    });
-  }, []);
+    if (searchParams) {
+      const pageNum = searchParams.get("page");
+      const category = searchParams.get("category");
+      const query = category
+        ? `category=${category}&page=${pageNum}`
+        : `page=${pageNum}`;
+
+      axios
+        .get(`http://localhost:3005/productList?${query}`)
+        .then((res: any) => {
+          setAllProductList(res.data);
+        });
+    }
+  }, [searchParams]);
 
   return (
     <div className={allProductStyle.all_product_container}>
@@ -39,9 +61,13 @@ export default function AllProduct() {
       <div className="site_wrap">
         <ul className={allProductStyle.all_product_category}>
           {categoryArr.map((val, idx) => {
+            const { name, category } = val;
+
             return (
               <li key={idx}>
-                <Link href="">{val}</Link>
+                <Link href={`/allProduct?category=${category}&page=1`}>
+                  {name}
+                </Link>
               </li>
             );
           })}
