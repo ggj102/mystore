@@ -21,13 +21,17 @@ export default function ProductItem({ data }: any) {
         <span className={productItemStyle.item_description}>
           {data.description}
         </span>
-        <span className={productItemStyle.item_price}>{`${priceFormatter(
-          data.defaultPrice
-        )}원`}</span>
+        {data.discount > 0 && (
+          <span className={productItemStyle.item_price}>{`${priceFormatter(
+            data.defaultPrice
+          )}원`}</span>
+        )}
         <div>
-          <span
-            className={productItemStyle.item_sale}
-          >{`${data.discount}%`}</span>
+          {data.discount > 0 && (
+            <span
+              className={productItemStyle.item_sale}
+            >{`${data.discount}%`}</span>
+          )}
           <span className={productItemStyle.item_saleprice}>
             {`${priceFormatter(data.price)}원`}
           </span>
