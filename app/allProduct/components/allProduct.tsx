@@ -9,9 +9,13 @@ import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
 import allProductStyle from "@styles/pages/allProduct.module.scss";
 import CustomSelect from "@/components/customSelect";
+import Pagination from "@/components/pagination";
 
 export default function AllProduct() {
   const [allProductList, setAllProductList] = useState<any>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+
   const searchParams = useSearchParams();
 
   const categoryArr = [
@@ -46,7 +50,11 @@ export default function AllProduct() {
       axios
         .get(`http://localhost:3005/productList?${query}`)
         .then((res: any) => {
-          setAllProductList(res.data);
+          setAllProductList(res.data.data);
+          setTotalPages(res.data.totalPages);
+          setTotalCount(res.data.totalCount);
+
+          console.log(res.data, "데이터");
         });
     }
   }, [searchParams]);
@@ -78,7 +86,7 @@ export default function AllProduct() {
           <div>
             <div className={allProductStyle.product_count}>
               전체
-              <strong> {allProductList.length}</strong>개
+              <strong> {totalCount}</strong>개
             </div>
             <CustomSelect options={options} />
           </div>
@@ -93,6 +101,7 @@ export default function AllProduct() {
           </ul>
         </div>
       </div>
+      <Pagination totalPages={totalPages} />
     </div>
   );
 }
