@@ -2,8 +2,6 @@
 
 import Select from "react-select";
 
-export default function CustomSelect({ options }: any) {
-  return (
-    <Select isSearchable={false} defaultValue={options[0]} options={options} />
-  );
+export default function CustomSelect({ options, ...props }: any) {
+  return <Select isSearchable={false} options={options} {...props} />;
 }
