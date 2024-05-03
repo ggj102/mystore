@@ -10,8 +10,13 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdKeyboardDoubleArrowLeft } from "react-icons/md";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 
-export default function Pagination({ totalPages }: { totalPages: number }) {
-  const [currentPage, setCurrentPage] = useState<number>(1);
+export default function Pagination({
+  totalPages,
+  currentPage,
+}: {
+  totalPages: number;
+  currentPage: number;
+}) {
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
 
   const router = useRouter();
@@ -58,7 +63,6 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   useEffect(() => {
     const page = searchParams.get("page");
 
-    setCurrentPage(Number(page));
     getPageNumbers(Number(page));
   }, [searchParams, totalPages]);
 
