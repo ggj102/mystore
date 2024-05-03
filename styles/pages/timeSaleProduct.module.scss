@@ -9,6 +9,14 @@
 .time_sale_product_list {
   padding-bottom: 30px;
 
+  .time_sale_product_count {
+    color: #7d7d7d;
+    margin-bottom: 30px;
+    strong {
+      color: #000;
+    }
+  }
+
   ul {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
