@@ -71,7 +71,7 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
         { id: 26, name: "바디" },
       ],
     },
-    { id: 3, name: "타임특가", link: "/timeSaleProduct" },
+    { id: 3, name: "타임특가", link: "/timeSaleProduct?page=1" },
   ];
 
   const onClickIsNavOpen = () => {
