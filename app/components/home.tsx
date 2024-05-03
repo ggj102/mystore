@@ -16,7 +16,6 @@ export default function Home() {
   const [productList, setProductList] = useState<any>([]);
 
   const [bestSellerList, setBestSellerList] = useState<any>([]);
-  const [timesaleList, setTimesaleList] = useState<any>([]);
   const [newProductList, setNewProductList] = useState<any>([]);
 
   const getBestSellerList = (data: any) => {
@@ -24,17 +23,6 @@ export default function Home() {
     const slice = sort.slice(0, 4);
 
     setBestSellerList(slice);
-  };
-
-  const getTimesaleList = (data: any) => {
-    const filter = data.filter((val: any) => val.time_sale);
-    const slice = filter.slice(0, 8);
-    const sort = slice.sort(
-      (a: any, b: any) =>
-        new Date(a.time_sale).getTime() - new Date(b.time_sale).getTime()
-    );
-    console.log(sort, "테스트");
-    setTimesaleList(sort);
   };
 
   const getNewProductList = (data: any) => {
@@ -51,7 +39,6 @@ export default function Home() {
     axios.get("http://localhost:3005/allProductList").then((res: any) => {
       setProductList(res.data);
       getBestSellerList(res.data);
-      getTimesaleList(res.data);
       getNewProductList(res.data);
     });
   }, []);
@@ -61,7 +48,7 @@ export default function Home() {
       <MainBanner />
       <IconCategory />
       <BestsSeller list={bestSellerList} />
-      <Timesale list={timesaleList} />
+      <Timesale />
       <EventBanner />
       <IntroVideo />
       <NewProduct list={newProductList} />
