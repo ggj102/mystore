@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
 
@@ -13,12 +13,20 @@ import Pagination from "@/components/pagination";
 
 export default function AllProduct() {
   const [allProductList, setAllProductList] = useState<any>([]);
+  const [currentCategory, setCurrentCategory] = useState<string>("");
+  const [currentSort, setCurrentSort] = useState<any>({
+    value: "popularity_desc",
+    label: "인기도",
+  });
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const categoryArr = [
+    { name: "전체", category: "" },
     { name: "클렌징", category: "cleansing" },
     { name: "부스터/토너", category: "booster_toner" },
     { name: "앰플/에센스", category: "ampoule_essence" },
@@ -30,22 +38,48 @@ export default function AllProduct() {
   ];
 
   const options = [
-    { value: "0", label: "-정렬선택-" },
-    { value: "1", label: "신상품" },
-    { value: "2", label: "상품명" },
-    { value: "3", label: "낮은가격" },
-    { value: "4", label: "높은가격" },
+    { value: "popularity_desc", label: "인기도" },
+    { value: "new_desc", label: "신상품" },
+    { value: "name_asc", label: "상품명" },
+    { value: "price_asc", label: "낮은가격" },
+    { value: "price_desc", label: "높은가격" },
     // { value: "5", label: "제조사" },
     // { value: "6", label: "사용후기" },
   ];
 
+  const setSort = (sort: string | null) => {
+    const sortValue = sort ? sort : "popularity_desc";
+    const filter = options.filter((val) => val.value === sortValue);
+
+    setCurrentSort(filter[0]);
+  };
+
+  const onChangeSort = (e: any) => {
+    if (e.value === currentSort.value) return;
+
+    const category = currentCategory ? `category=${currentCategory}` : "";
+    const sort = `sort=${e.value}`;
+
+    const filter = [category, sort].filter((val) => val);
+    const query = filter.join("&");
+
+    const pushPath = `/allProduct?${query}&page=${currentPage}`;
+
+    router.push(pushPath);
+  };
+
   useEffect(() => {
     if (searchParams) {
-      const pageNum = searchParams.get("page");
-      const category = searchParams.get("category");
-      const query = category
-        ? `category=${category}&page=${pageNum}`
-        : `page=${pageNum}`;
+      const paramsCategory = searchParams.get("category");
+      const paramsSort = searchParams.get("sort");
+      const paramsPageNum = searchParams.get("page");
+
+      const category = paramsCategory ? `category=${paramsCategory}` : "";
+      const sort = paramsSort ? `sort=${paramsSort}` : "";
+      const page = paramsPageNum ? `page=${paramsPageNum}` : "";
+
+      const filter = [category, sort, page].filter((val) => val);
+      const query = filter.join("&");
 
       axios
         .get(`http://localhost:3005/productList?${query}`)
@@ -53,8 +87,9 @@ export default function AllProduct() {
           setAllProductList(res.data.data);
           setTotalPages(res.data.totalPages);
           setTotalCount(res.data.totalCount);
-
-          console.log(res.data, "데이터");
+          setCurrentCategory(paramsCategory ? String(paramsCategory) : "");
+          setSort(paramsSort);
+          setCurrentPage(Number(paramsPageNum));
         });
     }
   }, [searchParams]);
@@ -70,12 +105,19 @@ export default function AllProduct() {
         <ul className={allProductStyle.all_product_category}>
           {categoryArr.map((val, idx) => {
             const { name, category } = val;
+            const link =
+              name === "전체"
+                ? `/allProduct?page=1`
+                : `/allProduct?category=${category}&page=1`;
+
+            const style =
+              val.category === currentCategory
+                ? allProductStyle.current_category
+                : "";
 
             return (
-              <li key={idx}>
-                <Link href={`/allProduct?category=${category}&page=1`}>
-                  {name}
-                </Link>
+              <li key={idx} className={style}>
+                <Link href={link}>{name}</Link>
               </li>
             );
           })}
@@ -88,7 +130,11 @@ export default function AllProduct() {
               전체
               <strong> {totalCount}</strong>개
             </div>
-            <CustomSelect options={options} />
+            <CustomSelect
+              options={options}
+              value={currentSort}
+              onChange={onChangeSort}
+            />
           </div>
           <ul>
             {allProductList.map((val: any, idx: number) => {
@@ -101,7 +147,9 @@ export default function AllProduct() {
           </ul>
         </div>
       </div>
-      <Pagination totalPages={totalPages} />
+      {totalPages > 1 && (
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
+      )}
     </div>
   );
 }
