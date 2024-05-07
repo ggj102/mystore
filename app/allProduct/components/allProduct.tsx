@@ -63,7 +63,7 @@ export default function AllProduct() {
     const filter = [category, sort].filter((val) => val);
     const query = filter.join("&");
 
-    const pushPath = `/allProduct?${query}&page=${currentPage}`;
+    const pushPath = `/allProduct?${query}&page=1`;
 
     router.push(pushPath);
   };
