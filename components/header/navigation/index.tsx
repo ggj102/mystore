@@ -1,7 +1,7 @@
 "use client";
 
 import { KeyboardEvent, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
 
@@ -18,7 +18,10 @@ import navigationStyles from "@styles/components/navigation.module.scss";
 
 export default function Navigation({ isSticky }: { isSticky?: boolean }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [currentKeyword, setCurrentKeyword] = useState<string>("");
 
   const [isNavOpen, setIsNavOpen] = useState<boolean>(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState<boolean>(false);
@@ -99,18 +102,16 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
   };
 
   const onClickSearch = () => {
-    router.push(`/searchResult`);
+    router.push(`/searchResult?keyword=${currentKeyword}&page=1`);
   };
 
-  const onKeyDownSearch = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      router.push(`/searchResult`);
-    }
+  const onKeyUpSearch = (e: any) => {
+    if (e.key === "Enter") onClickSearch();
   };
 
   useEffect(() => {
     onClickAddBarClose();
-  }, [pathname]);
+  }, [pathname, searchParams]);
 
   return (
     <div className={navigationStyles.navigation_container}>
@@ -161,10 +162,14 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
                 <div className={navigationStyles.search_bar}>
                   <strong>SEARCH</strong>
                   <div className="search_input">
+                    <input
+                      value={currentKeyword}
+                      onChange={(e) => setCurrentKeyword(e.target.value)}
+                      onKeyUp={onKeyUpSearch}
+                    />
                     <button onClick={onClickSearch}>
                       <FiSearch size={28} />
                     </button>
-                    <input onKeyDown={onKeyDownSearch} />
                   </div>
                   <button onClick={onClickIsSearchBarOpen}>
                     <ImCross size={22} />
