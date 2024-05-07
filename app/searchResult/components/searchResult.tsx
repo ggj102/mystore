@@ -1,58 +1,91 @@
 "use client";
 
-import Select from "react-select";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import axios from "axios";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
+import CustomSelect from "@/components/customSelect";
+import Pagination from "@/components/pagination";
 
 import { FiSearch } from "react-icons/fi";
 
 import searchResultStyle from "@styles/pages/searchResult.module.scss";
 
 export default function SearchResult() {
-  const testBestsellerData = [
-    {
-      name: "스킨 하이드로 트리트먼트",
-      discription: "즉각 수분진정 효과로 쉽고 간편하게 피부 스트레스를 케어",
-      saleprice: 209000,
-      sale: 28,
-      price: 290000,
-    },
-    {
-      name: "에센스 UV 프로텍터",
-      discription: "보습부터 자외선 차단까지 순한 데일리 선크림",
-      saleprice: 49500,
-      sale: 5,
-      price: 52000,
-    },
-    {
-      name: "타투 퍼퓸 패키지",
-      discription: "향기와 함께 마음을 전해보세요",
-      saleprice: 44000,
-      sale: 25,
-      price: 59000,
-    },
-    {
-      name: "우드 헤어 브러쉬",
-      discription: "트리트먼트와 같이 쓰면 더욱 좋은 우드 브러쉬",
-      saleprice: 29000,
-      sale: 28,
-      price: 20900,
-    },
-  ];
+  const [currentKeyword, setCurrentKeyword] = useState<string>("");
+  const [searchResultData, setSearchResultData] = useState<any>([]);
+  const [currentSort, setCurrentSort] = useState<any>({
+    value: "popularity_desc",
+    label: "인기도",
+  });
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
 
-  const concat1 = testBestsellerData.concat(testBestsellerData);
-  const concat2 = concat1.concat(concat1);
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
   const options = [
-    { value: "0", label: "-정렬선택-" },
-    { value: "1", label: "신상품" },
-    { value: "2", label: "상품명" },
-    { value: "3", label: "낮은가격" },
-    { value: "4", label: "높은가격" },
-    { value: "5", label: "제조사" },
-    { value: "6", label: "사용후기" },
+    { value: "popularity_desc", label: "인기도" },
+    { value: "new_desc", label: "신상품" },
+    { value: "name_asc", label: "상품명" },
+    { value: "price_asc", label: "낮은가격" },
+    { value: "price_desc", label: "높은가격" },
+    // { value: "5", label: "제조사" },
+    // { value: "6", label: "사용후기" },
   ];
+
+  const setSort = (sort: string | null) => {
+    const sortValue = sort ? sort : "popularity_desc";
+    const filter = options.filter((val) => val.value === sortValue);
+
+    setCurrentSort(filter[0]);
+  };
+
+  const onChangeSort = (e: any) => {
+    if (e.value === currentSort.value) return;
+
+    const pushPath = `/searchResult?keyword=${currentKeyword}&sort=${e.value}&page=1`;
+
+    router.push(pushPath);
+  };
+
+  const onClickSearch = () => {
+    router.push(`/searchResult?keyword=${currentKeyword}&page=1`);
+  };
+
+  const onKeyUpSearch = (e: any) => {
+    if (e.key === "Enter") onClickSearch();
+  };
+
+  useEffect(() => {
+    if (searchParams) {
+      const keyword = searchParams.get("keyword");
+      const paramsSort = searchParams.get("sort");
+      const paramsPageNum = searchParams.get("page");
+
+      const sort = paramsSort ? `&sort=${paramsSort}` : "";
+      const page = paramsPageNum ? `&page=${paramsPageNum}` : "";
+
+      axios
+        .get(
+          `http://localhost:3005/searchResult?keyword=${keyword}${sort}${page}`
+        )
+        .then((res) => {
+          const { data, totalPages, totalCount } = res.data;
+
+          setSearchResultData(data);
+          setTotalPages(totalPages);
+          setTotalCount(totalCount);
+
+          setCurrentKeyword(String(keyword));
+          setSort(paramsSort);
+          setCurrentPage(Number(paramsPageNum));
+        });
+    }
+  }, [searchParams]);
 
   return (
     <div className={searchResultStyle.search_result_container}>
@@ -62,8 +95,14 @@ export default function SearchResult() {
             <h3>상품검색</h3>
           </ViewInUp>
           <div className={searchResultStyle.search_input}>
-            <input />
-            <FiSearch size={28} />
+            <input
+              value={currentKeyword}
+              onChange={(e) => setCurrentKeyword(e.target.value)}
+              onKeyUp={onKeyUpSearch}
+            />
+            <button onClick={onClickSearch}>
+              <FiSearch size={28} />
+            </button>
           </div>
         </div>
       </div>
@@ -71,17 +110,17 @@ export default function SearchResult() {
         <div className={searchResultStyle.search_result_list}>
           <div>
             <div className={searchResultStyle.product_count}>
-              상품 검색 결과
-              <strong> {concat2.length}</strong>건
+              검색 결과
+              <strong> {totalCount}</strong>건
             </div>
-            <Select
-              isSearchable={false}
-              defaultValue={options[0]}
+            <CustomSelect
               options={options}
+              value={currentSort}
+              onChange={onChangeSort}
             />
           </div>
           <ul>
-            {concat2.map((val, idx) => {
+            {searchResultData.map((val: any, idx: number) => {
               return (
                 <li key={idx}>
                   <ProductItem data={val} />
@@ -90,6 +129,9 @@ export default function SearchResult() {
             })}
           </ul>
         </div>
+        {totalPages > 1 && (
+          <Pagination totalPages={totalPages} currentPage={currentPage} />
+        )}
       </div>
     </div>
   );
