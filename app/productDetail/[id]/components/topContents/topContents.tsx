@@ -1,16 +1,20 @@
 import { useEffect, useRef, useState } from "react";
-import Select from "react-select";
 
-import { ImCross } from "react-icons/im";
+import { useInView } from "framer-motion";
+import { useAppSelector } from "@/src/adaptter/redux/hooks";
+import { priceFormatter } from "@/utils/priceFormatter";
+
+import Timer from "@/components/timer";
+import OptionItem from "./optionItem";
+import CustomSelect from "@/components/customSelect";
+// import FixedBar from "./fixedBar";
+
+import clsx from "clsx";
+
 import { BsCart2 } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
 
 import topContentsStyles from "@styles/pages/productDetail/topContents.module.scss";
-
-import { useInView } from "framer-motion";
-import FixedBar from "./fixedBar";
-import Timer from "@/components/timer";
-import clsx from "clsx";
 
 export default function TopContents({
   productDetailData,
@@ -18,80 +22,166 @@ export default function TopContents({
   productDetailData: any;
 }) {
   const { product_detail } = productDetailData;
+
+  const userData = useAppSelector((state) => state.user.user);
+
   const targetRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(targetRef || null);
 
   const [currentImage, setCurrentImage] = useState<string>("");
-
   const [optionList, setOptionList] = useState<any>([]);
   const [isFixedBarOpen, setIsFixedBarOpen] = useState<boolean>(false);
 
-  const options = [
-    { value: "0", label: "-[선택] 옵션을 선택해 주세요-" },
-    { value: "1", label: "optionA" },
-    { value: "2", label: "optionB" },
-    { value: "3", label: "optionC" },
-    { value: "4", label: "optionD" },
-    { value: "5", label: "optionE" },
-    { value: "6", label: "optionF" },
-  ];
+  const [currentOption, setCurrentOption] = useState<any>({
+    value: 0,
+    label: "-[선택] 옵션을 선택해 주세요-",
+  });
+  const [options, setOptions] = useState<any>([]);
+  const [optionData, setOptionData] = useState<any>([]);
+
+  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
+
+  // option DB에서 데이터를 가져온 후 option list 구성
 
   const item = [
     {
-      id: "1",
-      option: "optionA",
-      price: 3000,
-      count: 1,
+      option_id: 1,
+      item_id: productDetailData.id,
+      option_name: "optionA",
+      option_price: 3000,
     },
     {
-      id: "2",
-      option: "optionB",
-      price: 4000,
-      count: 1,
+      option_id: 2,
+      item_id: productDetailData.id,
+      option_name: "optionB",
+      option_price: 4000,
     },
     {
-      id: "3",
-      option: "optionC",
-      price: 5000,
-      count: 1,
+      option_id: 3,
+      item_id: productDetailData.id,
+      option_name: "optionC",
+      option_price: 5000,
     },
     {
-      id: "4",
-      option: "optionD",
-      price: 7000,
-      count: 1,
+      option_id: 4,
+      item_id: productDetailData.id,
+      option_name: "optionD",
+      option_price: 7000,
     },
     {
-      id: "5",
-      option: "optionE",
-      price: 1000,
-      count: 1,
+      option_id: 5,
+      item_id: productDetailData.id,
+      option_name: "optionE",
+      option_price: 1000,
     },
     {
-      id: "6",
-      option: "optionF",
-      price: 2222,
-      count: 1,
+      option_id: 6,
+      item_id: productDetailData.id,
+      option_name: "optionF",
+      option_price: 2222,
     },
   ];
 
+  const getOptions = (optionData: any) => {
+    // optionData = option DB 데이터
+    const optionMap = optionData.map((val: any) => {
+      const { option_id, option_name, option_price } = val;
+
+      return { value: option_id, label: `${option_name} (+${option_price}원)` };
+    });
+
+    const first = { value: 0, label: "-[선택] 옵션을 선택해 주세요-" };
+    optionMap.unshift(first);
+
+    setOptions(optionMap);
+  };
+
   const onChangeOption = (e: any) => {
-    if (e.value === "0") return;
-    const filter = optionList.filter((val: any) => val.id === e.value);
+    const id = Number(e.value);
 
-    if (filter.length === 0) {
-      const copyArr = [...optionList];
-      const filterItem = item.filter((val) => val.id === e.value);
+    const selectedCheck = selectedOptions.find(
+      (val: any) => val.option_id === id
+    );
 
-      copyArr.push(filterItem[0]);
+    if (selectedCheck) {
+      alert("이미 선택한 옵션 입니다.");
+      return;
+    }
 
-      setOptionList(copyArr);
+    const findOption = optionData.find((val: any) => val.option_id === id);
+
+    if (findOption) {
+      const copyArr = [...selectedOptions];
+
+      const price = productDetailData.price + findOption.option_price;
+
+      copyArr.push({
+        user_id: userData.id,
+        item_id: productDetailData.id,
+        option_id: findOption.option_id,
+        name: productDetailData.name,
+        option_name: findOption.option_name,
+        image_path: productDetailData.image_path,
+        delivery_price: product_detail.delivery_price,
+        delivery_type: product_detail.delivery_type,
+        count: 1,
+        price,
+      });
+
+      const current = options.find(
+        (val: any) => val.value === findOption.option_id
+      );
+
+      setSelectedOptions(copyArr);
+      setCurrentOption(current);
     }
   };
 
+  const totalPriceCalc = () => {};
+
+  const updateOption = (id: number, count: number) => {
+    const copy: any = [...selectedOptions];
+    const findIndex = copy.findIndex((val: any) => val.option_id === id);
+
+    copy[findIndex] = { ...copy[findIndex], count };
+
+    setSelectedOptions(copy);
+  };
+
+  const onClickDeleteOption = (id: number) => {
+    const copy: any = [...selectedOptions];
+    const removeFilter = copy.filter((val: any) => val.option_id !== id);
+
+    setSelectedOptions(removeFilter);
+  };
+
   useEffect(() => {
+    const priceReduce = selectedOptions.reduce(
+      (acc: any, val: any) => {
+        const price = val.count * val.price;
+
+        return {
+          ...acc,
+          price: acc.price + price,
+          count: acc.count + val.count,
+        };
+      },
+      { price: 0, count: 0 }
+    );
+    const { price, count } = priceReduce;
+
+    setTotalPrice(price);
+    setTotalCount(count);
+  }, [selectedOptions]);
+
+  useEffect(() => {
+    getOptions(item);
+    setOptionData(item);
     if (isInView) setIsFixedBarOpen(false);
-  }, [isInView]);
+  }, [userData]);
 
   return (
     <div ref={targetRef} className={topContentsStyles.top_contents_container}>
@@ -152,45 +242,30 @@ export default function TopContents({
         <div className={topContentsStyles.product_option_select}>
           <div className="option_select">
             <p>옵션</p>
-            <Select
+            <CustomSelect
               isSearchable={false}
-              defaultValue={options[0]}
+              value={currentOption}
               onChange={onChangeOption}
-              // value={currentOption}
               options={options}
             />
           </div>
           <ul>
-            {optionList.map((val: any) => {
-              const { id, option, price, count } = val;
-
+            {selectedOptions.map((val: any) => {
               return (
-                <li key={id}>
-                  <div className="prd_name">
-                    <p>페이셜 클렌징폼</p>
-                    <div>{`- ${option}`}</div>
-                  </div>
-                  <div>
-                    <div className="count_btn">
-                      <button>-</button>
-                      <input defaultValue={count} />
-                      <button>+</button>
-                    </div>
-                    <div>
-                      <span>{`${price}원`}</span>
-                      <button className="remove_btn">
-                        <ImCross />
-                      </button>
-                    </div>
-                  </div>
-                </li>
+                <OptionItem
+                  key={val.option_id}
+                  prdName={productDetailData.name}
+                  data={val}
+                  updateOption={updateOption}
+                  onClickDeleteOption={onClickDeleteOption}
+                />
               );
             })}
           </ul>
           <div className="total_price">
             총 상품금액
-            <strong>43,430원</strong>
-            <span>{`(${optionList.length}개)`}</span>
+            <strong>{priceFormatter(totalPrice)}원</strong>
+            <span>{`(${totalCount}개)`}</span>
           </div>
         </div>
         <div className={topContentsStyles.cart_order_btn}>
@@ -204,7 +279,7 @@ export default function TopContents({
           </button>
         </div>
       </div>
-      {!isInView && targetRef.current && (
+      {/* {!isInView && targetRef.current && (
         <FixedBar
           isFixedBarOpen={isFixedBarOpen}
           options={options}
@@ -212,7 +287,7 @@ export default function TopContents({
           onChangeOption={onChangeOption}
           setIsFixedBarOpen={setIsFixedBarOpen}
         />
-      )}
+      )} */}
     </div>
   );
 }
