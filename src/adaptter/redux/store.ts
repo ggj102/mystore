@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { cartReducer } from "./reducer";
+import { userReducer } from "./reducer/userReducer";
+import { orderReducer } from "./reducer/orderReducer";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-      cart: cartReducer,
+      user: userReducer,
+      order: orderReducer,
     },
   });
 };
