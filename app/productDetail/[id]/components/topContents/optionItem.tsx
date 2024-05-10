@@ -17,9 +17,9 @@ export default function OptionItem({
   updateOption: (id: number, count: number) => void;
   onClickDeleteOption: (id: number) => void;
 }) {
-  const { option_id, option_name, count } = data;
+  const { option_id, option_name, option_price, count } = data;
 
-  const price = priceFormatter(data.price * (count || 1));
+  const price = priceFormatter((data.price + option_price) * (count || 1));
 
   const [currentCount, setCurrentCount] = useState<number>(count);
 
