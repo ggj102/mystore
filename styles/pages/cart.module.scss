@@ -148,7 +148,14 @@
             border-top: 1px solid #e5e5e5;
             border-bottom: 1px solid #e5e5e5;
           }
+
+          .update_count_btn {
+            width: 70px;
+            margin-left: 10px;
+            font-size: 12px;
+          }
         }
+
         :global(.order_btn) {
           display: flex;
           gap: 6px;
