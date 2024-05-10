@@ -11,71 +11,51 @@ import Payment from "./payment";
 import PaymentButton from "./paymentButton";
 
 import orderStyle from "@styles/pages/order/order.module.scss";
+import { useAppDispatch, useAppSelector } from "@/src/adaptter/redux/hooks";
+import axios from "axios";
+import { updateOrderAction } from "@/src/adaptter/redux/reducer/orderReducer";
+import { getTotalPrice } from "@/utils/getTotalPrice";
 
 export default function Order() {
   const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_API_KEY;
   const customerKey = process.env.NEXT_PUBLIC_TOSS_SECRET_API_KEY;
 
-  const testCartData = [
-    {
-      id: 1,
-      name: "스킨 하이드로 트리트먼트",
-      discription: "즉각 수분진정 효과로 쉽고 간편하게 피부 스트레스를 케어",
-      saleprice: 209000,
-      sale: 28,
-      price: 290000,
-      isChecked: false,
-      count: 3,
-      option: "optionA",
-    },
-    {
-      id: 2,
-      name: "에센스 UV 프로텍터",
-      discription: "보습부터 자외선 차단까지 순한 데일리 선크림",
-      saleprice: 49500,
-      sale: 5,
-      price: 52000,
-      isChecked: false,
-      count: 1,
-      option: "optionB",
-    },
-    {
-      id: 3,
-      name: "타투 퍼퓸 패키지",
-      discription: "향기와 함께 마음을 전해보세요",
-      saleprice: 44000,
-      sale: 25,
-      price: 59000,
-      isChecked: false,
-      count: 2,
-      option: "optionC",
-    },
-    {
-      id: 4,
-      name: "우드 헤어 브러쉬",
-      discription: "트리트먼트와 같이 쓰면 더욱 좋은 우드 브러쉬",
-      saleprice: 29000,
-      sale: 28,
-      price: 20900,
-      isChecked: false,
-      count: 1,
-      option: "optionD",
-    },
-  ];
+  const userData = useAppSelector((state) => state.user.user);
+  const orderList = useAppSelector((state) => state.order.orderList);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    console.log(orderList, "주문데이터");
+  }, [orderList]);
 
   const [paymentWidget, setPaymentWidget] = useState<any>();
 
-  const [deliveryMessage, setDeliveryMessage] = useState<string>("");
+  const [totalPrice, setTotalPrice] = useState<any>({
+    price: 0,
+    delivery: 0,
+  });
 
-  const [totalPaymentPrice, setTotalPaymentPrice] = useState<number>(0);
-  const [orderPrdListData, setOrderPrdListData] = useState(testCartData);
-  const [totalOrderPrdCount, setTotalOrderPrdCount] = useState<number>(0);
+  const onClickItemRemove = (index: number) => {
+    const isConfirm = confirm("주문에서 제외 하시겠습니까?");
+
+    const items = [{ ...orderList[index].cart_info }];
+
+    if (isConfirm) {
+      return axios
+        .delete("http://localhost:3005/cart", { data: items })
+        .then(() => {
+          const filter = orderList.filter(
+            (val: any, idx: number) => idx !== index
+          );
+          dispatch(updateOrderAction(filter));
+        });
+    }
+  };
 
   const onClickPayment = async () => {
-    const length =
-      orderPrdListData.length > 1 ? ` 외 ${orderPrdListData.length - 1}건` : "";
+    const length = orderList.length > 1 ? ` 외 ${orderList.length - 1}건` : "";
 
-    const orderName = `${orderPrdListData[0].name}${length}`;
+    const orderName = `${orderList[0].name}${length}`;
 
     try {
       // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
@@ -95,23 +75,17 @@ export default function Order() {
   };
 
   useEffect(() => {
+    console.log(clientKey, customerKey);
+
     loadPaymentWidget(clientKey, customerKey).then((widget) => {
       setPaymentWidget(widget);
     });
   }, []);
 
   useEffect(() => {
-    const countReduce = orderPrdListData.reduce((acc, val) => {
-      return acc + val.count;
-    }, 0);
-
-    const totalPriceReduce = orderPrdListData.reduce((acc, val) => {
-      return acc + val.count * val.saleprice;
-    }, 0);
-
-    setTotalOrderPrdCount(countReduce);
-    setTotalPaymentPrice(totalPriceReduce);
-  }, [orderPrdListData]);
+    const priceData = getTotalPrice(orderList);
+    setTotalPrice(priceData);
+  }, [orderList]);
 
   return (
     <div className={orderStyle.order_container}>
@@ -120,19 +94,16 @@ export default function Order() {
           <div>MY STORE</div>
           <h3>주문/결제</h3>
         </div>
-        <DeliveryAddressInfo setDeliveryMessage={setDeliveryMessage} />
+        <DeliveryAddressInfo userData={userData} />
         <OrderPrdList
-          listData={orderPrdListData}
-          totalPrdCount={totalOrderPrdCount}
-          setOrderPrdListData={setOrderPrdListData}
+          orderList={orderList}
+          deliveryPrice={totalPrice.delivery}
+          onClickItemRemove={onClickItemRemove}
         />
-        <PaymentInfo totalPaymentPrice={totalPaymentPrice} />
-        <Payment
-          paymentWidget={paymentWidget}
-          totalPaymentPrice={totalPaymentPrice}
-        />
+        <PaymentInfo totalPrice={totalPrice} />
+        <Payment paymentWidget={paymentWidget} totalPrice={totalPrice} />
         <PaymentButton
-          totalPaymentPrice={totalPaymentPrice}
+          totalPrice={totalPrice}
           onClickPayment={onClickPayment}
         />
       </div>

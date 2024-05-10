@@ -4,28 +4,21 @@ import { ImCross } from "react-icons/im";
 import FoldContainer from "./foldContainer";
 
 import orderPrdListStyle from "@styles/pages/order/orderPrdList.module.scss";
+import { priceFormatter } from "@/utils/priceFormatter";
 
 export default function OrderPrdList({
-  listData,
-  totalPrdCount,
-  setOrderPrdListData,
+  orderList,
+  deliveryPrice,
+  onClickItemRemove,
 }: {
-  listData: any;
-  totalPrdCount: number;
-  setOrderPrdListData: any;
+  orderList: any;
+  deliveryPrice: number;
+  onClickItemRemove: any;
 }) {
-  const onClickItemRemove = (id: number) => {
-    const find = listData.find((val: any) => val.id === id);
-
-    if (find) {
-      const removeConfirm = confirm(`선택한 상품을 제거 하시겠습니까?`);
-
-      if (removeConfirm) {
-        const filter = listData.filter((val: any) => val.id !== id);
-        setOrderPrdListData(filter);
-      }
-    }
-  };
+  const totalPrdCount = orderList.reduce((acc: number, val: any) => {
+    const count = val.cart_info.count;
+    return acc + count;
+  }, 0);
 
   return (
     <FoldContainer title="주문상품">
@@ -34,24 +27,29 @@ export default function OrderPrdList({
           총 수량: <strong>{totalPrdCount}</strong>개
         </div>
         <ul>
-          {listData.map((val: any, idx: number) => {
-            const { id, name, saleprice, count, option } = val;
+          {orderList.map((val: any, idx: number) => {
+            const { name, image_path } = val;
+            const { option_price } = val.product_option;
+
+            const count = val.cart_info.count;
+            const calc = (val.price + option_price) * count;
+            const price = priceFormatter(calc);
 
             return (
               <li key={idx}>
                 <div className={orderPrdListStyle.list_item_info}>
                   <Link href="">
-                    <img src="/images/test/testitem3.jpg" />
+                    <img src={image_path} />
                   </Link>
                   <div>
                     <Link href="">{name}</Link>
                     <div>
-                      <div className="item_option">{`[옵션: ${option}]`}</div>
+                      <div className="item_option">{`[옵션: ${val.product_option.name}]`}</div>
                       <div>{`수량: ${count}개`}</div>
                     </div>
-                    <div>{saleprice * count}원</div>
+                    <div>{price}원</div>
                   </div>
-                  <button onClick={() => onClickItemRemove(id)}>
+                  <button onClick={() => onClickItemRemove(idx)}>
                     <ImCross />
                   </button>
                 </div>
@@ -61,7 +59,7 @@ export default function OrderPrdList({
         </ul>
         <div className="delivery_price">
           <span>배송비</span>
-          <strong>2,500원</strong>
+          <strong>{`${priceFormatter(deliveryPrice)}원`}</strong>
         </div>
       </div>
     </FoldContainer>

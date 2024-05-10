@@ -5,7 +5,9 @@ import { PaymentWidgetInstance } from "@tosspayments/payment-widget-sdk";
 
 import FoldContainer from "./foldContainer";
 
-export default function Payment({ paymentWidget, totalPaymentPrice }: any) {
+export default function Payment({ paymentWidget, totalPrice }: any) {
+  const { price, delivery } = totalPrice;
+
   const paymentMethodsWidgetRef = useRef<ReturnType<
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
@@ -19,7 +21,7 @@ export default function Payment({ paymentWidget, totalPaymentPrice }: any) {
     // @docs https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
     const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
       "#payment-widget",
-      { value: totalPaymentPrice },
+      { value: price + delivery },
       { variantKey: "DEFAULT" }
     );
 
@@ -41,8 +43,8 @@ export default function Payment({ paymentWidget, totalPaymentPrice }: any) {
 
     // ------ 금액 업데이트 ------
     // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
-    paymentMethodsWidget.updateAmount(totalPaymentPrice);
-  }, [totalPaymentPrice]);
+    paymentMethodsWidget.updateAmount(price + delivery);
+  }, [totalPrice]);
 
   return (
     <FoldContainer title="결제수단">

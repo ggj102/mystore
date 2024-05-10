@@ -5,11 +5,9 @@ import FoldContainer from "./foldContainer";
 
 import deliveryAddressInfoStyle from "@styles/pages/order/deliveryAddressInfo.module.scss";
 
-export default function DeliveryAddressInfo({
-  setDeliveryMessage,
-}: {
-  setDeliveryMessage: any;
-}) {
+export default function DeliveryAddressInfo({ userData }: { userData: any }) {
+  const [deliveryMessage, setDeliveryMessage] = useState<string>("");
+
   const options = [
     { value: "0", label: "-- 메시지 선택 (선택사항) --" },
     { value: "1", label: "배송 전에 미리 연락바랍니다." },
@@ -36,15 +34,15 @@ export default function DeliveryAddressInfo({
       <div className={deliveryAddressInfoStyle.delivery_address_info_container}>
         <div className="field">
           <span>받는사람</span>
-          <strong>김광진</strong>
+          <strong>{userData.nick_name}</strong>
         </div>
         <div className="field">
           <span>주소</span>
-          <strong>서울시 광진구 군자동 255번지</strong>
+          <strong>{`${userData.address} ${userData.detail_address}`}</strong>
         </div>
         <div className="field">
           <span>휴대전화</span>
-          <strong>010-1234-1234</strong>
+          <strong>{userData.phone}</strong>
         </div>
         <div className="select_message">
           <Select
