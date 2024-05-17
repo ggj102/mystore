@@ -44,13 +44,13 @@ export default function OptionItem({
 
     if (!isValid) return;
 
-    setCount(Number(e.target.value));
+    setCurrentCount(Number(e.target.value));
   };
 
   const onBlurReset = (e: any) => {
-    if (e.target.value !== "0") return;
-
-    setCount(1);
+    if (e.target.value !== "0") {
+      setCount(Number(e.target.value));
+    } else setCount(1);
   };
 
   return (
