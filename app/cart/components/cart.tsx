@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
-import { useAppDispatch, useAppSelector } from "@/src/adaptter/redux/hooks";
+import { useAppSelector } from "@/src/adaptter/redux/hooks";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { getTotalPrice } from "@/utils/getTotalPrice";
 
@@ -17,7 +17,6 @@ import cartStyles from "@styles/pages/cart.module.scss";
 export default function Cart() {
   const router = useRouter();
   const userData = useAppSelector((state) => state.user.user);
-  const dispatch = useAppDispatch();
 
   const [cartList, setCartList] = useState<any>([]);
   const [totalPrice, setTotalPrice] = useState<{
