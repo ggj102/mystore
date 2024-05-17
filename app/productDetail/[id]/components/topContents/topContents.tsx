@@ -41,9 +41,7 @@ export default function TopContents({
     label: "-[선택] 옵션을 선택해 주세요-",
   });
 
-  // options - optionData를 가공해 selectbox에 넣는 데이터
   const [options, setOptions] = useState<any>([]);
-  // selectedOptions - selectbox에서 선택 된 option들
   const [selectedOptions, setSelectedOptions] = useState<any>([]);
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -114,21 +112,44 @@ export default function TopContents({
     setSelectedOptions(removeFilter);
   };
 
+  const onClickCreateOrder = () => {
+    const id = productDetailData.id;
+
+    const order_item = selectedOptions.map((val: any) => {
+      return {
+        id,
+        product_option: { option_id: val.option_id },
+        cart_info: { count: val.count },
+      };
+    });
+
+    axios
+      .post("http://localhost:3005/order", {
+        user_id: userData.id,
+        order_item,
+      })
+      .then((res) => {
+        const orderId = res.data.order_id;
+        router.push(`/order?order_id=${orderId}`);
+      });
+  };
+
   const onClickCart = () => {
     if (selectedOptions.length === 0) alert("상품을 선택해 주세요.");
+    else {
+      const postData = selectedOptions.map((val: any) => {
+        const { user_id, item_id, option_id, count } = val;
 
-    const postData = selectedOptions.map((val: any) => {
-      const { user_id, item_id, option_id, count } = val;
+        return { user_id, item_id, option_id, count };
+      });
 
-      return { user_id, item_id, option_id, count };
-    });
-
-    axios.post("http://localhost:3005/cart", postData).then(() => {
-      const isConfirm = confirm(
-        "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
-      );
-      if (isConfirm) router.push("/cart");
-    });
+      axios.post("http://localhost:3005/cart", postData).then(() => {
+        const isConfirm = confirm(
+          "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
+        );
+        if (isConfirm) router.push("/cart");
+      });
+    }
   };
 
   const setTotal = () => {
@@ -261,7 +282,7 @@ export default function TopContents({
             <BsCart2 size={22} />
             장바구니
           </button>
-          <button>
+          <button onClick={onClickCreateOrder}>
             <FaCheck />
             바로 구매
           </button>
