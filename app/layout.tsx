@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -24,9 +25,11 @@ export default function RootLayout({
     <StoreProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Header />
-          <MainLayout>{children}</MainLayout>
-          <Footer />
+          <Suspense>
+            <Header />
+            <MainLayout>{children}</MainLayout>
+            <Footer />
+          </Suspense>
         </body>
       </html>
     </StoreProvider>
