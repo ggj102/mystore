@@ -1,16 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { PaymentWidgetInstance } from "@tosspayments/payment-widget-sdk";
+import { useEffect } from "react";
 
 import FoldContainer from "./foldContainer";
 
-export default function Payment({ paymentWidget, totalPrice }: any) {
+export default function Payment({ widgetRef, paymentWidget, totalPrice }: any) {
   const { price, delivery } = totalPrice;
-
-  const paymentMethodsWidgetRef = useRef<ReturnType<
-    PaymentWidgetInstance["renderPaymentMethods"]
-  > | null>(null);
 
   useEffect(() => {
     if (paymentWidget == null) {
@@ -25,7 +20,7 @@ export default function Payment({ paymentWidget, totalPrice }: any) {
       { variantKey: "DEFAULT" }
     );
 
-    paymentMethodsWidgetRef.current = paymentMethodsWidget;
+    widgetRef.current = paymentMethodsWidget;
 
     // ------  이용약관 렌더링 ------
     // @docs https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자-옵션
@@ -35,12 +30,11 @@ export default function Payment({ paymentWidget, totalPrice }: any) {
   }, [paymentWidget]);
 
   useEffect(() => {
-    const paymentMethodsWidget = paymentMethodsWidgetRef.current;
+    const paymentMethodsWidget = widgetRef.current;
 
     if (paymentMethodsWidget == null) {
       return;
     }
-
     // ------ 금액 업데이트 ------
     // @docs https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
     paymentMethodsWidget.updateAmount(price + delivery);
