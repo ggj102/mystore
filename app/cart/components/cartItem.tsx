@@ -43,12 +43,6 @@ export default function CartItem({
     setCurrentCount(Number(e.target.value));
   };
 
-  const onBlurReset = (e: any) => {
-    if (e.target.value !== "0") return;
-
-    setCurrentCount(1);
-  };
-
   useEffect(() => setCurrentCount(count), [count]);
 
   return (
@@ -80,11 +74,7 @@ export default function CartItem({
       <div className={cartStyles.item_order_btn}>
         <div className="count_btn">
           <button onClick={onClickDecrease}>-</button>
-          <input
-            value={currentCount}
-            onChange={onChangeCount}
-            onBlur={onBlurReset}
-          />
+          <input value={currentCount} onChange={onChangeCount} />
           <button onClick={onClickIncrease}>+</button>
           {count !== currentCount && (
             <button

@@ -40,16 +40,19 @@ export default function Cart() {
 
   // 수량 변경 이벤트
   const onClickUpdateCount = (index: number, count: number, info: any) => {
-    axios.put("http://localhost:3005/cart", { ...info, count }).then(() => {
-      const copy = [...cartList];
+    if (count === 0) alert("수량이 부족합니다 (최소 1개)");
+    else {
+      axios.put("http://localhost:3005/cart", { ...info, count }).then(() => {
+        const copy = [...cartList];
 
-      copy[index] = {
-        ...copy[index],
-        cart_info: { ...copy[index].cart_info, count },
-      };
+        copy[index] = {
+          ...copy[index],
+          cart_info: { ...copy[index].cart_info, count },
+        };
 
-      setCartList(copy);
-    });
+        setCartList(copy);
+      });
+    }
   };
 
   const onClickAllChecked = () => {
@@ -130,7 +133,9 @@ export default function Cart() {
 
   const onClickSelectedProductOrder = () => {
     const orderData = cartList.filter((val: any) => val.isChecked);
-    createOrder(orderData);
+    if (orderData.length === 0) {
+      alert("선택한 상품이 없습니다.");
+    } else createOrder(orderData);
   };
 
   useEffect(() => {
