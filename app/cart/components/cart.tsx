@@ -109,23 +109,30 @@ export default function Cart() {
     });
   };
 
-  const dispatchOrder = (data: any) => {
-    dispatch(updateOrderAction(data));
-    router.push("/order");
+  const createOrder = (data: any) => {
+    axios
+      .post("http://localhost:3005/order", {
+        user_id: userData.id,
+        order_item: data,
+      })
+      .then((res) => {
+        const orderId = res.data.order_id;
+        router.push(`/order?order_id=${orderId}`);
+      });
   };
 
   const onClickProductOrder = (index: number) => {
     const orderData = [cartList[index]];
-    dispatchOrder(orderData);
+    createOrder(orderData);
   };
 
   const onClickAllProductOrder = () => {
-    dispatchOrder(cartList);
+    createOrder(cartList);
   };
 
   const onClickSelectedProductOrder = () => {
     const orderData = cartList.filter((val: any) => val.isChecked);
-    dispatchOrder(orderData);
+    createOrder(orderData);
   };
 
   useEffect(() => {
@@ -136,7 +143,6 @@ export default function Cart() {
   useEffect(() => {
     if (userData.id) {
       axios.get(`http://localhost:3005/cart?id=${userData.id}`).then((res) => {
-        console.log(res.data, "데이터");
         addPropIsChecked(res.data);
       });
     }
