@@ -1,19 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import { useAppDispatch, useAppSelector } from "@/src/adaptter/redux/hooks";
 import { priceFormatter } from "@/utils/priceFormatter";
+import { getTotalPrice } from "@/utils/getTotalPrice";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import CartItem from "./cartItem";
 import CartGuide from "./cartGuide";
 
 import cartStyles from "@styles/pages/cart.module.scss";
-import { updateOrderAction } from "@/src/adaptter/redux/reducer/orderReducer";
-import { useRouter } from "next/navigation";
-import { getTotalPrice } from "@/utils/getTotalPrice";
 
 export default function Cart() {
   const router = useRouter();
