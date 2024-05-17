@@ -19,7 +19,6 @@ export default function ProductDetail() {
     const id = split[2];
 
     axios.get(`http://localhost:3005/productDetail/${id}`).then((res: any) => {
-      console.log(res.data, "상세정보");
       setProductDetailData(res.data);
     });
   }, []);
