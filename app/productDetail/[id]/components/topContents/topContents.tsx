@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import { useInView } from "framer-motion";
 import { useAppSelector } from "@/src/adaptter/redux/hooks";
 import { priceFormatter } from "@/utils/priceFormatter";
+import Select from "react-select";
 
 import Timer from "@/components/timer";
 import OptionItem from "./optionItem";
-import CustomSelect from "@/components/customSelect";
-// import FixedBar from "./fixedBar";
+import FixedBar from "./fixedBar";
 
 import clsx from "clsx";
 
@@ -188,7 +188,7 @@ export default function TopContents({
 
   useEffect(() => {
     if (isInView) setIsFixedBarOpen(false);
-  }, [userData]);
+  }, [isInView]);
 
   return (
     <div ref={targetRef} className={topContentsStyles.top_contents_container}>
@@ -251,7 +251,7 @@ export default function TopContents({
         <div className={topContentsStyles.product_option_select}>
           <div className="option_select">
             <p>옵션</p>
-            <CustomSelect
+            <Select
               isSearchable={false}
               value={currentOption}
               onChange={onChangeOption}
@@ -288,15 +288,23 @@ export default function TopContents({
           </button>
         </div>
       </div>
-      {/* {!isInView && targetRef.current && (
+      {!isInView && targetRef.current && (
         <FixedBar
           isFixedBarOpen={isFixedBarOpen}
+          prdName={productDetailData.name}
           options={options}
-          optionList={optionList}
-          onChangeOption={onChangeOption}
+          selectedOptions={selectedOptions}
+          currentOption={currentOption}
+          totalPrice={totalPrice}
+          totalCount={totalCount}
           setIsFixedBarOpen={setIsFixedBarOpen}
+          updateOption={updateOption}
+          onClickDeleteOption={onClickDeleteOption}
+          onChangeOption={onChangeOption}
+          onClickCart={onClickCart}
+          onClickCreateOrder={onClickCreateOrder}
         />
-      )} */}
+      )}
     </div>
   );
 }
