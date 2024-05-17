@@ -19,7 +19,7 @@ export default function OptionItem({
 }) {
   const { option_id, option_name, option_price, count } = data;
 
-  const price = priceFormatter((data.price + option_price) * (count || 1));
+  const price = priceFormatter((data.price + option_price) * count);
 
   const [currentCount, setCurrentCount] = useState<number>(count);
 
