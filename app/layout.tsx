@@ -5,7 +5,8 @@ import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 
-// import StoreProvider from "./StoreProvider";
+import StoreProvider from "./StoreProvider";
+import MainLayout from "@/components/mainLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,21 +21,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-        <Footer />
-      </body>
-    </html>
-    // <StoreProvider>
-    //   <html lang="en">
-    //     <body className={inter.className}>
-    //       <Navigation />
-    //       {children}
-    //       <Footer />
-    //     </body>
-    //   </html>
-    // </StoreProvider>
+    <StoreProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Header />
+          <MainLayout>{children}</MainLayout>
+          <Footer />
+        </body>
+      </html>
+    </StoreProvider>
   );
 }
