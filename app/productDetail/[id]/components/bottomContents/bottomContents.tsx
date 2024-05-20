@@ -12,18 +12,30 @@ export default function BottomContents({
 
   const [currnetMenu, setCurrnetMenu] = useState<number>(0);
 
+  const onClickMenu = (id: string, index: number) => {
+    const targetElement = document.getElementById(id);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "auto" });
+    }
+
+    setCurrnetMenu(index);
+  };
+
   return (
-    <div className={bottomContentsStyles.bottom_contents_container}>
+    <div
+      id="detailInfo"
+      className={bottomContentsStyles.bottom_contents_container}
+    >
       <div className={bottomContentsStyles.skicky_menu}>
         <button
           className={clsx({ current_menu: currnetMenu === 1 })}
-          onClick={() => setCurrnetMenu(1)}
+          onClick={() => onClickMenu("detailInfo", 1)}
         >
           제품상세
         </button>
         <button
           className={clsx({ current_menu: currnetMenu === 2 })}
-          onClick={() => setCurrnetMenu(2)}
+          onClick={() => onClickMenu("buyGuide", 2)}
         >
           상품구매안내
         </button>
@@ -40,18 +52,24 @@ export default function BottomContents({
           =
         </button>
       </div>
-      <ul>
-        {product_detail?.product_detail_image_path.map(
-          (val: string, idx: number) => {
-            return (
-              <li key={idx}>
-                <img src={val} alt="prd_detail_img" />
-              </li>
-            );
-          }
-        )}
-      </ul>
-      <div className={bottomContentsStyles.product_buy_guide}>
+      {product_detail?.product_detail_image_path.length > 0 ? (
+        <ul>
+          {product_detail?.product_detail_image_path.map(
+            (val: string, idx: number) => {
+              return (
+                <li key={idx}>
+                  <img src={val} alt="prd_detail_img" />
+                </li>
+              );
+            }
+          )}
+        </ul>
+      ) : (
+        <div className={bottomContentsStyles.empty_info}>
+          제품 상세 정보가 없습니다.
+        </div>
+      )}
+      <div id="buyGuide" className={bottomContentsStyles.product_buy_guide}>
         <h2>상품구매안내</h2>
         <div>
           <h2>상품결제정보</h2>

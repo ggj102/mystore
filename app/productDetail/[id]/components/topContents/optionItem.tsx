@@ -5,6 +5,8 @@ import { priceFormatter } from "@/utils/priceFormatter";
 
 import { ImCross } from "react-icons/im";
 
+import optionItemStyle from "@styles/pages/productDetail/optionItem.module.scss";
+
 export default function OptionItem({
   prdName,
   data,
@@ -54,13 +56,19 @@ export default function OptionItem({
   };
 
   return (
-    <li {...props}>
-      <div className="prd_name">
+    <li className={optionItemStyle.option_item_container} {...props}>
+      <div className={optionItemStyle.prd_name}>
         <p>{prdName}</p>
         <div>{`- ${option_name}`}</div>
       </div>
-      <div>
-        <div className="count_btn">
+      <button
+        className={optionItemStyle.remove_btn}
+        onClick={() => onClickDeleteOption(option_id)}
+      >
+        <ImCross />
+      </button>
+      <div className={optionItemStyle.count_price}>
+        <div className={optionItemStyle.count_btn}>
           <button onClick={onClickDecrease}>-</button>
           <input
             value={currentCount}
@@ -71,12 +79,6 @@ export default function OptionItem({
         </div>
         <div>
           <span>{`${price}원`}</span>
-          <button
-            className="remove_btn"
-            onClick={() => onClickDeleteOption(option_id)}
-          >
-            <ImCross />
-          </button>
         </div>
       </div>
     </li>
