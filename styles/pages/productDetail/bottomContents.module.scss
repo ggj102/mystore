@@ -3,8 +3,6 @@
   position: relative;
 
   ul {
-    margin-bottom: 120px;
-
     li {
       width: 100%;
 
@@ -48,6 +46,8 @@
 }
 
 .product_buy_guide {
+  padding-top: 180px;
+
   & > h2 {
     width: 100%;
     text-align: center;
@@ -74,4 +74,14 @@
     font-size: 13px;
     color: #888;
   }
+}
+
+.empty_info {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #6d6d6d;
 }
