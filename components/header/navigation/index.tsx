@@ -133,8 +133,6 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
                 />
               );
             })}
-            <Link href="/order">주문하기</Link>
-            <Link href="/orderComplete">주문완료</Link>
           </div>
         </div>
         <div className={navigationStyles.user_operation}>
