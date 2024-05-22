@@ -29,7 +29,7 @@ export default function Header() {
             <Link href="/">
               <img src="/images/logo.png" alt="logo" />
             </Link>
-            <Link href="">Log in</Link>
+            <Link href="/signin">Log in</Link>
           </div>
         </div>
         <Navigation />

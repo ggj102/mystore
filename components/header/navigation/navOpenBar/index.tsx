@@ -36,7 +36,7 @@ export default function NavOpenBar({ categoryData }: any) {
       {isMedium ? (
         <div className={navigationStyles.nav_open_column_bar}>
           <div>
-            <Link href="">Log in</Link>
+            <Link href="/signin">Log in</Link>
           </div>
           <CreateCategory data={categoryData} />
         </div>
