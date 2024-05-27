@@ -42,4 +42,9 @@
     font-size: 18px;
     color: #999999;
   }
+
+  & > div {
+    display: flex;
+    gap: 10px;
+  }
 }
