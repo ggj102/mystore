@@ -1,24 +1,38 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { ImCross } from "react-icons/im";
+
+import { priceFormatter } from "@/utils/priceFormatter";
+import { deleteOrderItem } from "./actions";
 
 import FoldContainer from "./foldContainer";
 
+import { ImCross } from "react-icons/im";
 import orderPrdListStyle from "@styles/pages/order/orderPrdList.module.scss";
-import { priceFormatter } from "@/utils/priceFormatter";
 
 export default function OrderPrdList({
-  orderList,
+  orderItem,
   deliveryPrice,
-  onClickItemRemove,
 }: {
-  orderList: any;
+  orderItem: any;
   deliveryPrice: number;
-  onClickItemRemove: any;
 }) {
-  const totalPrdCount = orderList.reduce((acc: number, val: any) => {
+  const [orderList, setOrderList] = useState<any>(orderItem);
+
+  const totalPrdCount = orderItem.reduce((acc: number, val: any) => {
     const count = val.cart_info.count;
     return acc + count;
   }, 0);
+
+  const onClickItemRemove = async (idx: number) => {
+    const isConfirm = confirm("주문에서 제외 하시겠습니까?");
+
+    if (isConfirm) {
+      const list = await deleteOrderItem(idx, orderItem);
+      setOrderList(list);
+    }
+  };
 
   return (
     <FoldContainer title="주문상품">

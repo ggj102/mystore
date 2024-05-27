@@ -35,15 +35,15 @@ export default function DeliveryAddressInfo({
       <div className={deliveryAddressInfoStyle.delivery_address_info_container}>
         <div className="field">
           <span>받는사람</span>
-          <strong>{userData.nick_name}</strong>
+          <strong>{userData.user_name}</strong>
         </div>
         <div className="field">
           <span>주소</span>
-          <strong>{`${userData.address} ${userData.detail_address}`}</strong>
+          <strong>{`${userData.user_address} ${userData.user_detail_address}`}</strong>
         </div>
         <div className="field">
           <span>휴대전화</span>
-          <strong>{userData.phone}</strong>
+          <strong>{userData.user_phone}</strong>
         </div>
         <div className="select_message">
           <Select
