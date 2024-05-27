@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+
 import axios from "axios";
+import Select from "react-select";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
-import allProductStyle from "@styles/pages/allProduct.module.scss";
-import CustomSelect from "@/components/customSelect";
 import Pagination from "@/components/pagination";
+
+import allProductStyle from "@styles/pages/allProduct.module.scss";
 
 export default function AllProduct() {
   const [allProductList, setAllProductList] = useState<any>([]);
@@ -130,7 +132,8 @@ export default function AllProduct() {
               전체
               <strong> {totalCount}</strong>개
             </div>
-            <CustomSelect
+            <Select
+              isSearchable={false}
               options={options}
               value={currentSort}
               onChange={onChangeSort}

@@ -2,15 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import axios from "axios";
+import Select from "react-select";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
-import CustomSelect from "@/components/customSelect";
 import Pagination from "@/components/pagination";
 
 import { FiSearch } from "react-icons/fi";
-
 import searchResultStyle from "@styles/pages/searchResult.module.scss";
 
 export default function SearchResult() {
@@ -113,7 +113,8 @@ export default function SearchResult() {
               검색 결과
               <strong> {totalCount}</strong>건
             </div>
-            <CustomSelect
+            <Select
+              isSearchable={false}
               options={options}
               value={currentSort}
               onChange={onChangeSort}
