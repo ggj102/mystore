@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import axios from "axios";
 import Select from "react-select";
 
 import ViewInUp from "@/components/animation/viewInUp";
@@ -13,19 +12,25 @@ import Pagination from "@/components/pagination";
 
 import allProductStyle from "@styles/pages/allProduct.module.scss";
 
-export default function AllProduct() {
-  const [allProductList, setAllProductList] = useState<any>([]);
-  const [currentCategory, setCurrentCategory] = useState<string>("");
+export default function AllProduct({
+  allProductlData,
+  category,
+  sort,
+  page,
+}: {
+  allProductlData: any;
+  category: string;
+  sort: any;
+  page: number;
+}) {
+  const { data, totalPages, totalCount } = allProductlData;
+  const router = useRouter();
+
+  const [currentCategory, setCurrentCategory] = useState<string>(category);
   const [currentSort, setCurrentSort] = useState<any>({
     value: "popularity_desc",
     label: "인기도",
   });
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [totalCount, setTotalCount] = useState<number>(0);
-
-  const searchParams = useSearchParams();
-  const router = useRouter();
 
   const categoryArr = [
     { name: "전체", category: "" },
@@ -71,30 +76,8 @@ export default function AllProduct() {
   };
 
   useEffect(() => {
-    if (searchParams) {
-      const paramsCategory = searchParams.get("category");
-      const paramsSort = searchParams.get("sort");
-      const paramsPageNum = searchParams.get("page");
-
-      const category = paramsCategory ? `category=${paramsCategory}` : "";
-      const sort = paramsSort ? `sort=${paramsSort}` : "";
-      const page = paramsPageNum ? `page=${paramsPageNum}` : "";
-
-      const filter = [category, sort, page].filter((val) => val);
-      const query = filter.join("&");
-
-      axios
-        .get(`http://localhost:3005/productList?${query}`)
-        .then((res: any) => {
-          setAllProductList(res.data.data);
-          setTotalPages(res.data.totalPages);
-          setTotalCount(res.data.totalCount);
-          setCurrentCategory(paramsCategory ? String(paramsCategory) : "");
-          setSort(paramsSort);
-          setCurrentPage(Number(paramsPageNum));
-        });
-    }
-  }, [searchParams]);
+    setSort(sort);
+  }, [sort]);
 
   return (
     <div className={allProductStyle.all_product_container}>
@@ -140,7 +123,7 @@ export default function AllProduct() {
             />
           </div>
           <ul>
-            {allProductList.map((val: any, idx: number) => {
+            {data.map((val: any, idx: number) => {
               return (
                 <li key={idx}>
                   <ProductItem data={val} />
@@ -151,7 +134,7 @@ export default function AllProduct() {
         </div>
       </div>
       {totalPages > 1 && (
-        <Pagination totalPages={totalPages} currentPage={currentPage} />
+        <Pagination totalPages={totalPages} currentPage={page} />
       )}
     </div>
   );
