@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
+import { useRef } from "react";
 
 import Slider from "react-slick";
 import useObserver from "@/utils/useObserver";
@@ -11,8 +10,7 @@ import Timer from "@/components/timer";
 
 import timesaleStyle from "@styles/pages/home/timesale.module.scss";
 
-export default function Timesale() {
-  const [timeSaleData, setTimeSaleData] = useState<any>([]);
+export default function Timesale({ list }: any) {
   const targetRef = useRef<any>(null);
   const { observeWidth } = useObserver(targetRef);
 
@@ -43,14 +41,6 @@ export default function Timesale() {
     slidesToScroll: 1,
   };
 
-  useEffect(() => {
-    axios.get(`http://localhost:3005/timeSaleProduct`).then((res: any) => {
-      const slice = res.data.data.slice(0, 8);
-
-      setTimeSaleData(slice);
-    });
-  }, []);
-
   return (
     <div ref={targetRef} className={timesaleStyle.timesale_container}>
       <div className="site_wrap">
@@ -60,9 +50,9 @@ export default function Timesale() {
             <p>지금이 쇼핑찬스! 놓치면 후회하는 특가상품</p>
           </h3>
         </ViewInUp>
-        {timeSaleData.length > 0 && (
+        {list.length > 0 && (
           <Slider className={timesaleStyle.slider} {...settings}>
-            {timeSaleData.map((val: any, idx: number) => {
+            {list.map((val: any, idx: number) => {
               return (
                 <div key={idx} className={timesaleStyle.timesale_item}>
                   <div>

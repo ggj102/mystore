@@ -1,5 +1,14 @@
+import api from "@/httpClient/auth";
 import Home from "./components/home";
 
-export default function HomePage() {
-  return <Home />;
+async function getServerSideProps() {
+  const homeData = await api.get("/home");
+
+  return { homeData };
+}
+
+export default async function HomePage() {
+  const { homeData } = await getServerSideProps();
+
+  return <Home homeData={homeData} />;
 }
