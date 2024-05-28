@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-import axios from "axios";
 import Select from "react-select";
 
 import ViewInUp from "@/components/animation/viewInUp";
@@ -13,19 +12,20 @@ import Pagination from "@/components/pagination";
 import { FiSearch } from "react-icons/fi";
 import searchResultStyle from "@styles/pages/searchResult.module.scss";
 
-export default function SearchResult() {
-  const [currentKeyword, setCurrentKeyword] = useState<string>("");
-  const [searchResultData, setSearchResultData] = useState<any>([]);
+export default function SearchResult({
+  searchResultData,
+  keyword,
+  sort,
+  page,
+}: any) {
+  const { data, totalPages, totalCount } = searchResultData;
+  const router = useRouter();
+
+  const [currentKeyword, setCurrentKeyword] = useState<string>(keyword);
   const [currentSort, setCurrentSort] = useState<any>({
     value: "popularity_desc",
     label: "인기도",
   });
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(0);
-  const [totalCount, setTotalCount] = useState<number>(0);
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
 
   const options = [
     { value: "popularity_desc", label: "인기도" },
@@ -60,32 +60,7 @@ export default function SearchResult() {
     if (e.key === "Enter") onClickSearch();
   };
 
-  useEffect(() => {
-    if (searchParams) {
-      const keyword = searchParams.get("keyword");
-      const paramsSort = searchParams.get("sort");
-      const paramsPageNum = searchParams.get("page");
-
-      const sort = paramsSort ? `&sort=${paramsSort}` : "";
-      const page = paramsPageNum ? `&page=${paramsPageNum}` : "";
-
-      axios
-        .get(
-          `http://localhost:3005/searchResult?keyword=${keyword}${sort}${page}`
-        )
-        .then((res) => {
-          const { data, totalPages, totalCount } = res.data;
-
-          setSearchResultData(data);
-          setTotalPages(totalPages);
-          setTotalCount(totalCount);
-
-          setCurrentKeyword(String(keyword));
-          setSort(paramsSort);
-          setCurrentPage(Number(paramsPageNum));
-        });
-    }
-  }, [searchParams]);
+  useEffect(() => setSort(sort), [sort]);
 
   return (
     <div className={searchResultStyle.search_result_container}>
@@ -121,7 +96,7 @@ export default function SearchResult() {
             />
           </div>
           <ul>
-            {searchResultData.map((val: any, idx: number) => {
+            {data.map((val: any, idx: number) => {
               return (
                 <li key={idx}>
                   <ProductItem data={val} />
@@ -131,7 +106,7 @@ export default function SearchResult() {
           </ul>
         </div>
         {totalPages > 1 && (
-          <Pagination totalPages={totalPages} currentPage={currentPage} />
+          <Pagination totalPages={totalPages} currentPage={page} />
         )}
       </div>
     </div>
