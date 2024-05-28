@@ -4,30 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useInView } from "framer-motion";
-import { useAppSelector } from "@/src/adaptter/redux/hooks";
-import { priceFormatter } from "@/utils/priceFormatter";
 import Select from "react-select";
+import clsx from "clsx";
+
+import { priceFormatter } from "@/utils/priceFormatter";
+import { createOrderAction } from "@/app/cart/components/cartActions";
+import { addCartAction } from "../productDetailActions";
 
 import Timer from "@/components/timer";
 import OptionItem from "./optionItem";
 import FixedBar from "./fixedBar";
 
-import clsx from "clsx";
-
 import { BsCart2 } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
-
 import topContentsStyles from "@styles/pages/productDetail/topContents.module.scss";
-import axios from "axios";
 
-export default function TopContents({
-  productDetailData,
-}: {
-  productDetailData: any;
-}) {
-  // const { product_detail } = productDetailData;
+export default function TopContents({ data }: { data: any }) {
+  // const { product_detail } = data;
 
-  const userData = useAppSelector((state) => state.user.user);
   const router = useRouter();
 
   const targetRef = useRef<HTMLDivElement>(null);
@@ -73,7 +67,7 @@ export default function TopContents({
       return;
     }
 
-    const { product_option } = productDetailData;
+    const { product_option } = data;
 
     const findOption = product_option.find((val: any) => val.option_id === id);
 
@@ -81,13 +75,12 @@ export default function TopContents({
       const copyArr = [...selectedOptions];
 
       copyArr.push({
-        user_id: userData.id,
-        item_id: productDetailData.id,
+        item_id: data.id,
         option_id: findOption.option_id,
-        name: productDetailData.name,
+        name: data.name,
         option_name: findOption.name,
         option_price: findOption.option_price,
-        price: productDetailData.price,
+        price: data.price,
         count: 1,
       });
 
@@ -112,38 +105,35 @@ export default function TopContents({
     setSelectedOptions(removeFilter);
   };
 
-  const onClickCreateOrder = () => {
-    const id = productDetailData.id;
+  const onClickCreateOrder = async () => {
+    if (selectedOptions.length === 0) alert("옵션을 선택해 주세요.");
+    else {
+      const id = data.id;
 
-    const order_item = selectedOptions.map((val: any) => {
-      return {
-        id,
-        product_option: { option_id: val.option_id },
-        cart_info: { count: val.count },
-      };
-    });
+      const order_item = selectedOptions.map((val: any) => {
+        return {
+          id,
+          product_option: { option_id: val.option_id },
+          cart_info: { count: val.count },
+        };
+      });
 
-    axios
-      .post("http://localhost:3005/order", {
-        user_id: userData.id,
-        order_item,
-      })
-      .then((res) => {
-        const orderId = res.data.order_id;
+      createOrderAction(order_item).then((orderId) => {
         router.push(`/order?order_id=${orderId}`);
       });
+    }
   };
 
-  const onClickCart = () => {
-    if (selectedOptions.length === 0) alert("상품을 선택해 주세요.");
+  const onClickAddCart = async () => {
+    if (selectedOptions.length === 0) alert("옵션을 선택해 주세요.");
     else {
       const postData = selectedOptions.map((val: any) => {
-        const { user_id, item_id, option_id, count } = val;
+        const { item_id, option_id, count } = val;
 
-        return { user_id, item_id, option_id, count };
+        return { item_id, option_id, count };
       });
 
-      axios.post("http://localhost:3005/cart", postData).then(() => {
+      addCartAction(postData).then(() => {
         const isConfirm = confirm(
           "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
         );
@@ -172,8 +162,8 @@ export default function TopContents({
   };
 
   useEffect(() => {
-    if (productDetailData.product_detail) {
-      const { product_detail, product_option } = productDetailData;
+    if (data.product_detail) {
+      const { product_detail, product_option } = data;
       const { image_path, sub_image_path } = product_detail;
 
       const isSubImage = sub_image_path.length > 1;
@@ -182,7 +172,7 @@ export default function TopContents({
       getOptions(product_option);
       setCurrentImage(image);
     }
-  }, [productDetailData]);
+  }, [data]);
 
   useEffect(() => setTotal(), [selectedOptions]);
 
@@ -197,7 +187,7 @@ export default function TopContents({
           <img src={currentImage} alt="prd" />
         </div>
         <ul>
-          {productDetailData.product_detail?.sub_image_path.map(
+          {data.product_detail?.sub_image_path.map(
             (val: string, idx: number) => {
               return (
                 <li key={idx} onClick={() => setCurrentImage(val)}>
@@ -214,18 +204,16 @@ export default function TopContents({
       </div>
       <div className={topContentsStyles.product_order_info}>
         <div className={topContentsStyles.timer}>
-          {productDetailData.time_sale && (
-            <Timer limitDate={productDetailData.time_sale} />
-          )}
+          {data.time_sale && <Timer limitDate={data.time_sale} />}
         </div>
         <div className={topContentsStyles.product_title}>
-          <h1>{productDetailData.name}</h1>
+          <h1>{data.name}</h1>
           <div className={topContentsStyles.product_description}>
-            {productDetailData.description}
+            {data.description}
           </div>
           <div className={topContentsStyles.product_review}>
             <div>별점</div>
-            <strong>{productDetailData.popularity}</strong>
+            <strong>{data.popularity}</strong>
             {/* <span>(리뷰5개)</span> */}
           </div>
         </div>
@@ -238,14 +226,14 @@ export default function TopContents({
             <div>배송비</div>
           </div>
           <div>
-            <p>{productDetailData.defaultPrice}원</p>
+            <p>{data.defaultPrice}원</p>
             <div className="price">
-              <span>{productDetailData.price}원</span>
-              <span>{productDetailData.discount}%</span>
+              <span>{data.price}원</span>
+              <span>{data.discount}%</span>
             </div>
-            <div>{productDetailData.product_detail?.domestic}</div>
-            <div>{productDetailData.product_detail?.delivery_type}</div>
-            <div>{productDetailData.product_detail?.delivery_price}</div>
+            <div>{data.product_detail?.domestic}</div>
+            <div>{data.product_detail?.delivery_type}</div>
+            <div>{data.product_detail?.delivery_price}</div>
           </div>
         </div>
         <div className={topContentsStyles.product_option_select}>
@@ -263,7 +251,7 @@ export default function TopContents({
               return (
                 <OptionItem
                   key={val.option_id}
-                  prdName={productDetailData.name}
+                  prdName={data.name}
                   data={val}
                   updateOption={updateOption}
                   onClickDeleteOption={onClickDeleteOption}
@@ -278,7 +266,7 @@ export default function TopContents({
           </div>
         </div>
         <div className={topContentsStyles.cart_order_btn}>
-          <button onClick={onClickCart}>
+          <button onClick={onClickAddCart}>
             <BsCart2 size={22} />
             장바구니
           </button>
@@ -291,7 +279,7 @@ export default function TopContents({
       {!isInView && targetRef.current && (
         <FixedBar
           isFixedBarOpen={isFixedBarOpen}
-          prdName={productDetailData.name}
+          prdName={data.name}
           options={options}
           selectedOptions={selectedOptions}
           currentOption={currentOption}
@@ -301,7 +289,7 @@ export default function TopContents({
           updateOption={updateOption}
           onClickDeleteOption={onClickDeleteOption}
           onChangeOption={onChangeOption}
-          onClickCart={onClickCart}
+          onClickAddCart={onClickAddCart}
           onClickCreateOrder={onClickCreateOrder}
         />
       )}

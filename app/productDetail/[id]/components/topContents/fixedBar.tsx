@@ -21,7 +21,7 @@ export default function FixedBar({
   onChangeOption,
   updateOption,
   onClickDeleteOption,
-  onClickCart,
+  onClickAddCart,
   onClickCreateOrder,
 }: any) {
   return (
@@ -66,7 +66,7 @@ export default function FixedBar({
           </div>
         </div>
         <div className={topContentsStyles.cart_order_btn}>
-          <button onClick={onClickCart}>
+          <button onClick={onClickAddCart}>
             <BsCart2 size={22} />
             장바구니
           </button>

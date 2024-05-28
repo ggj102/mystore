@@ -1,14 +1,11 @@
 import { useState } from "react";
 
-import bottomContentsStyles from "@styles/pages/productDetail/bottomContents.module.scss";
 import clsx from "clsx";
 
-export default function BottomContents({
-  productDetailData,
-}: {
-  productDetailData: any;
-}) {
-  const { product_detail } = productDetailData;
+import bottomContentsStyles from "@styles/pages/productDetail/bottomContents.module.scss";
+
+export default function BottomContents({ data }: { data: any }) {
+  const { product_detail } = data;
 
   const [currnetMenu, setCurrnetMenu] = useState<number>(0);
 
