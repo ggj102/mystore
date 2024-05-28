@@ -118,8 +118,16 @@ export default function TopContents({ data }: { data: any }) {
         };
       });
 
-      createOrderAction(order_item).then((orderId) => {
-        router.push(`/order?order_id=${orderId}`);
+      const postData = selectedOptions.map((val: any) => {
+        const { item_id, option_id, count } = val;
+
+        return { item_id, option_id, count };
+      });
+
+      addCartAction(postData).then(() => {
+        createOrderAction(order_item).then((orderId) => {
+          router.push(`/order?order_id=${orderId}`);
+        });
       });
     }
   };
