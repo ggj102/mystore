@@ -16,16 +16,13 @@ async function getServerSideProps({ searchParams }: any) {
   const orderItem = await api.get(`/orderItem?order_id=${orderId}`, {
     headers: { Cookie },
   });
-  const totalPrice = getTotalPrice(orderItem);
 
-  if (userData) return { userData, orderItem, totalPrice };
+  if (userData) return { userData, orderItem };
   else return redirect("/signin");
 }
 
 export default async function OrderPage(props: any) {
-  const { userData, orderItem, totalPrice } = await getServerSideProps(props);
+  const { userData, orderItem } = await getServerSideProps(props);
 
-  return (
-    <Order userData={userData} orderItem={orderItem} totalPrice={totalPrice} />
-  );
+  return <Order userData={userData} orderItem={orderItem} />;
 }
