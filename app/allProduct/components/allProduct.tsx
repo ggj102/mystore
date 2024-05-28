@@ -13,17 +13,17 @@ import Pagination from "@/components/pagination";
 import allProductStyle from "@styles/pages/allProduct.module.scss";
 
 export default function AllProduct({
-  allProductlData,
+  allProductData,
   category,
   sort,
   page,
 }: {
-  allProductlData: any;
+  allProductData: any;
   category: string;
   sort: any;
   page: number;
 }) {
-  const { data, totalPages, totalCount } = allProductlData;
+  const { data, totalPages, totalCount } = allProductData;
   const router = useRouter();
 
   const [currentCategory, setCurrentCategory] = useState<string>(category);

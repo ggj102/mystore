@@ -13,24 +13,24 @@ async function getServerSideProps({ searchParams }: any) {
   const filter = [categoryQuery, sortQuery, pageQuery].filter((val) => val);
   const query = filter.join("&");
 
-  const allProductlData = await api.get(`/productList?${query}`);
+  const allProductData = await api.get(`/productList?${query}`);
 
   const category = paramsCategory ? String(paramsCategory) : "";
   const sort = paramsSort;
   const page = Number(paramsPageNum);
 
-  return { allProductlData, category, sort, page };
+  return { allProductData, category, sort, page };
 }
 
 export default async function AllProductPage(props: any) {
   await getServerSideProps(props);
-  const { allProductlData, category, sort, page } = await getServerSideProps(
+  const { allProductData, category, sort, page } = await getServerSideProps(
     props
   );
 
   return (
     <AllProduct
-      allProductlData={allProductlData}
+      allProductData={allProductData}
       category={category}
       sort={sort}
       page={page}
