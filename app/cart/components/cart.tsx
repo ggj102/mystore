@@ -2,11 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 
-import { useAppSelector } from "@/src/adaptter/redux/hooks";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { getTotalPrice } from "@/utils/getTotalPrice";
+
+import {
+  createOrderAction,
+  itemRemoveAction,
+  updateCountAction,
+} from "./cartActions";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import CartItem from "./cartItem";
@@ -14,18 +18,14 @@ import CartGuide from "./cartGuide";
 
 import cartStyles from "@styles/pages/cart.module.scss";
 
-export default function Cart() {
+export default function Cart({ cartData, priceData }: any) {
   const router = useRouter();
-  const userData = useAppSelector((state) => state.user.user);
 
-  const [cartList, setCartList] = useState<any>([]);
+  const [cartList, setCartList] = useState<any>(cartData);
   const [totalPrice, setTotalPrice] = useState<{
     price: number;
     delivery: number;
-  }>({
-    price: 0,
-    delivery: 0,
-  });
+  }>(priceData);
 
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
 
@@ -39,10 +39,14 @@ export default function Cart() {
   };
 
   // 수량 변경 이벤트
-  const onClickUpdateCount = (index: number, count: number, info: any) => {
+  const onClickUpdateCount = async (
+    index: number,
+    count: number,
+    info: any
+  ) => {
     if (count === 0) alert("수량이 부족합니다 (최소 1개)");
     else {
-      axios.put("http://localhost:3005/cart", { ...info, count }).then(() => {
+      updateCountAction(count, info).then(() => {
         const copy = [...cartList];
 
         copy[index] = {
@@ -77,12 +81,11 @@ export default function Cart() {
   };
 
   // 아이템 삭제 함수
-  const itemRemove = (items: any) => {
+
+  const itemRemove = async (items: any) => {
     const isConfirm = confirm("장바구니에서 제외 하시겠습니까?");
 
-    if (isConfirm) {
-      return axios.delete("http://localhost:3005/cart", { data: items });
-    }
+    if (isConfirm) return itemRemoveAction(items);
   };
 
   const onClickItemRemove = (index: number) => {
@@ -110,16 +113,9 @@ export default function Cart() {
     });
   };
 
-  const createOrder = (data: any) => {
-    axios
-      .post("http://localhost:3005/order", {
-        user_id: userData.id,
-        order_item: data,
-      })
-      .then((res) => {
-        const orderId = res.data.order_id;
-        router.push(`/order?order_id=${orderId}`);
-      });
+  const createOrder = async (data: any) => {
+    const orderId = await createOrderAction(data);
+    router.push(`/order?order_id=${orderId}`);
   };
 
   const onClickProductOrder = (index: number) => {
@@ -144,12 +140,8 @@ export default function Cart() {
   }, [cartList]);
 
   useEffect(() => {
-    if (userData.id) {
-      axios.get(`http://localhost:3005/cart?id=${userData.id}`).then((res) => {
-        addPropIsChecked(res.data);
-      });
-    }
-  }, [userData]);
+    addPropIsChecked(cartData);
+  }, [cartData]);
 
   return (
     <div className={cartStyles.cart_container}>

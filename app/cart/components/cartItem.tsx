@@ -1,7 +1,11 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
+
 import { priceFormatter } from "@/utils/priceFormatter";
 import ListCheckBox from "./listCheckBox";
+
 import { ImCross } from "react-icons/im";
 import cartStyles from "@styles/pages/cart.module.scss";
 
@@ -22,7 +26,7 @@ export default function CartItem({
   const calc = (data.price + option_price) * count;
   const price = priceFormatter(calc);
 
-  const [currentCount, setCurrentCount] = useState<number>(0);
+  const [currentCount, setCurrentCount] = useState<number>(count);
 
   const onClickDecrease = () => {
     if (currentCount === 1) return;
