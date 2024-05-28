@@ -7,8 +7,8 @@ import { PaymentWidgetInstance } from "@tosspayments/payment-widget-sdk";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 
-import api from "@/httpClient/auth";
 import { priceFormatter } from "@/utils/priceFormatter";
+import { paymentAction } from "./orderActions";
 
 import FoldContainer from "./foldContainer";
 
@@ -67,7 +67,7 @@ export default function Payment({
     paymentMethodsWidget.updateAmount(price + delivery);
   }, [totalPrice]);
 
-  const onClickPayment = () => {
+  const onClickPayment = async () => {
     const length = orderItem.length > 1 ? ` 외 ${orderItem.length - 1}건` : "";
     const orderName = `${orderItem[0].name}${length}`;
     const delivery_address = `${userData.user_address} ${userData.user_detail_address}`;
@@ -77,15 +77,16 @@ export default function Payment({
       ? paymentMethod?.easyPay?.provider
       : paymentMethod?.method;
 
-    api
-      .put(`http://localhost:3005/order?order_id=${orderId}`, {
-        order_name: orderName,
-        recipient: userData.user_name,
-        phone: userData.user_phone,
-        delivery_address,
-        delivery_message: deliveryMessage,
-        payment_method,
-      })
+    const bodyData = {
+      order_name: orderName,
+      recipient: userData.user_name,
+      phone: userData.user_phone,
+      delivery_address,
+      delivery_message: deliveryMessage,
+      payment_method,
+    };
+
+    await paymentAction(orderId, bodyData)
       .then(async () => {
         try {
           // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------

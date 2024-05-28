@@ -1,23 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
 
+import { getTotalPrice } from "@/utils/getTotalPrice";
+
 import DeliveryAddressInfo from "./deliveryAddressInfo";
 import OrderPrdList from "./orderPrdList";
 import PaymentInfo from "./paymentInfo";
 import Payment from "./payment";
 
 import orderStyle from "@styles/pages/order/order.module.scss";
-import { getTotalPrice } from "@/utils/getTotalPrice";
 
-export default function Order({ userData, orderItem }: any) {
+export default function Order({ userData, orderItem, priceData }: any) {
   const [deliveryMessage, setDeliveryMessage] = useState<string>("");
   const [totalPrice, setTotalPrice] = useState<{
     price: number;
     delivery: number;
-  }>({
-    price: 0,
-    delivery: 0,
-  });
+  }>(priceData);
 
   useEffect(() => {
     const total = getTotalPrice(orderItem);
