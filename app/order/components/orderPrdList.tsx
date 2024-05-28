@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 
 import { priceFormatter } from "@/utils/priceFormatter";
-import { deleteOrderItem } from "./actions";
+import { deleteOrderItemAction } from "./actions";
 
 import FoldContainer from "./foldContainer";
 
@@ -29,7 +29,7 @@ export default function OrderPrdList({
     const isConfirm = confirm("주문에서 제외 하시겠습니까?");
 
     if (isConfirm) {
-      const list = await deleteOrderItem(idx, orderItem);
+      const list = await deleteOrderItemAction(idx, orderItem);
       setOrderList(list);
     }
   };

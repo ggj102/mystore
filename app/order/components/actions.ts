@@ -1,8 +1,9 @@
 "use server";
 
 import api from "@/httpClient/auth";
+import { getCookies } from "@/utils/getCookies";
 
-export async function deleteOrderItem(index: number, orderItem: any) {
+export async function deleteOrderItemAction(index: number, orderItem: any) {
   const { id, order_id, product_option } = orderItem[index];
 
   const item = {
@@ -11,7 +12,11 @@ export async function deleteOrderItem(index: number, orderItem: any) {
     option_id: product_option.option_id,
   };
 
-  return api.delete("/orderItem", { data: item }).then(() => {
-    return orderItem.filter((val: any, idx: number) => idx !== index);
-  });
+  const Cookie = getCookies();
+
+  return api
+    .delete("/orderItem", { data: item }, { headers: { Cookie } })
+    .then(() => {
+      return orderItem.filter((val: any, idx: number) => idx !== index);
+    });
 }
