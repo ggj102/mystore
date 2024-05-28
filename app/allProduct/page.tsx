@@ -13,7 +13,7 @@ async function getServerSideProps({ searchParams }: any) {
   const filter = [categoryQuery, sortQuery, pageQuery].filter((val) => val);
   const query = filter.join("&");
 
-  const allProductData = await api.get(`/productList?${query}`);
+  const allProductData = await api.get(`/allProduct?${query}`);
 
   const category = paramsCategory ? String(paramsCategory) : "";
   const sort = paramsSort;

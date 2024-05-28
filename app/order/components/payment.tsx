@@ -93,7 +93,7 @@ export default function Payment({
           await paymentWidget?.requestPayment({
             orderId: nanoid(),
             orderName,
-            successUrl: `http://localhost:3005/success?order_id=${orderId}`,
+            successUrl: `http://localhost:3005/order/success?order_id=${orderId}`,
             failUrl: `${window.location.origin}/fail`,
           });
         } catch (error) {

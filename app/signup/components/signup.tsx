@@ -80,7 +80,7 @@ export default function Signup() {
     const user_id = getValues("user_id");
 
     axios
-      .post("http://localhost:3005/idDuplicationCheck", { user_id })
+      .post("http://localhost:3005/signup/idDuplicationCheck", { user_id })
       .then(() => {
         setIsIdDuplicationCheck(true);
         alert("사용 가능한 아이디 입니다.");
