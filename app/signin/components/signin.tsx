@@ -1,12 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-
 import * as yup from "yup";
 
 import api from "@/httpClient/auth";
+import { redirectAction } from "./signinActions";
 
 const schema = yup.object().shape({
   user_id: yup.string().required("아이디를 입력해주세요."),
@@ -14,8 +13,6 @@ const schema = yup.object().shape({
 });
 
 export default function Signin() {
-  const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -26,15 +23,12 @@ export default function Signin() {
 
   const onSubmit = (data: { user_id: string; user_password: string }) => {
     api
-      .post("http://localhost:3005/signin", { ...data })
-      .then((res) => {
-        if (res.data.accessToken) {
-          localStorage.setItem("accessToken", res.data.accessToken);
-          router.replace("/");
-        }
+      .post("/signin", { ...data })
+      .then(() => {
+        redirectAction();
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        alert(err.message);
       });
   };
 
