@@ -24,8 +24,6 @@ const fetchData = async (path: string, options: any) => {
       return { cookie };
     }
 
-    console.log(data);
-
     return data;
   } catch (error: any) {
     console.error(
