@@ -3,16 +3,10 @@
 import api from "@/httpClient/auth";
 import { getCookies } from "@/utils/getCookies";
 
-export async function createOrderAction(data: any) {
+export async function createOrderAction(order_item: any) {
   const Cookie = getCookies();
 
-  const response = await api.post(
-    "/order",
-    { order_item: data },
-    { headers: { Cookie } }
-  );
-
-  return response.order_id;
+  return api.post("/order", { order_item }, { headers: { Cookie } });
 }
 
 export async function updateCountAction(count: number, info: any) {

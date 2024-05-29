@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { getTotalPrice } from "@/utils/getTotalPrice";
 
@@ -46,7 +47,9 @@ export default function Cart({ cartData, priceData }: any) {
   ) => {
     if (count === 0) alert("수량이 부족합니다 (최소 1개)");
     else {
-      updateCountAction(count, info).then(() => {
+      try {
+        await updateCountAction(count, info);
+
         const copy = [...cartList];
 
         copy[index] = {
@@ -55,7 +58,9 @@ export default function Cart({ cartData, priceData }: any) {
         };
 
         setCartList(copy);
-      });
+      } catch (err) {
+        tokenExpiredErrorMessage(err);
+      }
     }
   };
 
@@ -82,19 +87,24 @@ export default function Cart({ cartData, priceData }: any) {
 
   // 아이템 삭제 함수
 
-  const itemRemove = async (items: any) => {
+  const itemRemove = async (items: any, setData: any) => {
     const isConfirm = confirm("장바구니에서 제외 하시겠습니까?");
 
-    if (isConfirm) return itemRemoveAction(items);
+    if (isConfirm) {
+      try {
+        await itemRemoveAction(items);
+        setCartList(setData);
+      } catch (err) {
+        tokenExpiredErrorMessage(err);
+      }
+    }
   };
 
   const onClickItemRemove = (index: number) => {
     const items = [{ ...cartList[index].cart_info }];
+    const setData = cartList.filter((val: any, idx: number) => idx !== index);
 
-    itemRemove(items)?.then(() => {
-      const filter = cartList.filter((val: any, idx: number) => idx !== index);
-      setCartList(filter);
-    });
+    itemRemove(items, setData);
   };
 
   const onClickSelectedRemove = () => {
@@ -103,19 +113,21 @@ export default function Cart({ cartData, priceData }: any) {
       return alert("선택한 상품이 없습니다.");
     }
 
-    const unCheckedFilter = cartList.filter((val: any) => !val.isChecked);
+    const setData = cartList.filter((val: any) => !val.isChecked);
     const items = checkedFilter.map((val: any) => {
       return { ...val.cart_info };
     });
 
-    itemRemove(items)?.then(() => {
-      setCartList(unCheckedFilter);
-    });
+    itemRemove(items, setData);
   };
 
   const createOrder = async (data: any) => {
-    const orderId = await createOrderAction(data);
-    router.push(`/order?order_id=${orderId}`);
+    try {
+      const res = await createOrderAction(data);
+      router.push(`/order?order_id=${res.order_id}`);
+    } catch (err) {
+      tokenExpiredErrorMessage(err);
+    }
   };
 
   const onClickProductOrder = (index: number) => {
@@ -135,8 +147,8 @@ export default function Cart({ cartData, priceData }: any) {
   };
 
   useEffect(() => {
-    const priceData = getTotalPrice(cartList);
-    setTotalPrice(priceData);
+    const total = getTotalPrice(cartList);
+    setTotalPrice(total);
   }, [cartList]);
 
   useEffect(() => {
