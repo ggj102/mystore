@@ -10,12 +10,14 @@ async function getServerSideProps() {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
-  const cartData = await api.get("/cart", { headers: { Cookie } });
+  try {
+    const cartData = await api.get("/cart", { headers: { Cookie } });
+    const priceData = getTotalPrice(cartData);
 
-  const priceData = getTotalPrice(cartData);
-
-  if (cartData) return { cartData, priceData };
-  else return redirect("/signin");
+    return { cartData, priceData };
+  } catch (err) {
+    return redirect("/signin");
+  }
 }
 
 export default async function CartPage() {

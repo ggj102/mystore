@@ -12,15 +12,17 @@ async function getServerSideProps({ searchParams }: any) {
 
   const orderId = searchParams.order_id;
 
-  const userData = await api.get("/user", { headers: { Cookie } });
-  const orderItem = await api.get(`/order/orderItem?order_id=${orderId}`, {
-    headers: { Cookie },
-  });
+  try {
+    const userData = await api.get("/user", { headers: { Cookie } });
+    const orderItem = await api.get(`/order/orderItem?order_id=${orderId}`, {
+      headers: { Cookie },
+    });
+    const priceData = getTotalPrice(orderItem);
 
-  const priceData = getTotalPrice(orderItem);
-
-  if (userData) return { userData, orderItem, priceData };
-  else return redirect("/signin");
+    return { userData, orderItem, priceData };
+  } catch (err) {
+    return redirect("/signin");
+  }
 }
 
 export default async function OrderPage(props: any) {
