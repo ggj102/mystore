@@ -26,7 +26,6 @@ export default function RootLayout({
       <html lang="en">
         <body className={inter.className}>
           <Suspense>
-            <Header />
             <MainLayout>{children}</MainLayout>
             <Footer />
           </Suspense>
