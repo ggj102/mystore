@@ -75,9 +75,7 @@ export default function AllProduct({
     router.push(pushPath);
   };
 
-  useEffect(() => {
-    setSort(sort);
-  }, [sort]);
+  useEffect(() => setSort(sort), [sort]);
 
   return (
     <div className={allProductStyle.all_product_container}>
