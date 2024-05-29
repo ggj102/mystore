@@ -7,6 +7,7 @@ import { useInView } from "framer-motion";
 import Select from "react-select";
 import clsx from "clsx";
 
+import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { createOrderAction } from "@/app/cart/components/cartActions";
 import { addCartAction } from "../productDetailActions";
@@ -124,11 +125,14 @@ export default function TopContents({ data }: { data: any }) {
         return { item_id, option_id, count };
       });
 
-      addCartAction(postData).then(() => {
-        createOrderAction(order_item).then((orderId) => {
-          router.push(`/order?order_id=${orderId}`);
-        });
-      });
+      try {
+        await addCartAction(postData);
+        const res = await createOrderAction(order_item);
+
+        router.push(`/order?order_id=${res.order_id}`);
+      } catch (err) {
+        tokenExpiredErrorMessage(err);
+      }
     }
   };
 
@@ -141,12 +145,16 @@ export default function TopContents({ data }: { data: any }) {
         return { item_id, option_id, count };
       });
 
-      addCartAction(postData).then(() => {
+      try {
+        await addCartAction(postData);
+
         const isConfirm = confirm(
           "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
         );
         if (isConfirm) router.push("/cart");
-      });
+      } catch (err) {
+        tokenExpiredErrorMessage(err);
+      }
     }
   };
 
