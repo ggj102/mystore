@@ -1,4 +1,6 @@
-const fetchData = async (url: string, options: any) => {
+const fetchData = async (path: string, options: any) => {
+  const url = `http://localhost:3005${path}`;
+
   try {
     const response = await fetch(url, {
       ...options,
@@ -10,10 +12,20 @@ const fetchData = async (url: string, options: any) => {
     });
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      const errorData = await response.json();
+
+      throw new Error(errorData.message || "Network response was not ok");
     }
 
     const data = await response.json();
+
+    if (data.signin) {
+      const cookie = response.headers.get("set-cookie");
+      return { cookie };
+    }
+
+    console.log(data);
+
     return data;
   } catch (error: any) {
     console.error(
@@ -26,49 +38,43 @@ const fetchData = async (url: string, options: any) => {
 
 const api = {
   get: async (path: string, options: any = {}) => {
-    const url = `http://localhost:3005${path}`;
     const requestOptions = {
       ...options,
       method: "GET",
       headers: { ...options.headers },
     };
 
-    return fetchData(url, requestOptions);
+    return fetchData(path, requestOptions);
   },
 
   post: async (path: string, data: any, options: any = {}) => {
-    const url = `http://localhost:3005${path}`;
     const requestOptions = {
       ...options,
       method: "POST",
       headers: { ...options.headers },
       body: JSON.stringify(data),
     };
-    return fetchData(url, requestOptions);
+    return fetchData(path, requestOptions);
   },
 
   put: async (path: string, data: any, options: any = {}) => {
-    const url = `http://localhost:3005${path}`;
     const requestOptions = {
       ...options,
       method: "PUT",
       headers: { ...options.headers },
       body: JSON.stringify(data),
     };
-    return fetchData(url, requestOptions);
+    return fetchData(path, requestOptions);
   },
 
   delete: async (path: string, data: any, options: any = {}) => {
-    console.log(path, data);
-
-    const url = `http://localhost:3005${path}`;
     const requestOptions = {
       ...options,
       method: "DELETE",
       headers: { ...options.headers },
       body: JSON.stringify(data),
     };
-    return fetchData(url, requestOptions);
+    return fetchData(path, requestOptions);
   },
 };
 
