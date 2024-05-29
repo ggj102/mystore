@@ -7,6 +7,7 @@ import { PaymentWidgetInstance } from "@tosspayments/payment-widget-sdk";
 import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 
+import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { paymentAction } from "./orderActions";
 
@@ -86,24 +87,17 @@ export default function Payment({
       payment_method,
     };
 
-    await paymentAction(orderId, bodyData)
-      .then(async () => {
-        try {
-          // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-          // @docs https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-          await paymentWidget?.requestPayment({
-            orderId: nanoid(),
-            orderName,
-            successUrl: `http://localhost:3005/order/success?order_id=${orderId}`,
-            failUrl: `${window.location.origin}/fail`,
-          });
-        } catch (error) {
-          alert(error);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      await paymentAction(orderId, bodyData);
+      await paymentWidget?.requestPayment({
+        orderId: nanoid(),
+        orderName,
+        successUrl: `http://localhost:3005/order/success?order_id=${orderId}`,
+        failUrl: `${window.location.origin}/fail`,
       });
+    } catch (err) {
+      tokenExpiredErrorMessage(err);
+    }
   };
 
   useEffect(() => {
