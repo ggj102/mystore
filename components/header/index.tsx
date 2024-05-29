@@ -1,20 +1,29 @@
 "use client";
 
-import Navigation from "./navigation";
-import Link from "next/link";
 import { useRef } from "react";
+import Link from "next/link";
+
 import { useInView } from "framer-motion";
 
-import headerStyle from "@styles/components/header.module.scss";
 import useObserver from "@/utils/useObserver";
+import Navigation from "./navigation";
 
-export default function Header() {
+import headerStyle from "@styles/components/header.module.scss";
+import { signoutAction } from "./headerActions";
+import { useRouter } from "next/navigation";
+
+export default function Header({ userData }: any) {
   const targetRef = useRef<HTMLDivElement>(null);
   const { observeWidth } = useObserver(targetRef);
+  const router = useRouter();
 
   const isMedium = observeWidth < 1000;
-
   const isInView = useInView(targetRef);
+
+  const onClickSignout = async () => {
+    signoutAction();
+    router.refresh();
+  };
 
   return (
     <>
@@ -29,10 +38,17 @@ export default function Header() {
             <Link href="/">
               <img src="/images/logo.png" alt="logo" />
             </Link>
-            <div>
-              <Link href="/signin">Sign in</Link>
-              <Link href="/signup">Sign up</Link>
-            </div>
+            {userData ? (
+              <div>
+                <span>{userData.user_name}님</span>
+                <button onClick={onClickSignout}>Sign out</button>
+              </div>
+            ) : (
+              <div>
+                <Link href="/signin">Sign in</Link>
+                <Link href="/signup">Sign up</Link>
+              </div>
+            )}
           </div>
         </div>
         <Navigation />

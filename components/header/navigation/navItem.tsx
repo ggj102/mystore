@@ -12,7 +12,7 @@ function SubNav({ data }: any) {
       {data.map((val: any) => {
         return (
           <li key={val.id} className={navItemStyle.sub_nav}>
-            <Link href="#">
+            <Link href={val.link}>
               {val.name}
               {val.children && <IoIosArrowForward />}
             </Link>
@@ -28,8 +28,8 @@ function SubNav({ data }: any) {
   );
 }
 
-export default function NavItem({ isAddBarOpen, data, ...props }: any) {
-  return isAddBarOpen ? (
+export default function NavItem({ isBarOpen, data, ...props }: any) {
+  return isBarOpen ? (
     <Link href={data.link} {...props}>
       {data.name}
     </Link>

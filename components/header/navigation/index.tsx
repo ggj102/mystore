@@ -1,6 +1,6 @@
 "use client";
 
-import { KeyboardEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import clsx from "clsx";
@@ -35,43 +35,36 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
       children: [
         {
           id: 21,
-          name: "토너",
-          children: [
-            { id: 21, name: "2" },
-            { id: 22, name: "크림" },
-            { id: 23, name: "선케어" },
-            { id: 24, name: "마스크" },
-            { id: 25, name: "클렌징" },
-            {
-              id: 26,
-              name: "55",
-              children: [
-                { id: 21, name: "555" },
-                { id: 22, name: "크림" },
-                { id: 23, name: "선케어" },
-                { id: 24, name: "마스크" },
-                { id: 25, name: "클렌징" },
-                { id: 26, name: "666" },
-              ],
-            },
-          ],
+          name: "클렌징",
+          link: "/allProduct?category=cleansing&page=1",
         },
-        { id: 22, name: "크림" },
-        { id: 23, name: "선케어" },
-        { id: 24, name: "마스크" },
+        {
+          id: 22,
+          name: "부스터/토너",
+          link: "/allProduct?category=booster_toner&page=1",
+        },
+        {
+          id: 23,
+          name: "앰플/에센스",
+          link: "/allProduct?category=ampoule_essence&page=1",
+        },
+        { id: 24, name: "크림", link: "/allProduct?category=cream&page=1" },
         {
           id: 25,
-          name: "클렌징",
-          children: [
-            { id: 21, name: "33" },
-            { id: 22, name: "크림" },
-            { id: 23, name: "선케어" },
-            { id: 24, name: "마스크" },
-            { id: 25, name: "클렌징" },
-            { id: 26, name: "44" },
-          ],
+          name: "팩/마스크",
+          link: "/allProduct?category=pack_mask&page=1",
         },
-        { id: 26, name: "바디" },
+        { id: 26, name: "미스트", link: "/allProduct?category=mist&page=1" },
+        {
+          id: 25,
+          name: "선케어",
+          link: "/allProduct?category=sun_care&page=1",
+        },
+        {
+          id: 26,
+          name: "쿠션/베이스",
+          link: "/allProduct?category=cushion_base&page=1",
+        },
       ],
     },
     { id: 3, name: "타임특가", link: "/timeSaleProduct?page=1" },
@@ -129,7 +122,7 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
                 <NavItem
                   key={val.id}
                   data={val}
-                  isAddBarOpen={isNavOpen || isSearchBarOpen}
+                  isBarOpen={isNavOpen || isSearchBarOpen}
                 />
               );
             })}
