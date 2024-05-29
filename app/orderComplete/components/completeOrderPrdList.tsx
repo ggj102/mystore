@@ -6,8 +6,6 @@ import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module
 import completeOrderPrdListStyle from "@styles/pages/orderComplete/completeOrderPrdList.module.scss";
 
 export default function CompleteOrderPrdList({ list }: any) {
-  console.log(list);
-
   return (
     <div className={orderCompleteStyle.list_container}>
       <h3>주문상품</h3>

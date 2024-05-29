@@ -1,5 +1,25 @@
+import { redirect } from "next/navigation";
+
+import api from "@/httpClient/auth";
+import { getCookies } from "@/utils/getCookies";
+
 import OrderComplete from "./components/orderComplete";
 
-export default function OrderCompletePage() {
-  return <OrderComplete />;
+async function getServerSideProps({ searchParams }: any) {
+  const Cookie = getCookies();
+  if (!Cookie) return redirect("/signin");
+
+  const orderId = searchParams.order_id;
+  const orderCompleteData = await api.get(`/order/?order_id=${orderId}`, {
+    headers: { Cookie },
+  });
+
+  if (orderCompleteData) return { orderCompleteData };
+  else return redirect("/signin");
+}
+
+export default async function OrderCompletePage(props: any) {
+  const { orderCompleteData } = await getServerSideProps(props);
+
+  return <OrderComplete orderCompleteData={orderCompleteData} />;
 }

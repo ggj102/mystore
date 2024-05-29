@@ -1,9 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-
-import axios from "axios";
+import { useRouter } from "next/navigation";
 
 import PaymentResult from "./paymentResult";
 import PaymentMethod from "./paymentMethod";
@@ -13,28 +10,17 @@ import CompletePaymentInfo from "./completePaymentInfo";
 
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
 
-export default function OrderComplete() {
-  const [orderCompleteData, setOrderCompleteData] = useState<any>();
-  const [orderCompleteList, setOrderCompleteList] = useState<any>([]);
-
-  const searchParams = useSearchParams();
+export default function OrderComplete({
+  orderCompleteData,
+}: {
+  orderCompleteData: any;
+}) {
+  const { order, order_item } = orderCompleteData;
   const router = useRouter();
-  const orderId = searchParams.get("order_id");
 
   const onClickShopping = () => {
     router.push("/allProduct?page=1");
   };
-
-  useEffect(() => {
-    if (orderId) {
-      axios
-        .get(`http://localhost:3005/order?order_id=${orderId}`)
-        .then((res) => {
-          setOrderCompleteData(res.data.order);
-          setOrderCompleteList(res.data.order_item);
-        });
-    }
-  }, [searchParams]);
 
   return (
     <div className={orderCompleteStyle.order_complete_container}>
@@ -43,13 +29,13 @@ export default function OrderComplete() {
           <div>MY STORE</div>
           <h3>주문완료</h3>
         </div>
-        <PaymentResult data={orderCompleteData} />
-        <PaymentMethod data={orderCompleteData} />
-        <DeliveryInfo data={orderCompleteData} />
-        <CompleteOrderPrdList list={orderCompleteList} />
+        <PaymentResult data={order} />
+        <PaymentMethod data={order} />
+        <DeliveryInfo data={order} />
+        <CompleteOrderPrdList list={order_item} />
         <CompletePaymentInfo
-          totalPrice={orderCompleteData?.total_payment_price}
-          list={orderCompleteList}
+          totalPrice={order?.total_payment_price}
+          list={order_item}
         />
         <div className={orderCompleteStyle.bottom_btn}>
           <button>주문확인하기</button>
