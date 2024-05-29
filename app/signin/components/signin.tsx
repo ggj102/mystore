@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
-import api from "@/httpClient/auth";
-import { redirectAction } from "./signinActions";
+import { signAction } from "./signinActions";
 
 const schema = yup.object().shape({
   user_id: yup.string().required("아이디를 입력해주세요."),
@@ -21,15 +20,12 @@ export default function Signin() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: { user_id: string; user_password: string }) => {
-    api
-      .post("/signin", { ...data })
-      .then(() => {
-        redirectAction();
-      })
-      .catch((err) => {
-        alert(err.message);
-      });
+  const onSubmit = async (data: { user_id: string; user_password: string }) => {
+    try {
+      await signAction(data);
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
   return (
