@@ -1,12 +1,8 @@
-import productItemStyle from "@styles/components/productItem.module.scss";
 import Link from "next/link";
+import { priceFormatter } from "@/utils/priceFormatter";
+import productItemStyle from "@styles/components/productItem.module.scss";
 
 export default function ProductItem({ data }: any) {
-  const priceFormatter = (price: number) => {
-    const toString = String(price);
-    return toString.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
   return (
     <div className={productItemStyle.product_item_container}>
       <Link href={`/productDetail/${data.id}`}>

@@ -51,7 +51,7 @@ export default function Timesale({ list }: any) {
           </h3>
         </ViewInUp>
         {list.length > 0 && (
-          <Slider className={timesaleStyle.slider} {...settings}>
+          <Slider {...settings}>
             {list.map((val: any, idx: number) => {
               return (
                 <div key={idx} className={timesaleStyle.timesale_item}>
