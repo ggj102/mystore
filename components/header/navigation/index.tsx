@@ -132,7 +132,7 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
           <button onClick={onClickIsSearchBarOpen}>
             <FiSearch size={35} />
           </button>
-          <Link href="">
+          <Link href="/user">
             <FaRegUser size={33} />
           </Link>
           <Link className="cart_link" href="/cart">
