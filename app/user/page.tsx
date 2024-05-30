@@ -18,7 +18,7 @@ async function getServerSideProps() {
   }
 }
 
-export default async function UsertPage() {
+export default async function UserPage() {
   const { homeData, userData } = await getServerSideProps();
 
   return <User userData={userData} homeData={homeData} />;
