@@ -76,6 +76,7 @@ export default function AllProduct({
   };
 
   useEffect(() => setSort(sort), [sort]);
+  useEffect(() => setCurrentCategory(category), [category]);
 
   return (
     <div className={allProductStyle.all_product_container}>
