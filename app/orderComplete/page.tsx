@@ -12,7 +12,7 @@ async function getServerSideProps({ searchParams }: any) {
   const orderId = searchParams.order_id;
 
   try {
-    const orderCompleteData = await api.get(`/order/?order_id=${orderId}`, {
+    const orderCompleteData = await api.get(`/order?order_id=${orderId}`, {
       headers: { Cookie },
     });
 

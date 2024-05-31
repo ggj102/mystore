@@ -4,7 +4,7 @@ import { FaRegUser } from "react-icons/fa";
 import { TbReportMoney } from "react-icons/tb";
 import { BsCart2 } from "react-icons/bs";
 
-import userStyle from "@styles/pages/user.module.scss";
+import userStyle from "@styles/pages/user/user.module.scss";
 
 export default function UserHeader({ userData }: any) {
   return (
@@ -24,12 +24,12 @@ export default function UserHeader({ userData }: any) {
         </div>
       </div>
       <div className={userStyle.order_cart}>
-        <Link href="">
+        <Link href="/user/order">
           <div className={userStyle.icon_wrap}>
             <TbReportMoney size={24} />
           </div>
           <div className="text_wrap">
-            <div>주문배송</div>
+            <div>주문내역</div>
             <span>0</span>
           </div>
         </Link>

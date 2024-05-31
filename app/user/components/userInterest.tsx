@@ -8,7 +8,7 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import useObserver from "@/utils/useObserver";
 
 import { MdArrowForwardIos } from "react-icons/md";
-import userStyle from "@styles/pages/user.module.scss";
+import userStyle from "@styles/pages/user/user.module.scss";
 
 export default function UserInterest({
   targetRef,
