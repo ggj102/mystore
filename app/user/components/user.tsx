@@ -4,7 +4,7 @@ import { useRef } from "react";
 import UserHeader from "./userHeader";
 import UserInterest from "./userInterest";
 
-import userStyle from "@styles/pages/user.module.scss";
+import userStyle from "@styles/pages/user/user.module.scss";
 
 export default function User({ userData, homeData }: any) {
   const targetRef = useRef<any>(null);

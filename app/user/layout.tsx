@@ -1,6 +1,6 @@
 import ViewInUp from "@/components/animation/viewInUp";
 
-import userStyle from "@styles/pages/user.module.scss";
+import userStyle from "@styles/pages/user/user.module.scss";
 
 export default function RootLayout({
   children,
