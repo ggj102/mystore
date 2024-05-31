@@ -6,13 +6,13 @@ export default function DeliveryInfo({ data }: any) {
       <h3>배송지</h3>
       <ul className={orderCompleteStyle.default_list}>
         <li>
-          <span>받는사람</span>
+          <span>수령인</span>
           <div>
             <p>{data?.recipient}</p>
           </div>
         </li>
         <li>
-          <span>주소</span>
+          <span>배송지</span>
           <div>
             <p>{data?.delivery_address}</p>
           </div>
