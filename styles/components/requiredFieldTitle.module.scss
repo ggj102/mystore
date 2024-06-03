@@ -1,0 +1,11 @@
+.required_field_title_container {
+  display: flex;
+  gap: 3px;
+
+  & > div {
+    width: 5px;
+    height: 5px;
+    background-color: red;
+    border-radius: 100%;
+  }
+}
