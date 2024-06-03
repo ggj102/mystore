@@ -20,7 +20,7 @@ export default function DaumPostcode({ setAddress }: any) {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
 
-    setAddress(fullAddress);
+    setAddress(fullAddress, data.zonecode);
   };
 
   const handleClick = () => {
@@ -33,7 +33,7 @@ export default function DaumPostcode({ setAddress }: any) {
       2;
 
     open({
-      popupTitle: "주소 찾기",
+      popupTitle: "주소검색",
       width,
       height,
       top,
