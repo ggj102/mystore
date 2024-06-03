@@ -20,7 +20,7 @@ export default function UserHeader({ userData }: any) {
         </div>
         <div className="setting_wrap">
           <Link href="">개인정보</Link>
-          <Link href="">배송지 관리</Link>
+          <Link href="/user/delivery">배송지 관리</Link>
         </div>
       </div>
       <div className={userStyle.order_cart}>
