@@ -1,66 +1,74 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
 
 import { priceFormatter } from "@/utils/priceFormatter";
-import useObserver from "@/utils/useObserver";
+import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
+import { getRecentlyViewAction } from "./userActions";
 
 import { MdArrowForwardIos } from "react-icons/md";
 import userStyle from "@styles/pages/user/user.module.scss";
 
-export default function UserInterest({
-  targetRef,
-  title,
-  homeData,
-}: {
-  targetRef: any;
-  title: string;
-  homeData: any;
-}) {
-  const { observeWidth } = useObserver(targetRef);
+export default function UserInterest({ title }: { title: string }) {
+  const [listData, setListData] = useState<any>([]);
 
-  const isMedium = observeWidth < 1000;
-  const isSmall = observeWidth < 768;
-  const isMini = observeWidth < 500;
-
-  const sildesSize = () => {
-    let size = 5;
-    if (isMedium) {
-      size = 4;
-    }
-    if (isSmall) {
-      size = 3;
-    }
-    if (isMini) {
-      size = 2;
-    }
-
-    return size;
+  const limitLength = (num: number) => {
+    return listData.length > num ? num : listData.length;
   };
-
-  useEffect(() => {
-    console.log(homeData);
-  }, [homeData]);
 
   const settings = {
-    dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: sildesSize(),
+    slidesToShow: limitLength(5),
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1000,
+        settings: { slidesToShow: limitLength(4) },
+      },
+      {
+        breakpoint: 768,
+        settings: { slidesToShow: limitLength(3) },
+      },
+      {
+        breakpoint: 670,
+        settings: { slidesToShow: limitLength(2) },
+      },
+      {
+        breakpoint: 440,
+        settings: { slidesToShow: 1 },
+      },
+    ],
   };
+
+  async function getData() {
+    try {
+      if (title === "찜한") {
+      } else if (title === "최근 본") {
+        const data = await getRecentlyViewAction();
+
+        setListData(data);
+      }
+    } catch (err) {
+      tokenExpiredErrorMessage(err);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <div className={userStyle.interest_list}>
       <div className="title_wrap">
         <h3>{title} 상품</h3>
-        <span>1</span>
+        <span>{listData.length}</span>
       </div>
       <div className={userStyle.slider_container}>
         <Slider {...settings}>
-          {homeData.newProduct.map((val: any, idx: number) => {
+          {listData.map((val: any, idx: number) => {
             return (
               <div key={idx} className={userStyle.product_item}>
                 <div className={userStyle.product_item_container}>
