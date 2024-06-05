@@ -1,13 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Controller } from "react-hook-form";
 import Select, { StylesConfig } from "react-select";
 
 import deliveryMessageStyle from "@styles/components/deliveryMessage.module.scss";
 
-export default function DeliveryMessage({ setDeliveryMessage }: any) {
+export default function DeliveryMessage({
+  messageIndex,
+  control,
+  setValue,
+}: any) {
   const [isMessageInput, setIsMessageInput] = useState<boolean>(false);
-
   const options = [
     { value: "0", label: "-- 메시지 선택 (선택사항) --" },
     { value: "1", label: "배송 전에 미리 연락바랍니다." },
@@ -30,26 +34,51 @@ export default function DeliveryMessage({ setDeliveryMessage }: any) {
     }),
   };
 
-  const onChangeOption = (e: any) => {
-    if (e.value === "6") {
-      return setIsMessageInput(true);
-    } else setIsMessageInput(false);
-    if (e.value === "0") return setDeliveryMessage("");
+  const onChangeSelect = (option: any) => {
+    if (option.value === "6") {
+      setIsMessageInput(true);
+    } else {
+      setIsMessageInput(false);
+      setValue("direct_message", "");
+    }
 
-    setDeliveryMessage(e.label);
+    setValue("message_index", option);
   };
+
+  useEffect(() => {
+    if (messageIndex) {
+      const index = Number(messageIndex);
+      if (index === 6) setIsMessageInput(true);
+
+      setValue("message_index", options[index]);
+    } else setValue("message_index", options[0]);
+  }, [messageIndex]);
 
   return (
     <div className={deliveryMessageStyle.delivery_message_container}>
-      <Select
-        styles={customStyles}
-        isSearchable={false}
-        defaultValue={options[0]}
-        options={options}
-        onChange={onChangeOption}
+      <Controller
+        name="message_index"
+        control={control}
+        defaultValue=""
+        render={({ field: { value } }: any) => (
+          <Select
+            styles={customStyles}
+            isSearchable={false}
+            value={value || options[0]}
+            options={options}
+            onChange={onChangeSelect}
+          />
+        )}
       />
       {isMessageInput && (
-        <textarea onChange={(e) => setDeliveryMessage(e.target.value)} />
+        <Controller
+          name="direct_message"
+          control={control}
+          defaultValue=""
+          render={({ field: { value, onChange } }: any) => (
+            <textarea value={value} onChange={onChange} />
+          )}
+        />
       )}
     </div>
   );
