@@ -1,9 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
+
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { deliveryFormYupSchema } from "./yupSchema";
+import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
+import { addSubmitAction, editSubmitAction } from "./deliveryActions";
 
 import RequiredFieldTitle from "@/components/requiredFieldTitle";
 import AddressField from "@/components/addressField";
@@ -12,12 +15,10 @@ import DeliveryMessage from "@/components/deliveryMessage";
 
 import { IoMdCheckmark } from "react-icons/io";
 import commonDeliveryFormStyle from "@styles/pages/user/userDelivery/commonDeliveryForm.module.scss";
-import { submitAction } from "./deliveryActions";
-import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
-import { useRouter } from "next/navigation";
 
-export default function CommonDeliveryForm() {
+export default function CommonDeliveryForm({ data }: any) {
   const {
+    control,
     register,
     handleSubmit,
     trigger,
@@ -27,53 +28,64 @@ export default function CommonDeliveryForm() {
     resolver: yupResolver(deliveryFormYupSchema),
   });
 
-  const router = useRouter();
-
-  const [deliveryMessage, setDeliveryMessage] = useState<string>("");
-  const [isDefault, setIsDefault] = useState<boolean>(false);
-
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (formData: any) => {
     if (!isValid) return;
 
-    const { recipient, detail_address } = data;
-    const { full_address, zone_code } = data.address;
-    const { first, middle, last } = data.phone;
+    let isConfirm = true;
 
-    const phone = `${first}${middle}${last}`;
+    if (!formData.detail_address) {
+      isConfirm = confirm("상세주소를 입력하지 않았습니다.\n진행하시겠습니까?");
+    }
+
+    if (!isConfirm) return;
+
+    const phone_prefix = formData.phone_prefix.value;
+    const message_index = formData.message_index.value;
 
     const submitData = {
-      is_default: isDefault,
-      recipient,
-      phone,
-      zone_code,
-      address: full_address,
-      detail_address,
-      message: deliveryMessage,
+      ...formData,
+
+      phone_prefix,
+      message_index,
+      direct_message: formData.direct_message || "",
     };
 
     try {
-      await submitAction(submitData);
-
-      router.push("/user/delivery");
+      if (data) await editSubmitAction(data.id, submitData);
+      else await addSubmitAction(submitData);
     } catch (err) {
       tokenExpiredErrorMessage(err);
     }
   };
 
-  const setPhoneNumber = (first: string, middle: string, last: string) => {
-    setValue("phone", { first, middle, last });
-    trigger("phone");
+  const initEditData = () => {
+    setValue("recipient", data.recipient);
+    setValue("address", data.address);
+    setValue("zone_code", data.zone_code);
+    setValue("detail_address", data.detail_address);
+    setValue("phone_start", data.phone_start);
+    setValue("phone_end", data.phone_end);
+    setValue("direct_message", data.direct_message || "");
+    setValue("is_default", data.is_default);
+
+    trigger();
   };
 
-  const setAddress = (full_address: string, zone_code: string) => {
-    setValue("address", { full_address, zone_code });
-    trigger("address");
+  const setAddress = (address: string, zone_code: string) => {
+    setValue("address", address);
+    setValue("zone_code", zone_code);
+    trigger();
   };
 
   const onChangeReset = () => {
-    setValue("address", { full_address: "", zone_code: "" });
-    trigger("address");
+    setValue("address", "");
+    setValue("zone_code", "");
+    trigger();
   };
+
+  useEffect(() => {
+    if (data) initEditData();
+  }, [data]);
 
   return (
     <div className={commonDeliveryFormStyle.user_commonDeliveryForm_container}>
@@ -94,28 +106,37 @@ export default function CommonDeliveryForm() {
           </div>
           <div className="field">
             <RequiredFieldTitle title="연락처" />
-            <PhoneField setPhoneNumber={setPhoneNumber} />
+            <PhoneField
+              prefix={data?.phone_prefix}
+              control={control}
+              setValue={setValue}
+            />
           </div>
           <div className="field">
             <div>배송요청</div>
-            <DeliveryMessage setDeliveryMessage={setDeliveryMessage} />
+            <DeliveryMessage
+              messageIndex={data?.message_index}
+              control={control}
+              setValue={setValue}
+            />
           </div>
-          <div className={commonDeliveryFormStyle.is_default}>
-            <label htmlFor="isDefault">
-              <input
-                type="checkbox"
-                id="isDefault"
-                checked={isDefault}
-                onChange={(e) => setIsDefault(e.target.checked)}
-              />
-              <div>
-                <IoMdCheckmark />
-              </div>
-              <span>기본 배송지로 설정</span>
-            </label>
-          </div>
+          {!data?.is_default && (
+            <div className={commonDeliveryFormStyle.is_default}>
+              <label htmlFor="isDefault">
+                <input
+                  type="checkbox"
+                  id="isDefault"
+                  {...register("is_default")}
+                />
+                <div>
+                  <IoMdCheckmark />
+                </div>
+                <span>기본 배송지로 설정</span>
+              </label>
+            </div>
+          )}
           <button type="submit" disabled={!isValid}>
-            등록
+            {data ? "수정" : "등록"}
           </button>
         </form>
       </div>
