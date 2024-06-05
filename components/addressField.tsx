@@ -14,7 +14,7 @@ export default function AddressField({
           className="disabled"
           placeholder="우편번호"
           disabled
-          {...register("address.zone_code")}
+          {...register("zone_code")}
           onChange={onChangeReset}
         />
         <DaumPostcode setAddress={setAddress} />
@@ -23,7 +23,7 @@ export default function AddressField({
         className="disabled"
         placeholder="주소"
         disabled
-        {...register("address.full_address")}
+        {...register("address")}
         onChange={onChangeReset}
       />
       <input placeholder="상세주소 입력" {...register("detail_address")} />
