@@ -1,24 +1,17 @@
 "use client";
-import { useRef } from "react";
 
 import UserHeader from "./userHeader";
 import UserInterest from "./userInterest";
 
 import userStyle from "@styles/pages/user/user.module.scss";
 
-export default function User({ userData, homeData }: any) {
-  const targetRef = useRef<any>(null);
-
+export default function User({ userData }: any) {
   return (
-    <div ref={targetRef} className={userStyle.user_container}>
+    <div className={userStyle.user_container}>
       <div>
-        <UserHeader userData={userData} />
-        <UserInterest targetRef={targetRef} title="찜한" homeData={homeData} />
-        <UserInterest
-          targetRef={targetRef}
-          title="최근 본"
-          homeData={homeData}
-        />
+        <UserHeader data={userData} />
+        {/* <UserInterest targetRef={targetRef} title="찜한" data={homeData} /> */}
+        <UserInterest title="최근 본" />
       </div>
     </div>
   );
