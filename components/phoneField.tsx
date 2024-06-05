@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
+import { useEffect } from "react";
+import { Controller } from "react-hook-form";
 import Select, { StylesConfig } from "react-select";
 
 import phoneFieldStyle from "@styles/components/phoneField.module.scss";
 
-export default function PhoneField({ setPhoneNumber }: any) {
+export default function PhoneField({ prefix, control, setValue }: any) {
   const options = [
     { value: "010", label: "010" },
     { value: "011", label: "011" },
@@ -45,10 +46,6 @@ export default function PhoneField({ setPhoneNumber }: any) {
     { value: "059", label: "059" },
   ];
 
-  const [selectNumber, setSelectNumber] = useState<string>(options[0].label);
-  const [middleNumber, setMiddleNumber] = useState<string>("");
-  const [lastNumber, setLastNumber] = useState<string>("");
-
   const customStyles: StylesConfig<any, false> = {
     control: (provided) => ({
       ...provided,
@@ -58,40 +55,63 @@ export default function PhoneField({ setPhoneNumber }: any) {
     }),
   };
 
-  const onChangeNumber = (e: any, type?: string) => {
+  const onChangeNumber = (e: any, field?: string) => {
     const numberRegex = /^[0-9]*$/;
     const isValid = numberRegex.test(e.target.value);
 
     if (!isValid) return;
 
-    if (type === "middle") {
-      setMiddleNumber(e.target.value);
-      setPhoneNumber(selectNumber, e.target.value, lastNumber);
-    } else {
-      setLastNumber(e.target.value);
-      setPhoneNumber(selectNumber, middleNumber, e.target.value);
-    }
+    setValue(`${field}`, e.target.value, {
+      shouldValidate: true,
+    });
   };
+
+  useEffect(() => {
+    if (prefix) {
+      setValue("phone_prefix", { value: `${prefix}`, label: `${prefix}` });
+    } else setValue("phone_prefix", options[0]);
+  }, [prefix]);
 
   return (
     <div className={phoneFieldStyle.phone_field_container}>
-      <Select
-        styles={customStyles}
-        isSearchable={false}
-        defaultValue={options[0]}
-        onChange={(e) => setSelectNumber(e.label)}
-        options={options}
+      <Controller
+        name="phone_prefix"
+        control={control}
+        defaultValue=""
+        render={({ field: { value, onChange } }: any) => (
+          <Select
+            styles={customStyles}
+            isSearchable={false}
+            value={value || options[0]}
+            onChange={onChange}
+            options={options}
+          />
+        )}
       />
-      <input
-        maxLength={4}
-        value={middleNumber}
-        onChange={(e) => onChangeNumber(e, "middle")}
+      <Controller
+        name="phone_start"
+        control={control}
+        defaultValue=""
+        render={({ field: { value } }: any) => (
+          <input
+            maxLength={4}
+            value={value}
+            onChange={(e) => onChangeNumber(e, "phone_start")}
+          />
+        )}
       />
       -
-      <input
-        maxLength={4}
-        value={lastNumber}
-        onChange={(e) => onChangeNumber(e)}
+      <Controller
+        name="phone_end"
+        control={control}
+        defaultValue=""
+        render={({ field: { value } }: any) => (
+          <input
+            maxLength={4}
+            value={value}
+            onChange={(e) => onChangeNumber(e, "phone_end")}
+          />
+        )}
       />
     </div>
   );
