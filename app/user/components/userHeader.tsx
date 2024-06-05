@@ -6,7 +6,7 @@ import { BsCart2 } from "react-icons/bs";
 
 import userStyle from "@styles/pages/user/user.module.scss";
 
-export default function UserHeader({ userData }: any) {
+export default function UserHeader({ data }: any) {
   return (
     <div className={userStyle.user_header}>
       <div className={userStyle.user_setting}>
@@ -15,7 +15,7 @@ export default function UserHeader({ userData }: any) {
             <FaRegUser size={33} />
           </div>
           <div>
-            <span>{userData.user_name}</span>님
+            <span>{data.user_name}</span>님
           </div>
         </div>
         <div className="setting_wrap">
@@ -30,7 +30,7 @@ export default function UserHeader({ userData }: any) {
           </div>
           <div className="text_wrap">
             <div>주문내역</div>
-            <span>0</span>
+            <span>{data.order_count}</span>
           </div>
         </Link>
         <Link href="/cart">
@@ -39,7 +39,7 @@ export default function UserHeader({ userData }: any) {
           </div>
           <div className="text_wrap">
             <div>장바구니</div>
-            <span>0</span>
+            <span>{data.cart_count}</span>
           </div>
         </Link>
       </div>

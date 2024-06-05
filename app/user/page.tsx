@@ -10,16 +10,16 @@ async function getServerSideProps() {
   if (!Cookie) return redirect("/signin");
 
   try {
-    const userData = await api.get("/user", { headers: { Cookie } });
-    const homeData = await api.get("/home");
-    return { homeData, userData };
+    const userData = await api.get("/user/myPage", { headers: { Cookie } });
+
+    return { userData };
   } catch (err) {
     return redirect("/signin");
   }
 }
 
 export default async function UserPage() {
-  const { homeData, userData } = await getServerSideProps();
+  const { userData } = await getServerSideProps();
 
-  return <User userData={userData} homeData={homeData} />;
+  return <User userData={userData} />;
 }
