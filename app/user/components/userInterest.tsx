@@ -21,24 +21,20 @@ export default function UserInterest({ title }: { title: string }) {
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: limitLength(5),
+    slidesToShow: limitLength(4),
     slidesToScroll: 1,
     responsive: [
       {
         breakpoint: 1000,
-        settings: { slidesToShow: limitLength(4) },
-      },
-      {
-        breakpoint: 768,
         settings: { slidesToShow: limitLength(3) },
       },
       {
-        breakpoint: 670,
+        breakpoint: 768,
         settings: { slidesToShow: limitLength(2) },
       },
       {
-        breakpoint: 440,
-        settings: { slidesToShow: 1 },
+        breakpoint: 500,
+        settings: { slidesToShow: limitLength(1) },
       },
     ],
   };
