@@ -20,28 +20,28 @@ export default function Order({ userData, orderItem, priceData }: any) {
     delivery: number;
   }>(priceData);
 
-  const onClickItemRemove = async (index: number) => {
-    const isConfirm = confirm("주문에서 제외 하시겠습니까?");
+  // const onClickItemRemove = async (index: number) => {
+  //   const isConfirm = confirm("주문에서 제외 하시겠습니까?");
 
-    if (isConfirm) {
-      const { id, order_id, product_option } = orderItem[index];
+  //   if (isConfirm) {
+  //     const { id, order_id, product_option } = orderItem[index];
 
-      const item = {
-        order_id,
-        item_id: id,
-        option_id: product_option.option_id,
-      };
+  //     const item = {
+  //       order_id,
+  //       item_id: id,
+  //       option_id: product_option.option_id,
+  //     };
 
-      try {
-        await itemRemoveAction(item);
+  //     try {
+  //       await itemRemoveAction(item);
 
-        const list = orderItem.filter((val: any, idx: number) => idx !== index);
-        setOrderList(list);
-      } catch (err) {
-        tokenExpiredErrorMessage(err);
-      }
-    }
-  };
+  //       const list = orderItem.filter((val: any, idx: number) => idx !== index);
+  //       setOrderList(list);
+  //     } catch (err) {
+  //       tokenExpiredErrorMessage(err);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     const total = getTotalPrice(orderList);
@@ -63,7 +63,7 @@ export default function Order({ userData, orderItem, priceData }: any) {
           orderList={orderList}
           orderItem={orderItem}
           deliveryPrice={totalPrice.delivery}
-          onClickItemRemove={onClickItemRemove}
+          // onClickItemRemove={onClickItemRemove}
         />
         <PaymentInfo totalPrice={totalPrice} />
         <Payment
