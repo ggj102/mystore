@@ -47,6 +47,7 @@ export default function CommonDeliveryForm({ data }: any) {
 
       phone_prefix,
       message_index,
+      name: formData.name || "",
       direct_message: formData.direct_message || "",
     };
 
@@ -92,6 +93,10 @@ export default function CommonDeliveryForm({ data }: any) {
       <div>
         <strong>배송지 등록</strong>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="field">
+            <div>배송지명</div>
+            <input placeholder="배송지명" {...register("name")} />
+          </div>
           <div className="field">
             <RequiredFieldTitle title="수령인" />
             <input placeholder="이름" {...register("recipient")} />

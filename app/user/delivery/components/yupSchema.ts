@@ -1,6 +1,7 @@
 import * as yup from "yup";
 
 export const deliveryFormYupSchema = yup.object().shape({
+  name: yup.string(),
   recipient: yup.string().required(),
   address: yup.string().required(),
   zone_code: yup.string().required(),

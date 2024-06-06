@@ -46,6 +46,7 @@ export default function UserDelivery({ data }: any) {
                   <div>
                     <div className={userDeliveryStyle.recipient}>
                       <p>{val.recipient}</p>
+                      <p>({val.name || val.recipient})</p>
                       {val.is_default && <div>기본배송지</div>}
                     </div>
                     <div className={userDeliveryStyle.delete_and_edit}>
