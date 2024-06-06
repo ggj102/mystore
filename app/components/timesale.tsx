@@ -1,9 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-
 import Slider from "react-slick";
-import useObserver from "@/utils/useObserver";
+
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
 import Timer from "@/components/timer";
@@ -11,38 +9,34 @@ import Timer from "@/components/timer";
 import timesaleStyle from "@styles/pages/home/timesale.module.scss";
 
 export default function Timesale({ list }: any) {
-  const targetRef = useRef<any>(null);
-  const { observeWidth } = useObserver(targetRef);
-
-  const isMedium = observeWidth < 1000;
-  const isSmall = observeWidth < 768;
-  const isMini = observeWidth < 500;
-
-  const sildesSize = () => {
-    let size = 4;
-    if (isMedium) {
-      size = 3;
-    }
-    if (isSmall) {
-      size = 2;
-    }
-    if (isMini) {
-      size = 1;
-    }
-
-    return size;
+  const limitLength = (num: number) => {
+    return list.length > num ? num : list.length;
   };
 
   const settings = {
     dots: true,
     infinite: false,
     speed: 500,
-    slidesToShow: sildesSize(),
+    slidesToShow: limitLength(4),
     slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1000,
+        settings: { slidesToShow: limitLength(3) },
+      },
+      {
+        breakpoint: 768,
+        settings: { slidesToShow: limitLength(2) },
+      },
+      {
+        breakpoint: 500,
+        settings: { slidesToShow: limitLength(1) },
+      },
+    ],
   };
 
   return (
-    <div ref={targetRef} className={timesaleStyle.timesale_container}>
+    <div className={timesaleStyle.timesale_container}>
       <div className="site_wrap">
         <ViewInUp once={true}>
           <h3>
