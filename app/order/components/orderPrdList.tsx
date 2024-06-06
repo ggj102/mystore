@@ -6,19 +6,19 @@ import { priceFormatter } from "@/utils/priceFormatter";
 
 import FoldContainer from "./foldContainer";
 
-import { ImCross } from "react-icons/im";
+// import { ImCross } from "react-icons/im";
 import orderPrdListStyle from "@styles/pages/order/orderPrdList.module.scss";
 
 export default function OrderPrdList({
   orderList,
   orderItem,
   deliveryPrice,
-  onClickItemRemove,
-}: {
+}: // onClickItemRemove,
+{
   orderList: any;
   orderItem: any;
   deliveryPrice: number;
-  onClickItemRemove: any;
+  // onClickItemRemove: any;
 }) {
   const totalPrdCount = orderItem.reduce((acc: number, val: any) => {
     const count = val.cart_info.count;
@@ -54,9 +54,9 @@ export default function OrderPrdList({
                     </div>
                     <div>{price}원</div>
                   </div>
-                  <button onClick={() => onClickItemRemove(idx)}>
+                  {/* <button onClick={() => onClickItemRemove(idx)}>
                     <ImCross />
-                  </button>
+                  </button> */}
                 </div>
               </li>
             );
