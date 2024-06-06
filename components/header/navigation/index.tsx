@@ -56,12 +56,12 @@ export default function Navigation({ isSticky }: { isSticky?: boolean }) {
         },
         { id: 26, name: "미스트", link: "/allProduct?category=mist&page=1" },
         {
-          id: 25,
+          id: 27,
           name: "선케어",
           link: "/allProduct?category=sun_care&page=1",
         },
         {
-          id: 26,
+          id: 28,
           name: "쿠션/베이스",
           link: "/allProduct?category=cushion_base&page=1",
         },
