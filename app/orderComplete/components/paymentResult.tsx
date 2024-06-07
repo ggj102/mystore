@@ -1,3 +1,4 @@
+import { dateFormatter } from "@/utils/dateFormatter";
 import { priceFormatter } from "@/utils/priceFormatter";
 
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
@@ -14,12 +15,16 @@ export default function PaymentResult({ data }: any) {
       </div>
       <div className="payment_result_info">
         <div>
-          주문코드
-          <span>{data?.payment_key}</span>
+          결제일
+          <span>{dateFormatter(data?.updated_at)}</span>
         </div>
         <div>
           결제금액
           <span>{priceFormatter(data?.total_payment_price)}원</span>
+        </div>
+        <div>
+          주문코드
+          <span>{data?.payment_key}</span>
         </div>
       </div>
     </div>
