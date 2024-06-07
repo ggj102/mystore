@@ -23,10 +23,10 @@ export default function AddressField({ control, setValue }: any) {
           defaultValue=""
           render={({ field: { value } }: any) => (
             <input
-              className="disabled"
+              className="read_only"
               placeholder="우편번호"
               value={value}
-              disabled
+              readOnly
               onChange={onChangeReset}
             />
           )}
@@ -39,9 +39,9 @@ export default function AddressField({ control, setValue }: any) {
         defaultValue=""
         render={({ field: { value } }: any) => (
           <input
-            className="disabled"
+            className="read_only"
             placeholder="주소"
-            disabled
+            readOnly
             value={value}
             onChange={onChangeReset}
           />

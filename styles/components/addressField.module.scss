@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: 10px;
 
-  :global(.disabled) {
+  :global(.read_only) {
     color: #767678;
     box-sizing: border-box;
 
