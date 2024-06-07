@@ -20,13 +20,31 @@ export default function CommonDeliveryForm({ data }: any) {
   const {
     control,
     register,
+    reset,
     handleSubmit,
-    trigger,
     setValue,
     formState: { isValid },
   } = useForm({
     resolver: yupResolver(deliveryFormYupSchema),
+    defaultValues: {
+      phone_prefix: { value: "010", label: "010" },
+    },
   });
+
+  const initEditData = () => {
+    reset({
+      name: data.name || "",
+      recipient: data.recipient,
+      address: data.address,
+      zone_code: data.zone_code,
+      detail_address: data.detail_address,
+      phone_prefix: { value: data.phone_prefix, label: data.phone_prefix },
+      phone_start: data.phone_start,
+      phone_end: data.phone_end,
+      direct_message: data.direct_message || "",
+      is_default: data.is_default,
+    });
+  };
 
   const onSubmit = async (formData: any) => {
     if (!isValid) return;
@@ -39,14 +57,9 @@ export default function CommonDeliveryForm({ data }: any) {
 
     if (!isConfirm) return;
 
-    const phone_prefix = formData.phone_prefix.value;
-    const message_index = formData.message_index.value;
-
     const submitData = {
       ...formData,
-
-      phone_prefix,
-      message_index,
+      phone_prefix: formData.phone_prefix.value,
       name: formData.name || "",
       direct_message: formData.direct_message || "",
     };
@@ -57,31 +70,6 @@ export default function CommonDeliveryForm({ data }: any) {
     } catch (err) {
       tokenExpiredErrorMessage(err);
     }
-  };
-
-  const initEditData = () => {
-    setValue("recipient", data.recipient);
-    setValue("address", data.address);
-    setValue("zone_code", data.zone_code);
-    setValue("detail_address", data.detail_address);
-    setValue("phone_start", data.phone_start);
-    setValue("phone_end", data.phone_end);
-    setValue("direct_message", data.direct_message || "");
-    setValue("is_default", data.is_default);
-
-    trigger();
-  };
-
-  const setAddress = (address: string, zone_code: string) => {
-    setValue("address", address);
-    setValue("zone_code", zone_code);
-    trigger();
-  };
-
-  const onChangeReset = () => {
-    setValue("address", "");
-    setValue("zone_code", "");
-    trigger();
   };
 
   useEffect(() => {
@@ -103,27 +91,15 @@ export default function CommonDeliveryForm({ data }: any) {
           </div>
           <div className="field ">
             <RequiredFieldTitle title="배송지" />
-            <AddressField
-              register={register}
-              setAddress={setAddress}
-              onChangeReset={onChangeReset}
-            />
+            <AddressField control={control} setValue={setValue} />
           </div>
           <div className="field">
             <RequiredFieldTitle title="연락처" />
-            <PhoneField
-              prefix={data?.phone_prefix}
-              control={control}
-              setValue={setValue}
-            />
+            <PhoneField control={control} setValue={setValue} />
           </div>
           <div className="field">
             <div>배송요청</div>
-            <DeliveryMessage
-              messageIndex={data?.message_index}
-              control={control}
-              setValue={setValue}
-            />
+            <DeliveryMessage control={control} setValue={setValue} />
           </div>
           {!data?.is_default && (
             <div className={commonDeliveryFormStyle.is_default}>
