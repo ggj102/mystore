@@ -1,11 +1,11 @@
 "use client";
-import { useEffect } from "react";
+
 import { Controller } from "react-hook-form";
 import Select, { StylesConfig } from "react-select";
 
 import phoneFieldStyle from "@styles/components/phoneField.module.scss";
 
-export default function PhoneField({ prefix, control, setValue }: any) {
+export default function PhoneField({ control, setValue }: any) {
   const options = [
     { value: "010", label: "010" },
     { value: "011", label: "011" },
@@ -66,12 +66,6 @@ export default function PhoneField({ prefix, control, setValue }: any) {
     });
   };
 
-  useEffect(() => {
-    if (prefix) {
-      setValue("phone_prefix", { value: `${prefix}`, label: `${prefix}` });
-    } else setValue("phone_prefix", options[0]);
-  }, [prefix]);
-
   return (
     <div className={phoneFieldStyle.phone_field_container}>
       <Controller
@@ -82,7 +76,7 @@ export default function PhoneField({ prefix, control, setValue }: any) {
           <Select
             styles={customStyles}
             isSearchable={false}
-            value={value || options[0]}
+            value={value}
             onChange={onChange}
             options={options}
           />
