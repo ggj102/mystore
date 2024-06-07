@@ -10,12 +10,10 @@ import FoldContainer from "./foldContainer";
 import orderPrdListStyle from "@styles/pages/order/orderPrdList.module.scss";
 
 export default function OrderPrdList({
-  orderList,
   orderItem,
   deliveryPrice,
 }: // onClickItemRemove,
 {
-  orderList: any;
   orderItem: any;
   deliveryPrice: number;
   // onClickItemRemove: any;
@@ -32,7 +30,7 @@ export default function OrderPrdList({
           총 수량: <strong>{totalPrdCount}</strong>개
         </div>
         <ul>
-          {orderList.map((val: any, idx: number) => {
+          {orderItem.map((val: any, idx: number) => {
             const { name, image_path } = val;
             const { option_price } = val.product_option;
 
