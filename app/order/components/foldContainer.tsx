@@ -18,7 +18,7 @@ export default function FoldContainer({
     <div className={orderStyle.fold_container}>
       <div className={clsx({ is_fold: isFold })}>
         <div className="title_bar">
-          <button onClick={() => setIsFold(!isFold)}>
+          <button type="button" onClick={() => setIsFold(!isFold)}>
             <h3>{title}</h3>
             <IoIosArrowUp
               className={orderStyle.arrow_up_icon}
