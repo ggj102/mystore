@@ -1,6 +1,5 @@
 "use client";
-
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import PaymentResult from "./paymentResult";
 import PaymentMethod from "./paymentMethod";
@@ -16,11 +15,6 @@ export default function OrderComplete({
   orderCompleteData: any;
 }) {
   const { order, order_item } = orderCompleteData;
-  const router = useRouter();
-
-  const onClickShopping = () => {
-    router.push("/allProduct?page=1");
-  };
 
   return (
     <div className={orderCompleteStyle.order_complete_container}>
@@ -37,9 +31,9 @@ export default function OrderComplete({
           totalPrice={order?.total_payment_price}
           list={order_item}
         />
-        <div className={orderCompleteStyle.bottom_btn}>
-          <button>주문확인하기</button>
-          <button onClick={onClickShopping}>쇼핑계속하기</button>
+        <div className={orderCompleteStyle.bottom_link}>
+          <Link href="/user/order">주문확인하기</Link>
+          <Link href="/allProduct?page=1">쇼핑계속하기</Link>
         </div>
       </div>
     </div>

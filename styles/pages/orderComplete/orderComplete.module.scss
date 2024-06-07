@@ -117,7 +117,7 @@
   }
 }
 
-.bottom_btn {
+.bottom_link {
   padding: 14px;
   box-sizing: border-box;
   width: 100%;
@@ -126,7 +126,7 @@
   justify-content: space-between;
   gap: 10px;
 
-  button {
+  a {
     all: unset;
     cursor: pointer;
     font-size: 18px;
@@ -138,10 +138,10 @@
     height: 48px;
   }
 
-  button:first-of-type {
+  a:first-of-type {
     border: 1px solid #d5d5d5;
   }
-  button:last-of-type {
+  a:last-of-type {
     background-color: #222;
     color: #fff;
   }
