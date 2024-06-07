@@ -1,5 +1,5 @@
 .order_container {
-  & > div {
+  form {
     margin: 0 auto;
     position: relative;
 
@@ -104,5 +104,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    &:disabled {
+      background-color: #dcdee0;
+      cursor: not-allowed;
+    }
   }
 }
