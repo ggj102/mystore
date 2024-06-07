@@ -3,8 +3,8 @@ import FoldContainer from "./foldContainer";
 
 import paymentInfoStyle from "@styles/pages/order/paymentInfo.module.scss";
 
-export default function PaymentInfo({ totalPrice }: { totalPrice: any }) {
-  const { price, delivery } = totalPrice;
+export default function PaymentInfo({ priceData }: { priceData: any }) {
+  const { price, delivery } = priceData;
 
   return (
     <FoldContainer title="결제정보">
