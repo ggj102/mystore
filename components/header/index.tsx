@@ -2,15 +2,15 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 import { useInView } from "framer-motion";
 
 import useObserver from "@/utils/useObserver";
+import { signoutAction } from "./headerActions";
+
 import Navigation from "./navigation";
 
 import headerStyle from "@styles/components/header.module.scss";
-import { signoutAction } from "./headerActions";
-import { useRouter } from "next/navigation";
 
 export default function Header({ userData }: any) {
   const targetRef = useRef<HTMLDivElement>(null);
