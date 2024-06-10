@@ -6,21 +6,19 @@ import * as yup from "yup";
 
 import { signAction } from "./signinActions";
 
+import signinStyle from "@styles/pages/signin.module.scss";
+
 const schema = yup.object().shape({
-  user_id: yup.string().required("아이디를 입력해주세요."),
-  user_password: yup.string().required("비밀번호를 입력해주세요."),
+  user_id: yup.string().required(),
+  password: yup.string().required(),
 });
 
 export default function Signin() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit } = useForm({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (data: { user_id: string; user_password: string }) => {
+  const onSubmit = async (data: { user_id: string; password: string }) => {
     try {
       await signAction(data);
     } catch (err: any) {
@@ -29,18 +27,25 @@ export default function Signin() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <span>아이디</span>
-        <input {...register("user_id")} />
-        {errors.user_id && <p>{errors.user_id.message}</p>}
+    <div className={signinStyle.signin_container}>
+      <div className="site_wrap">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <h3>로그인</h3>
+            <div className="field">
+              <span>아이디</span>
+              <input {...register("user_id")} />
+            </div>
+            <div className="field">
+              <span>비밀번호</span>
+              <input {...register("password")} />
+            </div>
+            <button className={signinStyle.submit_btn} type="submit">
+              로그인
+            </button>
+          </div>
+        </form>
       </div>
-      <div>
-        <span>비밀번호</span>
-        <input {...register("user_password")} />
-        {errors.user_password && <p>{errors.user_password.message}</p>}
-      </div>
-      <button type="submit">로그인</button>
-    </form>
+    </div>
   );
 }
