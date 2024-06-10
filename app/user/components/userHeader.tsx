@@ -15,7 +15,7 @@ export default function UserHeader({ data }: any) {
             <FaRegUser size={33} />
           </div>
           <div>
-            <span>{data.user_name}</span>님
+            <span>{data.name}</span>님
           </div>
         </div>
         <div className="setting_wrap">
