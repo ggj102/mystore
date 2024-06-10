@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import Slider from "react-slick";
 import ViewInUp from "@/components/animation/viewInUp";
 
@@ -33,13 +35,13 @@ export default function EventBanner() {
     centerMode: true,
     infinite: true,
     speed: 500,
-    autoplay: false,
+    autoplay: true,
     centerPadding: "40%",
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
 
-  const test = [0, 1, 2];
+  const dummy = [0, 1, 2];
 
   return (
     <div className={eventBannerStyle.event_banner_container}>
@@ -52,15 +54,19 @@ export default function EventBanner() {
         </ViewInUp>
       </div>
       <Slider className={eventBannerStyle.slider} {...settings}>
-        {test.map((val) => {
+        {dummy.map((val, idx) => {
           return (
-            <div key={val} className={eventBannerStyle.slider_item}>
+            <Link
+              href={`/productDetail/9${idx}`}
+              key={val}
+              className={eventBannerStyle.slider_item}
+            >
               <img
                 width="100%"
                 src={`/images/test/eventbanner${val}.jpg`}
                 alt="item"
               />
-            </div>
+            </Link>
           );
         })}
       </Slider>

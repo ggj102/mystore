@@ -1,5 +1,4 @@
 import MainBanner from "./mainBanner";
-import IconCategory from "./iconCategory";
 import BestsSeller from "./bestsSeller";
 import Timesale from "./timesale";
 import EventBanner from "./eventBanner";
@@ -9,16 +8,15 @@ import NewProduct from "./newProduct";
 import homeStyles from "@styles/pages/home/home.module.scss";
 
 export default function Home({ homeData }: any) {
-  const { bestSeller, newProduct, timeSaleProduct } = homeData;
+  const { bestSeller, newProduct, introVideo, timeSaleProduct } = homeData;
 
   return (
     <main className={homeStyles.home_container}>
       <MainBanner />
-      <IconCategory />
       <BestsSeller list={bestSeller} />
       <Timesale list={timeSaleProduct} />
       <EventBanner />
-      <IntroVideo />
+      <IntroVideo list={introVideo} />
       <NewProduct list={newProduct} />
     </main>
   );
