@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 
 export default function Header({ userData }: any) {
   const targetRef = useRef<HTMLDivElement>(null);
-  const { observeWidth } = useObserver(targetRef);
+  const { observeWidth } = useObserver();
   const router = useRouter();
 
   const isMedium = observeWidth < 1000;
@@ -40,13 +40,13 @@ export default function Header({ userData }: any) {
             </Link>
             {userData ? (
               <div>
-                <span>{userData.user_name}님</span>
-                <button onClick={onClickSignout}>Sign out</button>
+                <span>{userData.name}님</span>
+                <button onClick={onClickSignout}>로그아웃</button>
               </div>
             ) : (
               <div>
-                <Link href="/signin">Sign in</Link>
-                <Link href="/signup">Sign up</Link>
+                <Link href="/signin">로그인</Link>
+                <Link href="/signup">회원가입</Link>
               </div>
             )}
           </div>
