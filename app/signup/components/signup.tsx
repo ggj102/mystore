@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from "axios";
 
 import { signupYupSchema } from "./yupSchema";
+import { idDuplicationAction, signupSubmitAction } from "./signupActions";
 
 import FieldContainer from "./fieldContainer";
 import FielderrorMessage from "./fielderrorMessage";
-import DaumPostcode from "@/components/daumPost";
+import PhoneField from "@/components/phoneField";
+import AddressField from "@/components/addressField";
 
 import SignupStyle from "@styles/pages/signup.module.scss";
 
@@ -22,6 +22,7 @@ export default function Signup() {
   const router = useRouter();
 
   const {
+    control,
     register,
     handleSubmit,
     getValues,
@@ -29,72 +30,63 @@ export default function Signup() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signupYupSchema),
+    mode: "all",
+    defaultValues: {
+      phone_prefix: { value: "010", label: "010" },
+    },
   });
 
-  const onSubmit = (data: any) => {
-    if (!isIdDuplicationCheck) {
-      alert("아이디 중복 확인을 해주세요.");
-    } else {
-      const {
-        user_id,
-        user_password,
-        user_name,
-        user_email,
-        user_phone,
-        user_address,
-        user_detail_address,
-      } = data;
+  const onSubmit = async (formData: any) => {
+    if (!isIdDuplicationCheck) return alert("아이디 중복 확인을 해주세요.");
 
-      axios
-        .post("http://localhost:3005/signup", {
-          user_id,
-          user_password,
-          user_name,
-          user_email,
-          user_phone,
-          user_address,
-          user_detail_address,
-        })
-        .then(() => {
-          const isConfirm = confirm(
-            "회원가입이 완료되었습니다.\n로그인 페이지로 이동하시겠습니까?"
-          );
+    const isConfirm = formData.detail_address
+      ? true
+      : confirm("상세주소를 입력하지 않았습니다.\n진행하시겠습니까?");
+    if (!isConfirm) return;
 
-          if (isConfirm) {
-            router.replace("/signin");
-          } else {
-            router.replace("/");
-          }
-        })
-        .catch((err) => {
-          if (err.response.status === 409) {
-            alert("중복된 아이디 입니다.");
-          }
-        });
+    const bodyData = {
+      user_id: formData.user_id,
+      password: formData.password,
+      name: formData.name,
+      email: formData.email,
+      deliveryData: {
+        phone_prefix: formData.phone_prefix.value,
+        phone_start: formData.phone_start,
+        phone_end: formData.phone_end,
+        zone_code: formData.zone_code,
+        address: formData.address,
+        detail_address: formData.detail_address || "",
+      },
+    };
+
+    try {
+      await signupSubmitAction(bodyData);
+
+      const isConfirm = confirm(
+        "회원가입이 완료되었습니다.\n로그인 페이지로 이동하시겠습니까?"
+      );
+
+      if (isConfirm) router.replace("/signin");
+      else router.replace("/");
+    } catch (err: any) {
+      alert(err.message);
     }
   };
 
-  const onClickIdDuplicationCheck = () => {
+  const onClickIdDuplicationCheck = async () => {
     if (isIdDuplicationCheck) return;
 
     const user_id = getValues("user_id");
 
-    axios
-      .post("http://localhost:3005/signup/idDuplicationCheck", { user_id })
-      .then(() => {
-        setIsIdDuplicationCheck(true);
-        alert("사용 가능한 아이디 입니다.");
-      })
-      .catch((err) => {
-        if (err.response.status === 409) {
-          setIsIdDuplicationCheck(false);
-          alert("중복된 아이디 입니다.");
-        }
-      });
-  };
+    try {
+      await idDuplicationAction(user_id);
 
-  const setAddress = (value: string) => {
-    setValue("user_address", value, { shouldValidate: true });
+      setIsIdDuplicationCheck(true);
+      alert("사용 가능한 아이디 입니다.");
+    } catch (err: any) {
+      setIsIdDuplicationCheck(false);
+      alert(err.message);
+    }
   };
 
   const onChangeId = (e: any) => {
@@ -110,12 +102,7 @@ export default function Signup() {
             <h3>회원가입</h3>
             <FieldContainer fieldName="아이디">
               <div className={SignupStyle.id_field}>
-                <div>
-                  <input {...register("user_id")} onChange={onChangeId} />
-                  {errors.user_id && (
-                    <FielderrorMessage message={errors.user_id.message} />
-                  )}
-                </div>
+                <input {...register("user_id")} onChange={onChangeId} />
                 <button
                   type="button"
                   onClick={onClickIdDuplicationCheck}
@@ -124,11 +111,14 @@ export default function Signup() {
                   중복 확인
                 </button>
               </div>
+              {errors.user_id && (
+                <FielderrorMessage message={errors.user_id.message} />
+              )}
             </FieldContainer>
             <FieldContainer fieldName="비밀번호">
-              <input type="password" {...register("user_password")} />
-              {errors.user_password && (
-                <FielderrorMessage message={errors.user_password.message} />
+              <input type="password" {...register("password")} />
+              {errors.password && (
+                <FielderrorMessage message={errors.password.message} />
               )}
             </FieldContainer>
             <FieldContainer fieldName="비밀번호확인">
@@ -138,39 +128,34 @@ export default function Signup() {
               )}
             </FieldContainer>
             <FieldContainer fieldName="이름">
-              <input {...register("user_name")} />
-              {errors.user_name && (
-                <FielderrorMessage message={errors.user_name.message} />
-              )}
-            </FieldContainer>
-            <FieldContainer fieldName="휴대폰번호 ( '-' 제외)">
-              <input {...register("user_phone")} />
-              {errors.user_phone && (
-                <FielderrorMessage message={errors.user_phone.message} />
+              <input {...register("name")} />
+              {errors.name && (
+                <FielderrorMessage message={errors.name.message} />
               )}
             </FieldContainer>
             <FieldContainer fieldName="이메일">
-              <input {...register("user_email")} />
-              {errors.user_email && (
-                <FielderrorMessage message={errors.user_email.message} />
+              <input {...register("email")} />
+              {errors.email && (
+                <FielderrorMessage message={errors.email.message} />
+              )}
+            </FieldContainer>
+            <FieldContainer fieldName="연락처">
+              <PhoneField control={control} setValue={setValue} />
+              {errors.phone_start ? (
+                <FielderrorMessage message={errors.phone_start.message} />
+              ) : (
+                <FielderrorMessage message={errors.phone_end?.message} />
               )}
             </FieldContainer>
             <FieldContainer fieldName="주소">
-              <input {...register("user_address")} readOnly />
-              {errors.user_address && (
-                <FielderrorMessage message={errors.user_address.message} />
-              )}
-              <DaumPostcode setAddress={setAddress} />
-            </FieldContainer>
-            <FieldContainer fieldName="상세주소">
-              <input {...register("user_detail_address")} />
-              {errors.user_detail_address && (
-                <FielderrorMessage
-                  message={errors.user_detail_address.message}
-                />
+              <AddressField control={control} setValue={setValue} />
+              {errors.address && (
+                <FielderrorMessage message={errors.address?.message} />
               )}
             </FieldContainer>
-            <button type="submit">가입하기</button>
+            <button className={SignupStyle.submit_btn} type="submit">
+              가입하기
+            </button>
           </div>
         </form>
       </div>
