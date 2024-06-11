@@ -40,7 +40,10 @@ export default function DeliveryAddressForm({
 
   const initOptions = () => {
     const dataMap = deliveryData.map((val: any, idx: number) => {
-      return { value: idx, label: `${val.recipient}(${val.name})` };
+      return {
+        value: idx,
+        label: `${val.recipient}(${val.name || val.recipient})`,
+      };
     });
 
     // dataMap.push({
