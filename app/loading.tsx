@@ -18,7 +18,7 @@ export default function Loading() {
             />
           </div>
         </div>
-        <span>페이지 이동 중...</span>
+        <span>페이지 구성 중...</span>
       </div>
     </div>
   );
