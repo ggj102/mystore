@@ -40,7 +40,9 @@ export default function Header({ userData }: any) {
             </Link>
             {userData ? (
               <div>
-                <span>{userData.name}님</span>
+                <span>
+                  <p>{userData.name}</p>님
+                </span>
                 <button onClick={onClickSignout}>로그아웃</button>
               </div>
             ) : (
