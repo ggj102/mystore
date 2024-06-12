@@ -6,6 +6,8 @@ import * as yup from "yup";
 
 import { signAction } from "./signinActions";
 
+import FormLoading from "@/components/loading/formLoading";
+
 import signinStyle from "@styles/pages/signin.module.scss";
 
 const schema = yup.object().shape({
@@ -14,7 +16,11 @@ const schema = yup.object().shape({
 });
 
 export default function Signin() {
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -40,9 +46,18 @@ export default function Signin() {
               <span>비밀번호</span>
               <input {...register("password")} />
             </div>
-            <button className={signinStyle.submit_btn} type="submit">
-              로그인
-            </button>
+            {isSubmitting ? (
+              <FormLoading
+                className={signinStyle.submit_btn}
+                width="30"
+                height="30"
+                strokeWidth="10"
+              />
+            ) : (
+              <button className={signinStyle.submit_btn} type="submit">
+                로그인
+              </button>
+            )}
           </div>
         </form>
       </div>

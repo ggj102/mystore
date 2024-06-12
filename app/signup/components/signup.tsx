@@ -12,6 +12,7 @@ import FieldContainer from "./fieldContainer";
 import FielderrorMessage from "./fielderrorMessage";
 import PhoneField from "@/components/phoneField";
 import AddressField from "@/components/addressField";
+import FormLoading from "@/components/loading/formLoading";
 
 import SignupStyle from "@styles/pages/signup.module.scss";
 
@@ -27,7 +28,7 @@ export default function Signup() {
     handleSubmit,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: yupResolver(signupYupSchema),
     mode: "all",
@@ -153,9 +154,18 @@ export default function Signup() {
                 <FielderrorMessage message={errors.address?.message} />
               )}
             </FieldContainer>
-            <button className={SignupStyle.submit_btn} type="submit">
-              가입하기
-            </button>
+            {isSubmitting ? (
+              <FormLoading
+                className={SignupStyle.submit_btn}
+                width="30"
+                height="30"
+                strokeWidth="10"
+              />
+            ) : (
+              <button className={SignupStyle.submit_btn} type="submit">
+                가입하기
+              </button>
+            )}
           </div>
         </form>
       </div>

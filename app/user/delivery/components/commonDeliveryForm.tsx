@@ -12,6 +12,7 @@ import RequiredFieldTitle from "@/components/requiredFieldTitle";
 import AddressField from "@/components/addressField";
 import PhoneField from "@/components/phoneField";
 import DeliveryMessage from "@/components/deliveryMessage";
+import FormLoading from "@/components/loading/formLoading";
 
 import { IoMdCheckmark } from "react-icons/io";
 import commonDeliveryFormStyle from "@styles/pages/user/userDelivery/commonDeliveryForm.module.scss";
@@ -23,7 +24,7 @@ export default function CommonDeliveryForm({ data }: any) {
     reset,
     handleSubmit,
     setValue,
-    formState: { isValid },
+    formState: { isValid, isSubmitting },
   } = useForm({
     resolver: yupResolver(deliveryFormYupSchema),
     defaultValues: {
@@ -116,9 +117,13 @@ export default function CommonDeliveryForm({ data }: any) {
               </label>
             </div>
           )}
-          <button type="submit" disabled={!isValid}>
-            {data ? "수정" : "등록"}
-          </button>
+          {isSubmitting ? (
+            <FormLoading height="30" width="30" strokeWidth="10" />
+          ) : (
+            <button type="submit" disabled={!isValid}>
+              {data ? "수정" : "등록"}
+            </button>
+          )}
         </form>
       </div>
     </div>
