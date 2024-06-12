@@ -5,10 +5,9 @@ import useObserver from "@/utils/useObserver";
 
 import NavOpenBarTable from "./navOpenBarTable";
 
-import navigationStyles from "@styles/components/navigation.module.scss";
+import navigationStyles from "@styles/components/header/navigation.module.scss";
 
 import FoldList from "./foldList";
-import { useRef } from "react";
 
 function CreateCategory({ data }: any) {
   if (data) {
@@ -27,12 +26,11 @@ function CreateCategory({ data }: any) {
 }
 
 export default function NavOpenBar({ categoryData }: any) {
-  const targetRef = useRef<any>(null);
-  const { observeWidth } = useObserver(targetRef);
+  const { observeWidth } = useObserver();
   const isMedium = observeWidth < 1000;
 
   return (
-    <div ref={targetRef}>
+    <div>
       {isMedium ? (
         <div className={navigationStyles.nav_open_column_bar}>
           <div>
@@ -48,10 +46,10 @@ export default function NavOpenBar({ categoryData }: any) {
               <strong>마이페이지</strong>
             </Link>
             <div>
-              <Link href="">회원정보 수정</Link>
-              <Link href="">관심상품</Link>
-              <Link href="">최근 본 상품</Link>
-              <Link href="">배송 주소록 관리</Link>
+              <Link href="/user/order">주문내역</Link>
+              <Link href="/cart">장바구니</Link>
+              <Link href="/user/delivery">배송지 관리</Link>
+              <Link href="/user">최근 본 상품</Link>
             </div>
           </div>
         </div>
