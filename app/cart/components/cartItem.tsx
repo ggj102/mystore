@@ -57,12 +57,12 @@ export default function CartItem({
           isChecked={isChecked}
           onChangeChecked={() => onChangeChecked(index)}
         />
-        <Link href="">
+        <Link href={`/productDetail/${data.id}`}>
           <img src={image_path} />
         </Link>
         <div>
           <div>
-            <Link href="">{name}</Link>
+            <Link href={`/productDetail/${data.id}`}>{name}</Link>
             <div>{price}원</div>
             <div className="delivery_info">
               {`배송 : [${delivery_price}] / ${delivery_type}`}
