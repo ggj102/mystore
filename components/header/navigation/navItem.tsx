@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { IoIosArrowForward } from "react-icons/io";
 
-import navItemStyle from "@styles/components/header/navItem.module.scss";
+import navItemStyle from "@styles/components/header/navigation/navItem.module.scss";
 
 function SubNav({ data }: any) {
   return (

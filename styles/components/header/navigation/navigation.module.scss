@@ -1,0 +1,148 @@
+.navigation_container {
+  position: relative;
+  width: 100%;
+}
+
+.nav_bar_container {
+  min-height: 70px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 0 auto;
+
+  max-width: var(--base-width);
+  padding: 0 1.3rem;
+
+  @media (max-width: 1000px) {
+    flex-direction: column-reverse;
+    align-items: baseline;
+
+    .nav_contents {
+      width: 100%;
+      justify-content: end;
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  height: 100%;
+  min-height: 70px;
+
+  gap: 30px;
+
+  button,
+  div {
+    height: 50px;
+  }
+
+  & > div:first-of-type {
+    display: flex;
+    align-items: center;
+
+    @keyframes showLogo {
+      from {
+        max-width: 0;
+        opacity: 0;
+      }
+
+      50% {
+        max-width: 100vw;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    a {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+
+      height: 50px;
+      padding: 0;
+    }
+  }
+
+  :global(.hide_logo) {
+    max-width: 0;
+  }
+
+  :global(.show_logo) {
+    margin-right: 30px;
+    animation: showLogo 2.5s ease-in-out forwards;
+  }
+
+  .nav_items {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    @media (max-width: 768px) {
+      overflow: auto;
+      white-space: nowrap;
+    }
+  }
+
+  a {
+    font-size: 17px;
+    padding-bottom: 6px;
+  }
+
+  @media (max-width: 768px) {
+    overflow: hidden;
+  }
+
+  :global(.show_logo) {
+    a {
+      max-width: 100vw !important;
+
+      img {
+        opacity: 1;
+      }
+    }
+  }
+
+  :global(.hide_logo) {
+    max-width: 0 !important;
+    a {
+      width: 0;
+    }
+  }
+}
+
+.nav_contents {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  button {
+    all: unset;
+    cursor: pointer;
+  }
+
+  :global(.cart_link) {
+    position: relative;
+
+    & > div {
+      position: absolute;
+      right: -3px;
+      width: 15px;
+      height: 15px;
+
+      font-size: 11px;
+      color: #fff;
+      background-color: #1381e1;
+      border-radius: 30px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
