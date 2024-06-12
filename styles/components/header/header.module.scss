@@ -4,11 +4,11 @@
   z-index: 500;
 
   border-bottom: 1px solid #eee;
-}
 
-.sticky_header {
-  position: sticky;
-  top: 0;
+  @media (max-width: 1000px) {
+    position: sticky;
+    top: 0;
+  }
 }
 
 .nav_area {
@@ -25,6 +25,10 @@
 
   img {
     height: 40px;
+  }
+
+  @media (max-width: 1000px) {
+    display: none;
   }
 }
 
