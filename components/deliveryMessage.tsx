@@ -28,6 +28,7 @@ export default function DeliveryMessage({ control, setValue }: any) {
   };
 
   const onChangeSelect = (option: any) => {
+    if (option.value === "0") return;
     setValue("direct_message", option.label);
   };
 
