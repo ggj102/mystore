@@ -71,6 +71,7 @@ export default function SearchResult({
           </ViewInUp>
           <div className={searchResultStyle.search_input}>
             <input
+              placeholder="검색어를 입력해 주세요."
               value={currentKeyword}
               onChange={(e) => setCurrentKeyword(e.target.value)}
               onKeyUp={onKeyUpSearch}
@@ -82,29 +83,35 @@ export default function SearchResult({
         </div>
       </div>
       <div className="site_wrap">
-        <div className={searchResultStyle.search_result_list}>
-          <div>
-            <div className={searchResultStyle.product_count}>
-              검색 결과
-              <strong> {totalCount}</strong>건
+        {data.length > 0 ? (
+          <div className={searchResultStyle.search_result_list}>
+            <div>
+              <div className={searchResultStyle.product_count}>
+                검색 결과
+                <strong> {totalCount}</strong>건
+              </div>
+              <Select
+                isSearchable={false}
+                options={options}
+                value={currentSort}
+                onChange={onChangeSort}
+              />
             </div>
-            <Select
-              isSearchable={false}
-              options={options}
-              value={currentSort}
-              onChange={onChangeSort}
-            />
+            <ul>
+              {data.map((val: any, idx: number) => {
+                return (
+                  <li key={idx}>
+                    <ProductItem data={val} />
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-          <ul>
-            {data.map((val: any, idx: number) => {
-              return (
-                <li key={idx}>
-                  <ProductItem data={val} />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        ) : (
+          <div className={searchResultStyle.no_result}>
+            {`'${keyword}' 에 대한 검색 결과가 없습니다.`}
+          </div>
+        )}
         {totalPages > 1 && (
           <Pagination totalPages={totalPages} currentPage={page} />
         )}
