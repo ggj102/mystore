@@ -75,4 +75,8 @@
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+
+  &:disabled {
+    background-color: #dcdee0;
+  }
 }
