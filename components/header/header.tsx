@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 import HeaderPrimary from "./headerPrimary";
 import Navigation from "./navigation";
@@ -9,16 +9,19 @@ import Navigation from "./navigation";
 import headerStyle from "@styles/components/header/header.module.scss";
 
 export default function Header({ userData }: any) {
-  const targetRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(targetRef);
+  const [isSticky, setIsSticky] = useState<boolean>(false);
 
   return (
     <>
-      <div ref={targetRef} className={headerStyle.header_container}>
+      <motion.div
+        className={headerStyle.header_container}
+        onViewportEnter={() => setIsSticky(false)}
+        onViewportLeave={() => setIsSticky(true)}
+      >
         <HeaderPrimary data={userData} />
         <Navigation />
-      </div>
-      {!isInView && targetRef && (
+      </motion.div>
+      {isSticky && (
         <div className={headerStyle.nav_area}>
           <Navigation isSticky />
         </div>
