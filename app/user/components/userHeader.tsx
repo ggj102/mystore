@@ -19,7 +19,7 @@ export default function UserHeader({ data }: any) {
           </div>
         </div>
         <div className="setting_wrap">
-          <Link href="">개인정보</Link>
+          {/* <Link href="">개인정보</Link> */}
           <Link href="/user/delivery">배송지 관리</Link>
         </div>
       </div>
