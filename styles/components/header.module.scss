@@ -43,6 +43,21 @@
     color: #999999;
   }
 
+  span {
+    display: flex;
+    align-items: end;
+    p {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+
+  button {
+    all: unset;
+    cursor: pointer;
+    color: #999999;
+  }
+
   & > div {
     display: flex;
     gap: 10px;
