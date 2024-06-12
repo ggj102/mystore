@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { getTotalPrice } from "@/utils/getTotalPrice";
-
+import { GlobalContext } from "@/app/context";
 import {
   createOrderAction,
   itemRemoveAction,
@@ -21,7 +21,7 @@ import cartStyles from "@styles/pages/cart.module.scss";
 
 export default function Cart({ cartData, priceData }: any) {
   const router = useRouter();
-
+  const { setIsLoading, setLoadingText } = useContext(GlobalContext);
   const [cartList, setCartList] = useState<any>(cartData);
   const [totalPrice, setTotalPrice] = useState<{
     price: number;
@@ -123,7 +123,11 @@ export default function Cart({ cartData, priceData }: any) {
 
   const createOrder = async (data: any) => {
     try {
+      setIsLoading(true);
+      setLoadingText("주문/결제 페이지로 이동 중 입니다.");
+
       const res = await createOrderAction(data);
+      setIsLoading(false);
       router.push(`/order?order_id=${res.order_id}`);
     } catch (err) {
       tokenExpiredErrorMessage(err);

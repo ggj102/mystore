@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { useInView } from "framer-motion";
@@ -11,8 +11,10 @@ import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
 import { createOrderAction } from "@/app/cart/components/cartActions";
 import { addCartAction } from "../productDetailActions";
+import { GlobalContext } from "@/app/context";
 
 import Timer from "@/components/timer";
+import SkeletonImage from "@/components/skeletonImage";
 import OptionItem from "./optionItem";
 import FixedBar from "./fixedBar";
 
@@ -21,8 +23,7 @@ import { FaCheck } from "react-icons/fa";
 import topContentsStyles from "@styles/pages/productDetail/topContents.module.scss";
 
 export default function TopContents({ data }: { data: any }) {
-  // const { product_detail } = data;
-
+  const { setIsLoading, setLoadingText } = useContext(GlobalContext);
   const router = useRouter();
 
   const targetRef = useRef<HTMLDivElement>(null);
@@ -126,9 +127,13 @@ export default function TopContents({ data }: { data: any }) {
       });
 
       try {
+        setIsLoading(true);
+        setLoadingText("주문/결제 페이지로 이동 중 입니다.");
+
         await addCartAction(postData);
         const res = await createOrderAction(order_item);
 
+        setIsLoading(false);
         router.push(`/order?order_id=${res.order_id}`);
       } catch (err) {
         tokenExpiredErrorMessage(err);
@@ -137,24 +142,24 @@ export default function TopContents({ data }: { data: any }) {
   };
 
   const onClickAddCart = async () => {
-    if (selectedOptions.length === 0) alert("옵션을 선택해 주세요.");
-    else {
-      const postData = selectedOptions.map((val: any) => {
-        const { item_id, option_id, count } = val;
+    if (selectedOptions.length === 0) return alert("옵션을 선택해 주세요.");
 
-        return { item_id, option_id, count };
-      });
+    const postData = selectedOptions.map((val: any) => {
+      const { item_id, option_id, count } = val;
 
-      try {
-        await addCartAction(postData);
+      return { item_id, option_id, count };
+    });
 
-        const isConfirm = confirm(
-          "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
-        );
-        if (isConfirm) router.push("/cart");
-      } catch (err) {
-        tokenExpiredErrorMessage(err);
-      }
+    try {
+      await addCartAction(postData);
+
+      const isConfirm = confirm(
+        "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
+      );
+      if (isConfirm) router.push("/cart");
+    } catch (err) {
+      setIsLoading(false);
+      tokenExpiredErrorMessage(err);
     }
   };
 
@@ -200,7 +205,7 @@ export default function TopContents({ data }: { data: any }) {
     <div ref={targetRef} className={topContentsStyles.top_contents_container}>
       <div className={topContentsStyles.product_image}>
         <div>
-          <img src={currentImage} alt="prd" />
+          <SkeletonImage src={currentImage} alt="prd" />
         </div>
         <ul>
           {data.product_detail?.sub_image_path.map(
