@@ -1,59 +1,36 @@
-"use client";
+import SearchBar from "../navOpenBar/searchBar";
+import HorizonOpenBar from "../navOpenBar/horizonOpenBar";
+import VerticalOpenBar from "../navOpenBar/verticalOpenBar";
 
-import Link from "next/link";
-import useObserver from "@/utils/useObserver";
+import navOpenBarStyle from "@styles/components/header/navOpenBar/navOpenBar.module.scss";
 
-import NavOpenBarTable from "./navOpenBarTable";
-
-import navigationStyles from "@styles/components/header/navigation.module.scss";
-
-import FoldList from "./foldList";
-
-function CreateCategory({ data }: any) {
-  if (data) {
-    return (
-      <ul>
-        {data.map((val: any) => {
-          return (
-            <FoldList data={val} key={val.id}>
-              <CreateCategory data={val.children} />
-            </FoldList>
-          );
-        })}
-      </ul>
-    );
-  } else return;
-}
-
-export default function NavOpenBar({ categoryData }: any) {
-  const { observeWidth } = useObserver();
-  const isMedium = observeWidth < 1000;
-
+export default function NavOpenBar({
+  isNavOpen,
+  isSearchBar,
+  onClickBarClose,
+  onClickSearchBarOpen,
+}: {
+  isNavOpen: boolean;
+  isSearchBar: boolean;
+  onClickBarClose: any;
+  onClickSearchBarOpen: any;
+}) {
   return (
-    <div>
-      {isMedium ? (
-        <div className={navigationStyles.nav_open_column_bar}>
-          <div>
-            <Link href="/signin">Sign in</Link>
-          </div>
-          <CreateCategory data={categoryData} />
-        </div>
-      ) : (
-        <div className={navigationStyles.nav_open_bar}>
-          <NavOpenBarTable />
-          <div className="user_nav">
-            <Link href="">
-              <strong>마이페이지</strong>
-            </Link>
+    <div className={navOpenBarStyle.nav_open_bar_container}>
+      <div className={navOpenBarStyle.open_bar}>
+        <div className="site_wrap">
+          {isNavOpen && (
             <div>
-              <Link href="/user/order">주문내역</Link>
-              <Link href="/cart">장바구니</Link>
-              <Link href="/user/delivery">배송지 관리</Link>
-              <Link href="/user">최근 본 상품</Link>
+              <HorizonOpenBar />
+              <VerticalOpenBar onClickBarClose={onClickBarClose} />
             </div>
-          </div>
+          )}
+          {isSearchBar && (
+            <SearchBar onClickSearchBarOpen={onClickSearchBarOpen} />
+          )}
         </div>
-      )}
+      </div>
+      <div className={navOpenBarStyle.backdrop} onClick={onClickBarClose}></div>
     </div>
   );
 }

@@ -1,0 +1,49 @@
+.horizon_open_bar {
+  padding: 28px 0;
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+
+  @media (max-width: 1000px) {
+    display: none;
+  }
+
+  & > ul {
+    display: flex;
+    gap: 30px;
+    padding-left: 60px;
+    box-sizing: border-box;
+
+    & > li > a {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 13px;
+    }
+  }
+
+  :global(.sub_nav) {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    font-size: 14px;
+    color: #777777;
+  }
+}
+
+.user_nav {
+  padding: 0 30px;
+  border-left: 1px solid #eee;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 13px;
+
+    a {
+      font-size: 14px;
+      color: #777777;
+    }
+  }
+}

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { IoIosArrowDown } from "react-icons/io";
 
-import foldListStyle from "@styles/components/header/foldList.module.scss";
+import foldListStyle from "@styles/components/header/navOpenBar/foldList.module.scss";
 
 export default function FoldList({
   data,
