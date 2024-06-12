@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { priceFormatter } from "@/utils/priceFormatter";
 import productItemStyle from "@styles/components/productItem.module.scss";
+import SkeletonImage from "./skeletonImage";
 
 export default function ProductItem({ data }: any) {
   return (
     <div className={productItemStyle.product_item_container}>
       <Link href={`/productDetail/${data.id}`}>
         <div className={productItemStyle.item_img}>
-          <img width="100%" src={data.image_path} alt="item" />
+          <SkeletonImage src={data.image_path} alt="item" />
         </div>
       </Link>
       <div className={productItemStyle.item_info}>

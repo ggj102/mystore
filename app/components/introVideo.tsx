@@ -3,6 +3,7 @@ import Link from "next/link";
 import { priceFormatter } from "@/utils/priceFormatter";
 
 import ViewInUp from "@/components/animation/viewInUp";
+import SkeletonImage from "@/components/skeletonImage";
 
 import introVideoStyle from "@styles/pages/home/introVideo.module.scss";
 
@@ -33,7 +34,7 @@ export default function IntroVideo({ list }: any) {
                     href={`/productDetail/${val.id}`}
                     className={introVideoStyle.item_img}
                   >
-                    <img src={val.image_path} alt="item" />
+                    <SkeletonImage src={val.image_path} alt="item" />
                   </Link>
                   <div className={introVideoStyle.item_info}>
                     <Link
