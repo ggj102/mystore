@@ -22,8 +22,6 @@ async function getServerSideProps(searchParams: SearchParmarsProps) {
       headers: { Cookie },
     });
 
-    console.log(deliveryData[0], orderItem[0]);
-
     return { deliveryData, orderItem, priceData };
   } catch (err) {
     return redirect("/signin");
