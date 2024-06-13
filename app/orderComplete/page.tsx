@@ -5,7 +5,7 @@ import { getCookies } from "@/utils/getCookies";
 
 import OrderComplete from "./components/orderComplete";
 
-async function getServerSideProps({ searchParams }: any) {
+async function getServerSideProps(searchParams: SearchParmarsProps) {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
@@ -16,14 +16,20 @@ async function getServerSideProps({ searchParams }: any) {
       headers: { Cookie },
     });
 
+    console.log(orderCompleteData);
+
     return { orderCompleteData };
   } catch (err) {
     return redirect("/signin");
   }
 }
 
-export default async function OrderCompletePage(props: any) {
-  const { orderCompleteData } = await getServerSideProps(props);
+export default async function OrderCompletePage({
+  searchParams,
+}: {
+  searchParams: SearchParmarsProps;
+}) {
+  const { orderCompleteData } = await getServerSideProps(searchParams);
 
   return <OrderComplete orderCompleteData={orderCompleteData} />;
 }

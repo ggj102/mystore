@@ -1,6 +1,6 @@
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
 
-export default function DeliveryInfo({ data }: any) {
+export default function DeliveryInfo({ data }: { data: OrderCompleteType }) {
   return (
     <div className={orderCompleteStyle.list_container}>
       <h3>배송지</h3>

@@ -3,10 +3,19 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
 import completePaymentInfoStyle from "@styles/pages/orderComplete/completePaymentInfo.module.scss";
 
-export default function CompletePaymentInfo({ totalPrice, list }: any) {
-  const prdTotalPrice = list.reduce((acc: number, val: any) => {
-    return acc + val.payment_price;
-  }, 0);
+export default function CompletePaymentInfo({
+  list,
+  totalPrice,
+}: {
+  list: OrderCompleteItemType[];
+  totalPrice: number;
+}) {
+  const prdTotalPrice = list.reduce(
+    (acc: number, val: OrderCompleteItemType) => {
+      return acc + val.payment_price;
+    },
+    0
+  );
 
   return (
     <div className={orderCompleteStyle.list_container}>

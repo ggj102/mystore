@@ -3,7 +3,7 @@ import { priceFormatter } from "@/utils/priceFormatter";
 
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
 
-export default function PaymentResult({ data }: any) {
+export default function PaymentResult({ data }: { data: OrderCompleteType }) {
   return (
     <div className={orderCompleteStyle.payment_result}>
       <div className="img_text">

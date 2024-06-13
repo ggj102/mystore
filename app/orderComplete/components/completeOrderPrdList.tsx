@@ -5,7 +5,11 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
 import completeOrderPrdListStyle from "@styles/pages/orderComplete/completeOrderPrdList.module.scss";
 
-export default function CompleteOrderPrdList({ list }: any) {
+export default function CompleteOrderPrdList({
+  list,
+}: {
+  list: OrderCompleteItemType[];
+}) {
   return (
     <div className={orderCompleteStyle.list_container}>
       <h3>주문상품</h3>
@@ -13,7 +17,7 @@ export default function CompleteOrderPrdList({ list }: any) {
         className={completeOrderPrdListStyle.complete_order_prd_list_container}
       >
         <ul>
-          {list.map((val: any, idx: number) => {
+          {list.map((val: OrderCompleteItemType, idx: number) => {
             const {
               item_id,
               item_name,

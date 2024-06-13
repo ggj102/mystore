@@ -1,6 +1,6 @@
 import orderCompleteStyle from "@styles/pages/orderComplete/orderComplete.module.scss";
 
-export default function PaymentMethod({ data }: any) {
+export default function PaymentMethod({ data }: { data: OrderCompleteType }) {
   return (
     <div className={orderCompleteStyle.list_container}>
       <h3>결제수단</h3>
