@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Controller } from "react-hook-form";
+import { Control, Controller, UseFormSetValue } from "react-hook-form";
 import Select, { StylesConfig } from "react-select";
 
 import FoldContainer from "./foldContainer";
@@ -11,15 +11,22 @@ import DeliveryMessage from "@/components/deliveryMessage";
 
 import deliveryAddressFormStyle from "@styles/pages/order/deliveryAddressForm.module.scss";
 
+interface DeliveryAddressFormProps {
+  control: Control<OrderYupSchemaType>;
+  deliveryData: UserDeliveryType[];
+  setValue: UseFormSetValue<OrderYupSchemaType>;
+  onChangeOption: (newValue: SelectOptionType) => void;
+}
+
 export default function DeliveryAddressForm({
   control,
   deliveryData,
   setValue,
   onChangeOption,
-}: any) {
-  const [options, setOptions] = useState<any>([]);
+}: DeliveryAddressFormProps) {
+  const [options, setOptions] = useState<SelectOptionType[]>([]);
 
-  const customStyles: StylesConfig<any, false> = {
+  const customStyles: StylesConfig<SelectOptionType[], false> = {
     control: (provided) => ({
       ...provided,
       width: "200px",
@@ -39,7 +46,7 @@ export default function DeliveryAddressForm({
   };
 
   const initOptions = () => {
-    const dataMap = deliveryData.map((val: any, idx: number) => {
+    const dataMap = deliveryData.map((val: UserDeliveryType, idx: number) => {
       return {
         value: idx,
         label: `${val.recipient}(${val.name || val.recipient})`,
@@ -66,7 +73,7 @@ export default function DeliveryAddressForm({
           name="delivery_option"
           control={control}
           defaultValue=""
-          render={({ field: { value } }: any) => (
+          render={({ field: { value } }) => (
             <Select
               styles={customStyles}
               placeholder="배송지 관리"
@@ -85,7 +92,7 @@ export default function DeliveryAddressForm({
             name="name"
             control={control}
             defaultValue=""
-            render={({ field: { value, onChange } }: any) => (
+            render={({ field: { value, onChange } }) => (
               <input placeholder="배송지명" value={value} onChange={onChange} />
             )}
           />
@@ -96,7 +103,7 @@ export default function DeliveryAddressForm({
             name="recipient"
             control={control}
             defaultValue=""
-            render={({ field: { value, onChange } }: any) => (
+            render={({ field: { value, onChange } }) => (
               <input placeholder="이름" value={value} onChange={onChange} />
             )}
           />

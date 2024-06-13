@@ -6,7 +6,7 @@ import { getTotalPrice } from "@/utils/getTotalPrice";
 
 import Order from "./components/order";
 
-async function getServerSideProps({ searchParams }: any) {
+async function getServerSideProps(searchParams: SearchParmarsProps) {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
@@ -22,15 +22,21 @@ async function getServerSideProps({ searchParams }: any) {
       headers: { Cookie },
     });
 
+    console.log(deliveryData[0], orderItem[0]);
+
     return { deliveryData, orderItem, priceData };
   } catch (err) {
     return redirect("/signin");
   }
 }
 
-export default async function OrderPage(props: any) {
+export default async function OrderPage({
+  searchParams,
+}: {
+  searchParams: SearchParmarsProps;
+}) {
   const { deliveryData, orderItem, priceData } = await getServerSideProps(
-    props
+    searchParams
   );
 
   return (

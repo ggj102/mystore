@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { IoIosArrowUp } from "react-icons/io";
 
 import clsx from "clsx";
@@ -10,7 +10,7 @@ export default function FoldContainer({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const [isFold, setIsFold] = useState<boolean>(false);
 

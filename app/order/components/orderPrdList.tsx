@@ -14,11 +14,11 @@ export default function OrderPrdList({
   deliveryPrice,
 }: // onClickItemRemove,
 {
-  orderItem: any;
+  orderItem: OrderItemType[];
   deliveryPrice: number;
   // onClickItemRemove: any;
 }) {
-  const totalPrdCount = orderItem.reduce((acc: number, val: any) => {
+  const totalPrdCount = orderItem.reduce((acc: number, val: OrderItemType) => {
     const count = val.cart_info.count;
     return acc + count;
   }, 0);
@@ -30,7 +30,7 @@ export default function OrderPrdList({
           총 수량: <strong>{totalPrdCount}</strong>개
         </div>
         <ul>
-          {orderItem.map((val: any, idx: number) => {
+          {orderItem.map((val: OrderItemType, idx: number) => {
             const { name, image_path } = val;
             const { option_price } = val.product_option;
 

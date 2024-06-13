@@ -1,15 +1,23 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Dispatch, SetStateAction } from "react";
 
 import FoldContainer from "./foldContainer";
+import { PaymentWidgetInstance } from "@tosspayments/payment-widget-sdk";
+
+interface PaymentProps {
+  widgetRef: any;
+  paymentWidget?: PaymentWidgetInstance;
+  priceData: PriceDataType;
+  setIsAgreement: Dispatch<SetStateAction<boolean>>;
+}
 
 export default function Payment({
   widgetRef,
   paymentWidget,
   priceData,
   setIsAgreement,
-}: any) {
+}: PaymentProps) {
   const { price, delivery } = priceData;
 
   useEffect(() => {
@@ -33,7 +41,7 @@ export default function Payment({
       variantKey: "AGREEMENT",
     });
 
-    paymentAgreement.on("change", (agreementStatus: any) => {
+    paymentAgreement.on("change", (agreementStatus) => {
       setIsAgreement(agreementStatus.agreedRequiredTerms);
     });
   }, [paymentWidget]);

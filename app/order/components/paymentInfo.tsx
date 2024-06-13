@@ -3,7 +3,11 @@ import FoldContainer from "./foldContainer";
 
 import paymentInfoStyle from "@styles/pages/order/paymentInfo.module.scss";
 
-export default function PaymentInfo({ priceData }: { priceData: any }) {
+export default function PaymentInfo({
+  priceData,
+}: {
+  priceData: PriceDataType;
+}) {
   const { price, delivery } = priceData;
 
   return (

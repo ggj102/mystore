@@ -21,13 +21,23 @@ import orderStyle from "@styles/pages/order/order.module.scss";
 
 // import { itemRemoveAction } from "./orderActions";
 
-export default function Order({ deliveryData, orderItem, priceData }: any) {
+interface OrderProps {
+  deliveryData: UserDeliveryType[];
+  orderItem: OrderItemType[];
+  priceData: PriceDataType;
+}
+
+export default function Order({
+  deliveryData,
+  orderItem,
+  priceData,
+}: OrderProps) {
   const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_API_KEY;
   const customerKey = process.env.NEXT_PUBLIC_TOSS_SECRET_API_KEY;
 
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance>();
 
-  const [isAgreement, setIsAgreement] = useState(true);
+  const [isAgreement, setIsAgreement] = useState<boolean>(true);
 
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
@@ -35,7 +45,7 @@ export default function Order({ deliveryData, orderItem, priceData }: any) {
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
 
-  const setForm = (data: any) => {
+  const setForm = (data: UserDeliveryType) => {
     const phone_prefix = {
       value: `${data.phone_prefix}`,
       label: `${data.phone_prefix}`,
@@ -74,16 +84,16 @@ export default function Order({ deliveryData, orderItem, priceData }: any) {
     },
   });
 
-  const onChangeOption = (option: any) => {
-    const index = Number(option.value);
+  const onChangeOption = (newValue: SelectOptionType) => {
+    const index = Number(newValue?.value);
     const data = setForm(deliveryData[index]);
 
     reset(data);
 
-    setValue("delivery_option", option);
+    setValue("delivery_option", newValue || {});
   };
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: OrderYupSchemaType) => {
     if (!isAgreement || !isValid) return;
 
     let isConfirm = true;
