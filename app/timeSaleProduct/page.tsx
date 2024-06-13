@@ -1,7 +1,7 @@
 import api from "@/httpClient/auth";
 import TimeSaleProduct from "./components/timeSaleProduct";
 
-async function getServerSideProps({ searchParams }: any) {
+async function getServerSideProps(searchParams: SearchParmarsProps) {
   const paramsPageNum = searchParams.page;
   const timeSaleData = await api.get(`/timeSaleProduct?page=${paramsPageNum}`);
   const page = Number(paramsPageNum);
@@ -9,8 +9,12 @@ async function getServerSideProps({ searchParams }: any) {
   return { timeSaleData, page };
 }
 
-export default async function TimeSaleProductPage(props: any) {
-  const { timeSaleData, page } = await getServerSideProps(props);
+export default async function TimeSaleProductPage({
+  searchParams,
+}: {
+  searchParams: SearchParmarsProps;
+}) {
+  const { timeSaleData, page } = await getServerSideProps(searchParams);
 
   return <TimeSaleProduct timeSaleData={timeSaleData} page={page} />;
 }

@@ -9,7 +9,11 @@ export default function TimeSaleProduct({
   timeSaleData,
   page,
 }: {
-  timeSaleData: any;
+  timeSaleData: {
+    data: ProductType[];
+    totalPages: number;
+    totalCount: number;
+  };
   page: number;
 }) {
   const { data, totalPages, totalCount } = timeSaleData;
@@ -28,7 +32,7 @@ export default function TimeSaleProduct({
             <strong> {totalCount}</strong>개
           </div>
           <ul>
-            {data.map((val: any, idx: number) => {
+            {data.map((val: ProductType, idx: number) => {
               return (
                 <li key={idx}>
                   <div className={timeSaleProductStyle.timer}>
