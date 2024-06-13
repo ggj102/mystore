@@ -6,7 +6,15 @@ import { BsCart2 } from "react-icons/bs";
 
 import userStyle from "@styles/pages/user/user.module.scss";
 
-export default function UserHeader({ data }: any) {
+export default function UserHeader({
+  data,
+}: {
+  data: {
+    name: string;
+    order_count: number;
+    cart_count: number;
+  };
+}) {
   return (
     <div className={userStyle.user_header}>
       <div className={userStyle.user_setting}>

@@ -12,7 +12,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import userStyle from "@styles/pages/user/user.module.scss";
 
 export default function UserInterest({ title }: { title: string }) {
-  const [listData, setListData] = useState<any>([]);
+  const [listData, setListData] = useState<ProductType[]>([]);
 
   const limitLength = (num: number) => {
     return listData.length > num ? num : listData.length;
@@ -64,7 +64,7 @@ export default function UserInterest({ title }: { title: string }) {
       </div>
       <div className={userStyle.slider_container}>
         <Slider {...settings}>
-          {listData.map((val: any, idx: number) => {
+          {listData.map((val: ProductType, idx: number) => {
             return (
               <div key={idx} className={userStyle.product_item}>
                 <div className={userStyle.product_item_container}>

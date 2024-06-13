@@ -8,7 +8,7 @@ import { removeDeliveryItemAction } from "./deliveryActions";
 import { FaPlusCircle } from "react-icons/fa";
 import userDeliveryStyle from "@styles/pages/user/userDelivery/userDelivery.module.scss";
 
-export default function UserDelivery({ data }: any) {
+export default function UserDelivery({ data }: { data: UserDeliveryType[] }) {
   const onClickRemoveDeliveryItem = async (id: number, isDefault: boolean) => {
     if (isDefault)
       return alert(
@@ -36,7 +36,7 @@ export default function UserDelivery({ data }: any) {
         </div>
         {data.length > 0 ? (
           <ul>
-            {data.map((val: any, idx: number) => {
+            {data.map((val: UserDeliveryType, idx: number) => {
               const { phone_prefix, phone_start, phone_end } = val;
 
               const phone = `${phone_prefix}-${phone_start}-${phone_end}`;

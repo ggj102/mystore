@@ -5,7 +5,15 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { getCookies } from "@/utils/getCookies";
 
-export async function addSubmitAction(data: any) {
+interface SubmitDataType extends DeliveryFormType {
+  name: string;
+  direct_message: string;
+  is_default?: boolean;
+  recipient: string;
+  phone_prefix: string;
+}
+
+export async function addSubmitAction(data: SubmitDataType) {
   const Cookie = getCookies();
 
   return api.post("/user/delivery", data, { headers: { Cookie } }).then(() => {
@@ -14,7 +22,7 @@ export async function addSubmitAction(data: any) {
   });
 }
 
-export async function editSubmitAction(id: number, data: any) {
+export async function editSubmitAction(id: number, data: SubmitDataType) {
   const Cookie = getCookies();
 
   return api

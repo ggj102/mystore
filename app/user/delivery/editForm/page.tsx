@@ -5,7 +5,7 @@ import { getCookies } from "@/utils/getCookies";
 
 import CommonDeliveryForm from "../components/commonDeliveryForm";
 
-async function getServerSideProps({ searchParams }: any) {
+async function getServerSideProps(searchParams: SearchParmarsProps) {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
@@ -25,8 +25,12 @@ async function getServerSideProps({ searchParams }: any) {
   }
 }
 
-export default async function UserDeliveryEditFormPage(props: any) {
-  const { deliveryData } = await getServerSideProps(props);
+export default async function UserDeliveryEditFormPage({
+  searchParams,
+}: {
+  searchParams: SearchParmarsProps;
+}) {
+  const { deliveryData } = await getServerSideProps(searchParams);
 
   return <CommonDeliveryForm data={deliveryData} />;
 }

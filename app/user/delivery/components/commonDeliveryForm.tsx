@@ -17,7 +17,11 @@ import FormLoading from "@/components/loading/formLoading";
 import { IoMdCheckmark } from "react-icons/io";
 import commonDeliveryFormStyle from "@styles/pages/user/userDelivery/commonDeliveryForm.module.scss";
 
-export default function CommonDeliveryForm({ data }: any) {
+export default function CommonDeliveryForm({
+  data,
+}: {
+  data?: UserDeliveryType;
+}) {
   const {
     control,
     register,
@@ -33,6 +37,8 @@ export default function CommonDeliveryForm({ data }: any) {
   });
 
   const initEditData = () => {
+    if (!data) return;
+
     reset({
       name: data.name || "",
       recipient: data.recipient,
@@ -47,7 +53,7 @@ export default function CommonDeliveryForm({ data }: any) {
     });
   };
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: DeliveryFormYupSchemaType) => {
     if (!isValid) return;
 
     let isConfirm = true;

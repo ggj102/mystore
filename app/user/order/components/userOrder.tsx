@@ -11,7 +11,7 @@ import { ImCross } from "react-icons/im";
 
 import userOrderStyle from "@styles/pages/user/userOrder.module.scss";
 
-export default function UserOrder({ data }: any) {
+export default function UserOrder({ data }: { data: UserOrderData[] }) {
   const onClickOrderDelete = async (id: number) => {
     const isConfirm = confirm("주문내역을 삭제 하시겠습니까?");
 
@@ -30,7 +30,7 @@ export default function UserOrder({ data }: any) {
         <strong>주문내역</strong>
         {data.length > 0 ? (
           <ul>
-            {data.map((val: any, idx: number) => {
+            {data.map((val: UserOrderData, idx: number) => {
               return (
                 <li key={idx}>
                   <div className="list_header">

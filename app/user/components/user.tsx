@@ -5,7 +5,15 @@ import UserInterest from "./userInterest";
 
 import userStyle from "@styles/pages/user/user.module.scss";
 
-export default function User({ userData }: any) {
+export default function User({
+  userData,
+}: {
+  userData: {
+    name: string;
+    order_count: number;
+    cart_count: number;
+  };
+}) {
   return (
     <div className={userStyle.user_container}>
       <div>
