@@ -21,20 +21,24 @@ export default function SearchBar({ onClickSearchBarOpen }: any) {
 
   return (
     <div className={searchBarStyle.search_bar_container}>
-      <strong>SEARCH</strong>
-      <div className="search_input">
-        <input
-          value={currentKeyword}
-          onChange={(e) => setCurrentKeyword(e.target.value)}
-          onKeyUp={onKeyUpSearch}
-        />
-        <button onClick={onClickSearch}>
-          <FiSearch size={28} />
-        </button>
+      <div className="site_wrap">
+        <div>
+          <strong>SEARCH</strong>
+          <div className="search_input">
+            <input
+              value={currentKeyword}
+              onChange={(e) => setCurrentKeyword(e.target.value)}
+              onKeyUp={onKeyUpSearch}
+            />
+            <button onClick={onClickSearch}>
+              <FiSearch size={28} />
+            </button>
+          </div>
+          <button onClick={onClickSearchBarOpen}>
+            <ImCross size={22} />
+          </button>
+        </div>
       </div>
-      <button onClick={onClickSearchBarOpen}>
-        <ImCross size={22} />
-      </button>
     </div>
   );
 }

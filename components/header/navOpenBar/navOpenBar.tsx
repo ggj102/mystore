@@ -17,20 +17,21 @@ export default function NavOpenBar({
 }) {
   return (
     <div className={navOpenBarStyle.nav_open_bar_container}>
-      <div className={navOpenBarStyle.open_bar}>
-        <div className="site_wrap">
-          {isNavOpen && (
-            <div>
-              <HorizonOpenBar />
-              <VerticalOpenBar onClickBarClose={onClickBarClose} />
-            </div>
-          )}
-          {isSearchBar && (
-            <SearchBar onClickSearchBarOpen={onClickSearchBarOpen} />
-          )}
+      {isNavOpen && (
+        <div className={navOpenBarStyle.open_bar}>
+          <div className="site_wrap">
+            <HorizonOpenBar />
+            <VerticalOpenBar onClickBarClose={onClickBarClose} />
+          </div>
         </div>
-      </div>
-      <div className={navOpenBarStyle.backdrop} onClick={onClickBarClose}></div>
+      )}
+      {isSearchBar && <SearchBar onClickSearchBarOpen={onClickSearchBarOpen} />}
+      <div
+        className={`${navOpenBarStyle.backdrop} ${
+          isNavOpen && navOpenBarStyle.vertical_backdrop
+        }`}
+        onClick={onClickBarClose}
+      ></div>
     </div>
   );
 }
