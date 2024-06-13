@@ -4,7 +4,7 @@ import clsx from "clsx";
 
 import bottomContentsStyles from "@styles/pages/productDetail/bottomContents.module.scss";
 
-export default function BottomContents({ data }: { data: any }) {
+export default function BottomContents({ data }: { data: ProductDetailData }) {
   const { product_detail } = data;
 
   const [currnetMenu, setCurrnetMenu] = useState<number>(0);
@@ -49,7 +49,8 @@ export default function BottomContents({ data }: { data: any }) {
           =
         </button>
       </div>
-      {product_detail?.product_detail_image_path.length > 0 ? (
+      {product_detail &&
+      product_detail?.product_detail_image_path.length > 0 ? (
         <ul>
           {product_detail?.product_detail_image_path.map(
             (val: string, idx: number) => {

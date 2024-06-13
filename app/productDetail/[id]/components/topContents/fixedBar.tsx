@@ -1,13 +1,31 @@
+import { Dispatch } from "react";
 import Select from "react-select";
 import { BsCart2 } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
 import { IoIosArrowUp } from "react-icons/io";
 
 import { priceFormatter } from "@/utils/priceFormatter";
+import { SelectedOptionsType } from "./topContents";
 
 import OptionItem from "./optionItem";
 
 import topContentsStyles from "@styles/pages/productDetail/topContents.module.scss";
+
+interface FixedBarProps {
+  isFixedBarOpen: boolean;
+  prdName: string;
+  options: SelectOptionType[];
+  selectedOptions: SelectedOptionsType[];
+  currentOption: SelectOptionType;
+  totalPrice: number;
+  totalCount: number;
+  setIsFixedBarOpen: Dispatch<React.SetStateAction<boolean>>;
+  onChangeOption: (newValue: SelectOptionType) => void;
+  updateOption: (id: number, count: number) => void;
+  onClickDeleteOption: (id: number) => void;
+  onClickAddCart: () => void;
+  onClickCreateOrder: () => void;
+}
 
 export default function FixedBar({
   isFixedBarOpen,
@@ -23,7 +41,7 @@ export default function FixedBar({
   onClickDeleteOption,
   onClickAddCart,
   onClickCreateOrder,
-}: any) {
+}: FixedBarProps) {
   return (
     <div className={topContentsStyles.fixed_bar}>
       <button onClick={() => setIsFixedBarOpen(!isFixedBarOpen)}>
@@ -42,7 +60,7 @@ export default function FixedBar({
             />
           </div>
           <ul>
-            {selectedOptions.map((val: any) => {
+            {selectedOptions.map((val: SelectedOptionsType) => {
               return (
                 <OptionItem
                   key={val.option_id}

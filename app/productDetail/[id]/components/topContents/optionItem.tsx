@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { priceFormatter } from "@/utils/priceFormatter";
+import { SelectedOptionsType } from "./topContents";
 
 import { ImCross } from "react-icons/im";
-
 import optionItemStyle from "@styles/pages/productDetail/optionItem.module.scss";
 
 export default function OptionItem({
@@ -15,7 +15,7 @@ export default function OptionItem({
   ...props
 }: {
   prdName: string;
-  data: any;
+  data: SelectedOptionsType;
   updateOption: (id: number, count: number) => void;
   onClickDeleteOption: (id: number) => void;
 }) {
@@ -40,7 +40,7 @@ export default function OptionItem({
     setCount(currentCount + 1);
   };
 
-  const onChangeCount = (e: any) => {
+  const onChangeCount = (e: ChangeEvent<HTMLInputElement>) => {
     const numberRegex = /^[0-9]*$/;
     const isValid = numberRegex.test(e.target.value);
 
@@ -49,7 +49,7 @@ export default function OptionItem({
     setCurrentCount(Number(e.target.value));
   };
 
-  const onBlurReset = (e: any) => {
+  const onBlurReset = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value !== "0") {
       setCount(Number(e.target.value));
     } else setCount(1);

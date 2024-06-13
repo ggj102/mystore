@@ -22,7 +22,17 @@ import { BsCart2 } from "react-icons/bs";
 import { FaCheck } from "react-icons/fa";
 import topContentsStyles from "@styles/pages/productDetail/topContents.module.scss";
 
-export default function TopContents({ data }: { data: any }) {
+export interface SelectedOptionsType {
+  item_id: number;
+  option_id: number;
+  name: string;
+  option_name: string;
+  option_price: number;
+  price: number;
+  count: number;
+}
+
+export default function TopContents({ data }: { data: ProductDetailData }) {
   const { setIsLoading, setLoadingText } = useContext(GlobalContext);
   const router = useRouter();
 
@@ -32,20 +42,22 @@ export default function TopContents({ data }: { data: any }) {
   const [currentImage, setCurrentImage] = useState<string>("");
   const [isFixedBarOpen, setIsFixedBarOpen] = useState<boolean>(false);
 
-  const [currentOption, setCurrentOption] = useState<any>({
+  const [currentOption, setCurrentOption] = useState<SelectOptionType>({
     value: 0,
     label: "-[선택] 옵션을 선택해 주세요-",
   });
 
-  const [options, setOptions] = useState<any>([]);
-  const [selectedOptions, setSelectedOptions] = useState<any>([]);
+  const [options, setOptions] = useState<SelectOptionType[]>([]);
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptionsType[]>(
+    []
+  );
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const getOptions = (optionData: any) => {
+  const getOptions = (optionData: ProductOptionType[]) => {
     // optionData = option DB 데이터
-    const optionMap = optionData.map((val: any) => {
+    const optionMap = optionData.map((val: ProductOptionType) => {
       const { option_id, name, option_price } = val;
 
       return { value: option_id, label: `${name} (+${option_price}원)` };
@@ -57,11 +69,11 @@ export default function TopContents({ data }: { data: any }) {
     setOptions(optionMap);
   };
 
-  const onChangeOption = (e: any) => {
-    const id = Number(e.value);
+  const onChangeOption = (newValue: SelectOptionType) => {
+    const id = Number(newValue.value);
 
     const selectedCheck = selectedOptions.find(
-      (val: any) => val.option_id === id
+      (val: SelectedOptionsType) => val.option_id === id
     );
 
     if (selectedCheck) {
@@ -71,7 +83,9 @@ export default function TopContents({ data }: { data: any }) {
 
     const { product_option } = data;
 
-    const findOption = product_option.find((val: any) => val.option_id === id);
+    const findOption = product_option.find(
+      (val: ProductOptionType) => val.option_id === id
+    );
 
     if (findOption) {
       const copyArr = [...selectedOptions];
@@ -92,8 +106,10 @@ export default function TopContents({ data }: { data: any }) {
   };
 
   const updateOption = (id: number, count: number) => {
-    const copy: any = [...selectedOptions];
-    const findIndex = copy.findIndex((val: any) => val.option_id === id);
+    const copy = [...selectedOptions];
+    const findIndex = copy.findIndex(
+      (val: SelectedOptionsType) => val.option_id === id
+    );
 
     copy[findIndex] = { ...copy[findIndex], count };
 
@@ -101,8 +117,10 @@ export default function TopContents({ data }: { data: any }) {
   };
 
   const onClickDeleteOption = (id: number) => {
-    const copy: any = [...selectedOptions];
-    const removeFilter = copy.filter((val: any) => val.option_id !== id);
+    const copy = [...selectedOptions];
+    const removeFilter = copy.filter(
+      (val: SelectedOptionsType) => val.option_id !== id
+    );
 
     setSelectedOptions(removeFilter);
   };
@@ -112,7 +130,7 @@ export default function TopContents({ data }: { data: any }) {
     else {
       const id = data.id;
 
-      const order_item = selectedOptions.map((val: any) => {
+      const order_item = selectedOptions.map((val: SelectedOptionsType) => {
         return {
           id,
           product_option: { option_id: val.option_id },
@@ -120,7 +138,7 @@ export default function TopContents({ data }: { data: any }) {
         };
       });
 
-      const postData = selectedOptions.map((val: any) => {
+      const postData = selectedOptions.map((val: SelectedOptionsType) => {
         const { item_id, option_id, count } = val;
 
         return { item_id, option_id, count };
@@ -144,7 +162,7 @@ export default function TopContents({ data }: { data: any }) {
   const onClickAddCart = async () => {
     if (selectedOptions.length === 0) return alert("옵션을 선택해 주세요.");
 
-    const postData = selectedOptions.map((val: any) => {
+    const postData = selectedOptions.map((val: SelectedOptionsType) => {
       const { item_id, option_id, count } = val;
 
       return { item_id, option_id, count };
@@ -165,7 +183,7 @@ export default function TopContents({ data }: { data: any }) {
 
   const setTotal = () => {
     const priceReduce = selectedOptions.reduce(
-      (acc: any, val: any) => {
+      (acc: { price: number; count: number }, val: SelectedOptionsType) => {
         const price = val.count * (val.price + val.option_price);
 
         return {
@@ -268,7 +286,7 @@ export default function TopContents({ data }: { data: any }) {
             />
           </div>
           <ul>
-            {selectedOptions.map((val: any) => {
+            {selectedOptions.map((val: SelectedOptionsType) => {
               return (
                 <OptionItem
                   key={val.option_id}

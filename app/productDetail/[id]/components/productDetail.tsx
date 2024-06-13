@@ -7,9 +7,13 @@ import BottomContents from "./bottomContents/bottomContents";
 
 import productDetailStyles from "@styles/pages/productDetail/productDetail.module.scss";
 
-export default function ProductDetail({ productDetailData }: any) {
+export default function ProductDetail({
+  productDetailData,
+}: {
+  productDetailData: ProductDetailData;
+}) {
   async function addRecentlyView() {
-    const id = parseInt(productDetailData.id);
+    const id = productDetailData.id;
     await recentlyViewAction(id);
   }
 
