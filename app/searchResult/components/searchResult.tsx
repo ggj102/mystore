@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { KeyboardEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Select from "react-select";
@@ -12,17 +12,28 @@ import Pagination from "@/components/pagination";
 import { FiSearch } from "react-icons/fi";
 import searchResultStyle from "@styles/pages/searchResult.module.scss";
 
+interface SearchResultProps {
+  searchResultData: {
+    data: ProductType[];
+    totalPages: number;
+    totalCount: number;
+  };
+  keyword: string;
+  sort?: string;
+  page: number;
+}
+
 export default function SearchResult({
   searchResultData,
   keyword,
   sort,
   page,
-}: any) {
+}: SearchResultProps) {
   const { data, totalPages, totalCount } = searchResultData;
   const router = useRouter();
 
   const [currentKeyword, setCurrentKeyword] = useState<string>(keyword);
-  const [currentSort, setCurrentSort] = useState<any>({
+  const [currentSort, setCurrentSort] = useState<SelectOptionType>({
     value: "popularity_desc",
     label: "인기도",
   });
@@ -37,17 +48,17 @@ export default function SearchResult({
     // { value: "6", label: "사용후기" },
   ];
 
-  const setSort = (sort: string | null) => {
+  const setSort = (sort: string | undefined) => {
     const sortValue = sort ? sort : "popularity_desc";
     const filter = options.filter((val) => val.value === sortValue);
 
     setCurrentSort(filter[0]);
   };
 
-  const onChangeSort = (e: any) => {
-    if (e.value === currentSort.value) return;
+  const onChangeSort = (newValue: SelectOptionType) => {
+    if (newValue.value === currentSort.value) return;
 
-    const pushPath = `/searchResult?keyword=${currentKeyword}&sort=${e.value}&page=1`;
+    const pushPath = `/searchResult?keyword=${currentKeyword}&sort=${newValue.value}&page=1`;
 
     router.push(pushPath);
   };
@@ -56,7 +67,7 @@ export default function SearchResult({
     router.push(`/searchResult?keyword=${currentKeyword}&page=1`);
   };
 
-  const onKeyUpSearch = (e: any) => {
+  const onKeyUpSearch = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") onClickSearch();
   };
 
@@ -98,7 +109,7 @@ export default function SearchResult({
               />
             </div>
             <ul>
-              {data.map((val: any, idx: number) => {
+              {data.map((val: ProductType, idx: number) => {
                 return (
                   <li key={idx}>
                     <ProductItem data={val} />

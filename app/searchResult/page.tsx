@@ -1,7 +1,7 @@
 import api from "@/httpClient/auth";
 import SearchResult from "./components/searchResult";
 
-async function getServerSideProps({ searchParams }: any) {
+async function getServerSideProps(searchParams: SearchParmarsProps) {
   const paramsKeyword = searchParams.keyword;
   const paramsSort = searchParams.sort;
   const paramsPageNum = searchParams.page;
@@ -18,9 +18,13 @@ async function getServerSideProps({ searchParams }: any) {
   return { searchResultData, keyword, sort: paramsSort, page };
 }
 
-export default async function SearchResultPage(props: any) {
+export default async function SearchResultPage({
+  searchParams,
+}: {
+  searchParams: SearchParmarsProps;
+}) {
   const { searchResultData, keyword, sort, page } = await getServerSideProps(
-    props
+    searchParams
   );
 
   return (
