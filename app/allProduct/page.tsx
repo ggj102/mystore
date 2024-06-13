@@ -1,7 +1,7 @@
 import api from "@/httpClient/auth";
 import AllProduct from "./components/allProduct";
 
-async function getServerSideProps({ searchParams }: any) {
+async function getServerSideProps(searchParams: SearchParmarsProps) {
   const paramsCategory = searchParams.category;
   const paramsSort = searchParams.sort;
   const paramsPageNum = searchParams.page;
@@ -22,10 +22,13 @@ async function getServerSideProps({ searchParams }: any) {
   return { allProductData, category, sort, page };
 }
 
-export default async function AllProductPage(props: any) {
-  await getServerSideProps(props);
+export default async function AllProductPage({
+  searchParams,
+}: {
+  searchParams: SearchParmarsProps;
+}) {
   const { allProductData, category, sort, page } = await getServerSideProps(
-    props
+    searchParams
   );
 
   return (

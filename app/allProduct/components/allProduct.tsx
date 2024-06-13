@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 
 import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
@@ -18,16 +18,20 @@ export default function AllProduct({
   sort,
   page,
 }: {
-  allProductData: any;
+  allProductData: {
+    data: ProductType[];
+    totalPages: number;
+    totalCount: number;
+  };
   category: string;
-  sort: any;
+  sort?: string;
   page: number;
 }) {
   const { data, totalPages, totalCount } = allProductData;
   const router = useRouter();
 
   const [currentCategory, setCurrentCategory] = useState<string>(category);
-  const [currentSort, setCurrentSort] = useState<any>({
+  const [currentSort, setCurrentSort] = useState<SingleValue<SelectOption>>({
     value: "popularity_desc",
     label: "인기도",
   });
@@ -54,18 +58,18 @@ export default function AllProduct({
     // { value: "6", label: "사용후기" },
   ];
 
-  const setSort = (sort: string | null) => {
+  const setSort = (sort?: string) => {
     const sortValue = sort ? sort : "popularity_desc";
     const filter = options.filter((val) => val.value === sortValue);
 
     setCurrentSort(filter[0]);
   };
 
-  const onChangeSort = (e: any) => {
-    if (e.value === currentSort.value) return;
+  const onChangeSort = (newValue: SingleValue<SelectOption>) => {
+    if (newValue?.value === currentSort?.value) return;
 
     const category = currentCategory ? `category=${currentCategory}` : "";
-    const sort = `sort=${e.value}`;
+    const sort = `sort=${newValue?.value}`;
 
     const filter = [category, sort].filter((val) => val);
     const query = filter.join("&");
@@ -122,7 +126,7 @@ export default function AllProduct({
             />
           </div>
           <ul>
-            {data.map((val: any, idx: number) => {
+            {data.map((val: ProductType, idx: number) => {
               return (
                 <li key={idx}>
                   <ProductItem data={val} />
