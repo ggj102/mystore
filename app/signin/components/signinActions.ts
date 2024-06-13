@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 import api from "@/httpClient/auth";
 
-export async function signAction(data: any) {
+export async function signAction(data: { user_id: string; password: string }) {
   return api.post("/signin", { ...data }).then((res) => {
     const cookie = cookies();
     const value = res.cookie.replace("accessToken=", "");

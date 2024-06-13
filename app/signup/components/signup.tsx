@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -37,7 +37,7 @@ export default function Signup() {
     },
   });
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: SignupYupSchemaType) => {
     if (!isIdDuplicationCheck) return alert("아이디 중복 확인을 해주세요.");
 
     const isConfirm = formData.detail_address
@@ -90,7 +90,7 @@ export default function Signup() {
     }
   };
 
-  const onChangeId = (e: any) => {
+  const onChangeId = (e: ChangeEvent<HTMLInputElement>) => {
     setValue("user_id", e.target.value, { shouldValidate: true });
     setIsIdDuplicationCheck(false);
   };
