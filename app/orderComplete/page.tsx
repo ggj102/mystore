@@ -16,8 +16,6 @@ async function getServerSideProps(searchParams: SearchParmarsProps) {
       headers: { Cookie },
     });
 
-    console.log(orderCompleteData);
-
     return { orderCompleteData };
   } catch (err) {
     return redirect("/signin");
