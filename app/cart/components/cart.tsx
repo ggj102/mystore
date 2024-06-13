@@ -48,8 +48,6 @@ export default function Cart({
     count: number,
     info: CartInfoType
   ) => {
-    console.log(info, "인포");
-
     if (count === 0) alert("수량이 부족합니다 (최소 1개)");
     else {
       try {

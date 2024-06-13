@@ -11,8 +11,6 @@ async function getServerSideProps() {
   try {
     const orderData = await api.get("/user/order", { headers: { Cookie } });
 
-    console.log(orderData);
-
     return { orderData };
   } catch (err) {
     return redirect("/signin");
