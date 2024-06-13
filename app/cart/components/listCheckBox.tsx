@@ -9,7 +9,7 @@ export default function ListCheckBox({
   ...props
 }: {
   id: number;
-  isChecked: boolean;
+  isChecked?: boolean;
   onChangeChecked: (id: number) => void;
 }) {
   return (

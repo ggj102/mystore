@@ -19,20 +19,23 @@ import CartGuide from "./cartGuide";
 
 import cartStyles from "@styles/pages/cart.module.scss";
 
-export default function Cart({ cartData, priceData }: any) {
+export default function Cart({
+  cartData,
+  priceData,
+}: {
+  cartData: CartItemType[];
+  priceData: PriceDataType;
+}) {
   const router = useRouter();
   const { setIsLoading, setLoadingText } = useContext(GlobalContext);
-  const [cartList, setCartList] = useState<any>(cartData);
-  const [totalPrice, setTotalPrice] = useState<{
-    price: number;
-    delivery: number;
-  }>(priceData);
+  const [cartList, setCartList] = useState<CartItemType[]>(cartData);
+  const [totalPrice, setTotalPrice] = useState<PriceDataType>(priceData);
 
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
 
   // isChecked 속성 넣기
-  const addPropIsChecked = (list: any) => {
-    const addPropMap = list.map((val: any) => {
+  const addPropIsChecked = (list: CartItemType[]) => {
+    const addPropMap = list.map((val: CartItemType) => {
       return { ...val, isChecked: false };
     });
 
@@ -43,8 +46,10 @@ export default function Cart({ cartData, priceData }: any) {
   const onClickUpdateCount = async (
     index: number,
     count: number,
-    info: any
+    info: CartInfoType
   ) => {
+    console.log(info, "인포");
+
     if (count === 0) alert("수량이 부족합니다 (최소 1개)");
     else {
       try {
@@ -87,7 +92,7 @@ export default function Cart({ cartData, priceData }: any) {
 
   // 아이템 삭제 함수
 
-  const itemRemove = async (items: any, setData: any) => {
+  const itemRemove = async (items: CartInfoType[], setData: CartItemType[]) => {
     const isConfirm = confirm("장바구니에서 제외 하시겠습니까?");
 
     if (isConfirm) {
@@ -102,26 +107,28 @@ export default function Cart({ cartData, priceData }: any) {
 
   const onClickItemRemove = (index: number) => {
     const items = [{ ...cartList[index].cart_info }];
-    const setData = cartList.filter((val: any, idx: number) => idx !== index);
+    const setData = cartList.filter(
+      (val: CartItemType, idx: number) => idx !== index
+    );
 
     itemRemove(items, setData);
   };
 
   const onClickSelectedRemove = () => {
-    const checkedFilter = cartList.filter((val: any) => val.isChecked);
+    const checkedFilter = cartList.filter((val: CartItemType) => val.isChecked);
     if (checkedFilter.length === 0) {
       return alert("선택한 상품이 없습니다.");
     }
 
-    const setData = cartList.filter((val: any) => !val.isChecked);
-    const items = checkedFilter.map((val: any) => {
+    const setData = cartList.filter((val: CartItemType) => !val.isChecked);
+    const items = checkedFilter.map((val: CartItemType) => {
       return { ...val.cart_info };
     });
 
     itemRemove(items, setData);
   };
 
-  const createOrder = async (data: any) => {
+  const createOrder = async (data: CartItemType[]) => {
     try {
       setIsLoading(true);
       setLoadingText("주문/결제 페이지로 이동 중 입니다.");
@@ -144,7 +151,7 @@ export default function Cart({ cartData, priceData }: any) {
   };
 
   const onClickSelectedProductOrder = () => {
-    const orderData = cartList.filter((val: any) => val.isChecked);
+    const orderData = cartList.filter((val: CartItemType) => val.isChecked);
     if (orderData.length === 0) {
       alert("선택한 상품이 없습니다.");
     } else createOrder(orderData);
@@ -169,7 +176,7 @@ export default function Cart({ cartData, priceData }: any) {
           <div className={cartStyles.cart_list_price}>
             <div className={cartStyles.cart_list}>
               <ul>
-                {cartList.map((val: any, idx: number) => {
+                {cartList.map((val: CartItemType, idx: number) => {
                   return (
                     <CartItem
                       key={idx}

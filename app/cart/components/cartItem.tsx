@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import Link from "next/link";
 
 import { priceFormatter } from "@/utils/priceFormatter";
@@ -8,6 +8,19 @@ import ListCheckBox from "./listCheckBox";
 
 import { ImCross } from "react-icons/im";
 import cartStyles from "@styles/pages/cart.module.scss";
+
+interface CartItemProps {
+  index: number;
+  data: CartItemType;
+  onClickUpdateCount: (
+    index: number,
+    count: number,
+    info: CartInfoType
+  ) => void;
+  onClickProductOrder: (index: number) => void;
+  onChangeChecked: (index: number) => void;
+  onClickItemRemove: (index: number) => void;
+}
 
 export default function CartItem({
   index,
@@ -17,7 +30,7 @@ export default function CartItem({
   onChangeChecked,
   onClickItemRemove,
   ...props
-}: any) {
+}: CartItemProps) {
   const { name, image_path, isChecked } = data;
   const { option_price } = data.product_option;
   const { delivery_price, delivery_type } = data.product_detail;
@@ -38,7 +51,7 @@ export default function CartItem({
     setCurrentCount(currentCount + 1);
   };
 
-  const onChangeCount = (e: any) => {
+  const onChangeCount = (e: ChangeEvent<HTMLInputElement>) => {
     const numberRegex = /^[0-9]*$/;
     const isValid = numberRegex.test(e.target.value);
 
