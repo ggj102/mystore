@@ -2,7 +2,7 @@ import ViewInUp from "@/components/animation/viewInUp";
 import ProductItem from "@/components/productItem";
 import bestsSellerStyle from "@styles/pages/home/bestsSeller.module.scss";
 
-export default function BestsSeller({ list }: { list: any }) {
+export default function BestsSeller({ list }: { list: ProductType[] }) {
   return (
     <div className={bestsSellerStyle.bests_seller_container}>
       <ViewInUp once={true}>
@@ -12,7 +12,7 @@ export default function BestsSeller({ list }: { list: any }) {
         </h3>
       </ViewInUp>
       <ul>
-        {list.map((val: any) => {
+        {list.map((val: ProductType) => {
           return (
             <li key={val.name}>
               <ProductItem data={val} />

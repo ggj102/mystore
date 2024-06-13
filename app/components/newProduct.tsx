@@ -3,7 +3,7 @@ import ProductItem from "@/components/productItem";
 
 import newProductStyle from "@styles/pages/home/newProduct.module.scss";
 
-export default function NewProduct({ list }: { list: any }) {
+export default function NewProduct({ list }: { list: ProductType[] }) {
   return (
     <div className={newProductStyle.new_product_container}>
       <ViewInUp once={true}>
@@ -13,7 +13,7 @@ export default function NewProduct({ list }: { list: any }) {
         </h3>
       </ViewInUp>
       <ul>
-        {list.map((val: any, idx: number) => {
+        {list.map((val: ProductType, idx: number) => {
           return (
             <li key={idx}>
               <ProductItem data={val} />

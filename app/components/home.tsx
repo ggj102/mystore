@@ -7,7 +7,16 @@ import NewProduct from "./newProduct";
 
 import homeStyles from "@styles/pages/home/home.module.scss";
 
-export default function Home({ homeData }: any) {
+interface HomeProps {
+  homeData: {
+    bestSeller: ProductType[];
+    newProduct: ProductType[];
+    introVideo: ProductType[];
+    timeSaleProduct: ProductType[];
+  };
+}
+
+export default function Home({ homeData }: HomeProps) {
   const { bestSeller, newProduct, introVideo, timeSaleProduct } = homeData;
 
   return (

@@ -7,22 +7,22 @@ import ViewInUp from "@/components/animation/viewInUp";
 
 import eventBannerStyle from "@styles/pages/home/eventBanner.module.scss";
 
-function NextArrow(props: any) {
+function NextArrow({ onClick }: ArrowProps) {
   return (
     <div
       className={`${eventBannerStyle.arrow} ${eventBannerStyle.next_arrow}`}
-      onClick={props.onClick}
+      onClick={onClick}
     >
       <div></div>
     </div>
   );
 }
 
-function PrevArrow(props: any) {
+function PrevArrow({ onClick }: ArrowProps) {
   return (
     <div
       className={`${eventBannerStyle.arrow} ${eventBannerStyle.pre_arrow}`}
-      onClick={props.onClick}
+      onClick={onClick}
     >
       <div></div>
     </div>

@@ -8,7 +8,7 @@ import Timer from "@/components/timer";
 
 import timesaleStyle from "@styles/pages/home/timesale.module.scss";
 
-export default function Timesale({ list }: any) {
+export default function Timesale({ list }: { list: ProductType[] }) {
   const limitLength = (num: number) => {
     return list.length > num ? num : list.length;
   };
@@ -46,7 +46,7 @@ export default function Timesale({ list }: any) {
         </ViewInUp>
         {list.length > 0 && (
           <Slider {...settings}>
-            {list.map((val: any, idx: number) => {
+            {list.map((val: ProductType, idx: number) => {
               return (
                 <div key={idx} className={timesaleStyle.timesale_item}>
                   <div>

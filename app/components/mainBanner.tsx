@@ -6,20 +6,20 @@ import Slider from "react-slick";
 
 import mainBannerStyle from "@styles/pages/home/mainBanner.module.scss";
 
-function NextArrow(props: any) {
+function NextArrow({ onClick }: ArrowProps) {
   return (
     <div
       className={`${mainBannerStyle.arrow} ${mainBannerStyle.next_arrow}`}
-      onClick={props.onClick}
+      onClick={onClick}
     />
   );
 }
 
-function PrevArrow(props: any) {
+function PrevArrow({ onClick }: ArrowProps) {
   return (
     <div
       className={`${mainBannerStyle.arrow} ${mainBannerStyle.pre_arrow}`}
-      onClick={props.onClick}
+      onClick={onClick}
     />
   );
 }
@@ -44,7 +44,7 @@ export default function MainBanner({}) {
     autoplaySpeed: 4000,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    afterChange: (idx: any) => {
+    afterChange: (idx: number) => {
       if (setCurrentBannerIdx) setCurrentBannerIdx(idx);
     },
   };

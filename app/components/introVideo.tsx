@@ -7,7 +7,7 @@ import SkeletonImage from "@/components/skeletonImage";
 
 import introVideoStyle from "@styles/pages/home/introVideo.module.scss";
 
-export default function IntroVideo({ list }: any) {
+export default function IntroVideo({ list }: { list: ProductType[] }) {
   return (
     <div className={introVideoStyle.intro_video_container}>
       <div className="site_wrap">
@@ -27,7 +27,7 @@ export default function IntroVideo({ list }: any) {
             </div>
           </div>
           <ul>
-            {list.map((val: any, idx: number) => {
+            {list.map((val: ProductType, idx: number) => {
               return (
                 <li key={idx}>
                   <Link
