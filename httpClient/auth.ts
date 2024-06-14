@@ -1,5 +1,10 @@
 const fetchData = async (path: string, options: any) => {
-  const url = `http://localhost:3005${path}`;
+  const API_URL =
+    process.env.NODE_ENV === "production"
+      ? "https://mystore-server.vercel.app"
+      : "http://localhost:3005";
+
+  const url = `${API_URL}${path}`;
 
   try {
     const response = await fetch(url, {
