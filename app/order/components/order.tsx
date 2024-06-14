@@ -32,9 +32,6 @@ export default function Order({
   orderItem,
   priceData,
 }: OrderProps) {
-  const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_API_KEY;
-  const customerKey = process.env.NEXT_PUBLIC_TOSS_SECRET_API_KEY;
-
   const [paymentWidget, setPaymentWidget] = useState<PaymentWidgetInstance>();
 
   const [isAgreement, setIsAgreement] = useState<boolean>(true);
@@ -140,6 +137,9 @@ export default function Order({
   };
 
   useEffect(() => {
+    const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_API_KEY;
+    const customerKey = process.env.NEXT_PUBLIC_TOSS_SECRET_API_KEY;
+
     loadPaymentWidget(clientKey, customerKey).then((widget) => {
       setPaymentWidget(widget);
     });
