@@ -3,7 +3,7 @@ import { priceFormatter } from "@/utils/priceFormatter";
 import productItemStyle from "@styles/components/productItem.module.scss";
 import SkeletonImage from "./skeletonImage";
 
-export default function ProductItem({ data }: any) {
+export default function ProductItem({ data }: { data: ProductType }) {
   return (
     <div className={productItemStyle.product_item_container}>
       <Link href={`/productDetail/${data.id}`}>

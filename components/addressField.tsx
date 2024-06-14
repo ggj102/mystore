@@ -21,7 +21,7 @@ export default function AddressField({ control, setValue }: any) {
           name="zone_code"
           control={control}
           defaultValue=""
-          render={({ field: { value } }: any) => (
+          render={({ field: { value } }) => (
             <input
               className="read_only"
               placeholder="우편번호"
@@ -37,7 +37,7 @@ export default function AddressField({ control, setValue }: any) {
         name="address"
         control={control}
         defaultValue=""
-        render={({ field: { value } }: any) => (
+        render={({ field: { value } }) => (
           <input
             className="read_only"
             placeholder="주소"
@@ -51,7 +51,7 @@ export default function AddressField({ control, setValue }: any) {
         name="detail_address"
         control={control}
         defaultValue=""
-        render={({ field: { value, onChange } }: any) => (
+        render={({ field: { value, onChange } }) => (
           <input
             placeholder="상세주소 입력"
             value={value}

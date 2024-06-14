@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 import Select, { StylesConfig } from "react-select";
 
 import phoneFieldStyle from "@styles/components/phoneField.module.scss";
+import { ChangeEvent } from "react";
 
 export default function PhoneField({ control, setValue }: any) {
   const options = [
@@ -55,7 +56,7 @@ export default function PhoneField({ control, setValue }: any) {
     }),
   };
 
-  const onChangeNumber = (e: any, field?: string) => {
+  const onChangeNumber = (e: ChangeEvent<HTMLInputElement>, field?: string) => {
     const numberRegex = /^[0-9]*$/;
     const isValid = numberRegex.test(e.target.value);
 
@@ -72,7 +73,7 @@ export default function PhoneField({ control, setValue }: any) {
         name="phone_prefix"
         control={control}
         defaultValue=""
-        render={({ field: { value, onChange } }: any) => (
+        render={({ field: { value, onChange } }) => (
           <Select
             styles={customStyles}
             isSearchable={false}
@@ -86,7 +87,7 @@ export default function PhoneField({ control, setValue }: any) {
         name="phone_start"
         control={control}
         defaultValue=""
-        render={({ field: { value } }: any) => (
+        render={({ field: { value } }) => (
           <input
             maxLength={4}
             value={value}
@@ -99,7 +100,7 @@ export default function PhoneField({ control, setValue }: any) {
         name="phone_end"
         control={control}
         defaultValue=""
-        render={({ field: { value } }: any) => (
+        render={({ field: { value } }) => (
           <input
             maxLength={4}
             value={value}

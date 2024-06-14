@@ -1,6 +1,10 @@
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
-export default function DaumPostcode({ setAddress }: any) {
+export default function DaumPostcode({
+  setAddress,
+}: {
+  setAddress: (address: string, zone_code: string) => void;
+}) {
   const open = useDaumPostcodePopup(
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
   );
