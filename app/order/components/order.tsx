@@ -140,6 +140,8 @@ export default function Order({
     const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_API_KEY;
     const customerKey = process.env.NEXT_PUBLIC_TOSS_SECRET_API_KEY;
 
+    if (!clientKey || !customerKey) return;
+
     loadPaymentWidget(clientKey, customerKey).then((widget) => {
       setPaymentWidget(widget);
     });
