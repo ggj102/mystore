@@ -44,7 +44,7 @@ export default function Signin() {
             </div>
             <div className="field">
               <span>비밀번호</span>
-              <input {...register("password")} />
+              <input type="password" {...register("password")} />
             </div>
             {isSubmitting ? (
               <FormLoading
