@@ -8,7 +8,7 @@ import Navigation from "./navigation";
 
 import headerStyle from "@styles/components/header/header.module.scss";
 
-export default function Header({ userData }: any) {
+export default function Header({ userData }: { userData: UserType }) {
   const [isSticky, setIsSticky] = useState<boolean>(false);
 
   return (

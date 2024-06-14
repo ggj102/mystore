@@ -6,10 +6,10 @@ import { IoIosArrowForward } from "react-icons/io";
 
 import navItemStyle from "@styles/components/header/navigation/navItem.module.scss";
 
-function SubNav({ data }: any) {
+function SubNav({ data }: { data: NavLinkData[] }) {
   return (
     <ul>
-      {data.map((val: any) => {
+      {data.map((val: NavLinkData) => {
         return (
           <li key={val.id} className={navItemStyle.sub_nav}>
             <Link href={val.link}>
@@ -28,7 +28,14 @@ function SubNav({ data }: any) {
   );
 }
 
-export default function NavItem({ isBarOpen, data, ...props }: any) {
+export default function NavItem({
+  isBarOpen,
+  data,
+  ...props
+}: {
+  isBarOpen: boolean;
+  data: NavLinkData;
+}) {
   return isBarOpen ? (
     <Link href={data.link} {...props}>
       {data.name}

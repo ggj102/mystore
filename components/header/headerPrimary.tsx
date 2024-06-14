@@ -7,7 +7,7 @@ import { signoutAction } from "./headerActions";
 
 import headerStyle from "@styles/components/header/header.module.scss";
 
-export default function HeaderPrimary({ data }: any) {
+export default function HeaderPrimary({ data }: { data: UserType }) {
   const router = useRouter();
 
   const onClickSignout = async () => {

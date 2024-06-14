@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { KeyboardEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { FiSearch } from "react-icons/fi";
@@ -7,7 +7,11 @@ import { ImCross } from "react-icons/im";
 
 import searchBarStyle from "@styles/components/header/navOpenBar/searchBar.module.scss";
 
-export default function SearchBar({ onClickSearchBarOpen }: any) {
+export default function SearchBar({
+  onClickSearchBarOpen,
+}: {
+  onClickSearchBarOpen: () => void;
+}) {
   const router = useRouter();
   const [currentKeyword, setCurrentKeyword] = useState<string>("");
 
@@ -15,7 +19,7 @@ export default function SearchBar({ onClickSearchBarOpen }: any) {
     router.push(`/searchResult?keyword=${currentKeyword}&page=1`);
   };
 
-  const onKeyUpSearch = (e: any) => {
+  const onKeyUpSearch = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") onClickSearch();
   };
 

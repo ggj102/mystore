@@ -4,10 +4,10 @@ import { navData } from "../navData";
 
 import horizonOpenBarStyle from "@styles/components/header/navOpenBar/horizonOpenBar.module.scss";
 
-function SubNav({ data }: any) {
+function SubNav({ data }: { data: NavLinkData[] }) {
   return (
     <ul className="sub_nav">
-      {data.map((val: any) => {
+      {data.map((val: NavLinkData) => {
         return (
           <li key={val.id}>
             <Link href={val.link}>{val.name}</Link>{" "}

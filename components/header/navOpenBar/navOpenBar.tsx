@@ -12,8 +12,8 @@ export default function NavOpenBar({
 }: {
   isNavOpen: boolean;
   isSearchBar: boolean;
-  onClickBarClose: any;
-  onClickSearchBarOpen: any;
+  onClickBarClose: () => void;
+  onClickSearchBarOpen: () => void;
 }) {
   return (
     <div className={navOpenBarStyle.nav_open_bar_container}>

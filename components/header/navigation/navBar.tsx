@@ -20,8 +20,8 @@ export default function NavBar({
   isSticky?: boolean;
   isNavOpen: boolean;
   isSearchBar: boolean;
-  onClickIsNavOpen: any;
-  onClickSearchBarOpen: any;
+  onClickIsNavOpen: () => void;
+  onClickSearchBarOpen: () => void;
 }) {
   return (
     <div className={navigationStyle.nav_bar_container}>
