@@ -1,22 +1,25 @@
-import { useState } from "react";
+"use client";
 
-import SimpleSlider from "@/components/reactSlick/simpleSlider";
+import { useState } from "react";
+import Link from "next/link";
+import Slider from "react-slick";
+
 import mainBannerStyle from "@styles/pages/home/mainBanner.module.scss";
 
-function SampleNextArrow(props: any) {
+function NextArrow({ onClick }: ArrowProps) {
   return (
     <div
       className={`${mainBannerStyle.arrow} ${mainBannerStyle.next_arrow}`}
-      onClick={props.onClick}
+      onClick={onClick}
     />
   );
 }
 
-function SamplePrevArrow(props: any) {
+function PrevArrow({ onClick }: ArrowProps) {
   return (
     <div
       className={`${mainBannerStyle.arrow} ${mainBannerStyle.pre_arrow}`}
-      onClick={props.onClick}
+      onClick={onClick}
     />
   );
 }
@@ -25,7 +28,7 @@ export default function MainBanner({}) {
   const [currentBannerIdx, setCurrentBannerIdx] = useState<number>(0);
   const test = [1, 2, 3];
 
-  const text = [
+  const dummy = [
     "베스트 어워즈 1위",
     "온 몸을 부드럽게 풀어주는",
     "샌달우드향 신텐시브 샴푸",
@@ -39,26 +42,26 @@ export default function MainBanner({}) {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-    afterChange: (idx: any) => {
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    afterChange: (idx: number) => {
       if (setCurrentBannerIdx) setCurrentBannerIdx(idx);
     },
   };
 
   return (
     <div className={mainBannerStyle.main_banner_container}>
-      <SimpleSlider {...settings}>
+      <Slider {...settings}>
         {test.map((val, bannerIdx) => {
           return (
-            <div key={val} className={mainBannerStyle.main_banner_img}>
-              <img
-                height="550px"
-                src={`/images/test/testbanner${val}.jpg`}
-                alt="img"
-              />
+            <Link
+              href={`/productDetail/10${bannerIdx}`}
+              key={val}
+              className={mainBannerStyle.main_banner_item}
+            >
+              <img src={`/images/test/testbanner${val}.jpg`} alt="img" />
               <div className={mainBannerStyle.main_banner_text}>
-                {text.map((val, idx) => {
+                {dummy.map((val, idx) => {
                   const delay = 0.5 + idx * 0.5;
 
                   return (
@@ -80,10 +83,10 @@ export default function MainBanner({}) {
                   );
                 })}
               </div>
-            </div>
+            </Link>
           );
         })}
-      </SimpleSlider>
+      </Slider>
       <div className={mainBannerStyle.slider_page}>
         <span>{currentBannerIdx + 1}</span>/<span>{test.length}</span>
       </div>

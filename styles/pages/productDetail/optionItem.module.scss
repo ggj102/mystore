@@ -1,0 +1,85 @@
+.option_item_container {
+  width: 100%;
+
+  background-color: #f8f8f8;
+  box-sizing: border-box;
+  padding: 20px;
+
+  position: relative;
+
+  .prd_name {
+    font-size: 14px;
+    margin-bottom: 20px;
+
+    p {
+      font-weight: bold;
+    }
+    div {
+      color: #7d7d7d;
+    }
+  }
+
+  .remove_btn {
+    all: unset;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .count_price {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
+    & > div:last-of-type {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+  }
+
+  .count_btn {
+    display: flex;
+
+    box-sizing: border-box;
+    border: 1px solid #e5e5e5;
+
+    button {
+      all: unset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+
+      width: 28px;
+      height: 28px;
+
+      cursor: pointer;
+    }
+
+    input {
+      all: unset;
+      width: 45px;
+      text-align: center;
+      background-color: #fff;
+
+      border-left: 1px solid #e5e5e5;
+      border-right: 1px solid #e5e5e5;
+    }
+  }
+
+  span {
+    font-size: 14px;
+    font-weight: bold;
+  }
+}

@@ -1,0 +1,22 @@
+.bests_seller_container {
+  max-width: var(--base-width);
+  padding: 0 1.3rem;
+
+  margin: 0 auto;
+  margin-top: 100px;
+  position: relative;
+
+  ul {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    @media (max-width: 1280px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    gap: 25px;
+  }
+}

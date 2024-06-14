@@ -1,0 +1,115 @@
+.user_commonDeliveryForm_container {
+  & > div {
+    margin: 0 auto;
+    max-width: 660px;
+    width: 100%;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    background-color: #fff;
+    width: 100%;
+
+    border-radius: 12px;
+    padding: 20px;
+
+    :global(.field) {
+      & > div:first-of-type {
+        color: #767678;
+        font-size: 15px;
+        margin-bottom: 6px;
+      }
+
+      input {
+        width: 100%;
+        height: 48px;
+
+        padding: 12px 15px;
+        border: 1px solid #dcdee0;
+        border-radius: 6px;
+        box-sizing: border-box;
+        background-color: #fff;
+        font-size: 16px;
+        line-height: 22px;
+        color: #000;
+
+        &:focus {
+          border: 2px solid #000;
+
+          &::placeholder {
+            color: #767678;
+          }
+        }
+      }
+    }
+
+    & > button {
+      all: unset;
+      cursor: pointer;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 100%;
+      height: 48px;
+      border-radius: 12px;
+
+      background-color: var(--color-discount);
+      color: #fff;
+      font-weight: bold;
+
+      &:disabled {
+        background-color: #dcdee0;
+      }
+    }
+  }
+}
+
+.is_default {
+  label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+  }
+
+  input {
+    display: none;
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 21px;
+    height: 21px;
+    background-color: transparent;
+    box-sizing: border-box;
+    border-radius: 100%;
+    border: 1px solid #dcdee0;
+    color: #c1c2c4;
+    cursor: pointer;
+  }
+
+  input:checked + div {
+    background-color: var(--color-discount);
+    color: #fff;
+    border: none;
+    box-shadow: rgba(16, 22, 26, 0.2) 0px 0px 0px 1px inset,
+      rgba(16, 22, 26, 0.1) 0px -1px 0px inset;
+  }
+
+  .span {
+    color: #1e1e23;
+  }
+}

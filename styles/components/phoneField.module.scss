@@ -1,0 +1,9 @@
+.phone_field_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  input {
+    text-align: center !important;
+  }
+}

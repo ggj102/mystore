@@ -1,0 +1,52 @@
+.fold_list_container {
+  position: relative;
+
+  & > div {
+    max-height: 0;
+    overflow: hidden;
+
+    transition: all 0.5s ease-in-out;
+  }
+
+  & > button {
+    all: unset;
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+
+    & > svg {
+      transition: all 0.4s ease-in-out;
+      color: #777777;
+    }
+  }
+
+  ul {
+    padding-left: 30px;
+  }
+
+  a {
+    display: block;
+    margin-bottom: 10px;
+    color: #777777;
+  }
+}
+
+.fold_list_open {
+  & > div {
+    max-height: 100vh;
+  }
+
+  svg {
+    transform: rotate(180deg);
+  }
+}
+
+.fold_list_close {
+  & > div {
+    max-height: 0;
+  }
+
+  svg {
+    transform: rotate(0deg);
+  }
+}

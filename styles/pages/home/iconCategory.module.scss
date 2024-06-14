@@ -1,0 +1,70 @@
+.icon_category_container {
+  position: relative;
+
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  margin-top: -20px;
+
+  & > ul {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+
+    width: 1280px;
+
+    box-sizing: border-box;
+
+    padding: 40px 20px 0;
+    border-radius: 60px 60px 0 0;
+
+    background-color: #fff;
+
+    @media (max-width: 1280px) and (min-width: 769px) {
+      grid-template-columns: repeat(4, 1fr);
+      row-gap: 40px;
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(3, 1fr);
+      row-gap: 40px;
+    }
+
+    li {
+      position: relative;
+      flex: 1;
+
+      a {
+        max-width: 4rem;
+        max-height: 4rem;
+        padding: 1.25rem;
+        transition: box-shadow 0.25s;
+
+        text-decoration: none;
+        display: block;
+        word-break: keep-all;
+        background: #fafafa;
+        border-radius: 50%;
+        margin: 0 auto;
+
+        transition: all 0.3s ease-in;
+
+        &:hover {
+          box-shadow: 0px 0px 7px rgb(150, 150, 150);
+          transform: scale(1.1);
+        }
+      }
+
+      img {
+        transition: all 0.25s;
+        object-fit: contain;
+      }
+
+      & > div {
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+  }
+}

@@ -1,3 +1,5 @@
+"use client";
+
 import { motion } from "framer-motion";
 
 import viewInUpStyles from "@styles/components/animation/viewInUp.module.scss";

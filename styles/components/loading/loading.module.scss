@@ -1,0 +1,53 @@
+.loading_container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+
+  top: 0;
+  left: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #fff;
+
+  z-index: 2000;
+
+  & > div {
+    width: 500px;
+  }
+
+  :global(.logo_loading) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    gap: 10px;
+    margin-bottom: 50px;
+
+    div {
+      width: 100px;
+      height: 100px;
+    }
+
+    @media (max-width: 600px) {
+      img {
+        width: 200px;
+      }
+
+      div {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+  }
+}
