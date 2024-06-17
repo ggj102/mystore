@@ -84,7 +84,7 @@ export default function CartItem({
           </div>
           <strong>{price}원</strong>
         </div>
-        <button onClick={() => onClickItemRemove(index)}>
+        <button onClick={() => onClickItemRemove(index)} title="삭제">
           <ImCross />
         </button>
       </div>

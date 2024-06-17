@@ -62,6 +62,7 @@ export default function OptionItem({
         <div>{`- ${option_name}`}</div>
       </div>
       <button
+        title="삭제"
         className={optionItemStyle.remove_btn}
         onClick={() => onClickDeleteOption(option_id)}
       >

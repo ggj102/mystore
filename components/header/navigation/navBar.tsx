@@ -45,13 +45,13 @@ export default function NavBar({
         </div>
       </div>
       <div className={navigationStyle.nav_contents}>
-        <button onClick={onClickSearchBarOpen}>
+        <button title="검색" onClick={onClickSearchBarOpen}>
           <FiSearch size={35} />
         </button>
-        <Link href="/user">
+        <Link title="마이페이지" href="/user">
           <FaRegUser size={33} />
         </Link>
-        <Link className="cart_link" href="/cart">
+        <Link title="장바구니" className="cart_link" href="/cart">
           <BsCart2 size={36} />
         </Link>
       </div>

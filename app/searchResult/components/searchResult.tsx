@@ -87,7 +87,7 @@ export default function SearchResult({
               onChange={(e) => setCurrentKeyword(e.target.value)}
               onKeyUp={onKeyUpSearch}
             />
-            <button onClick={onClickSearch}>
+            <button type="button" title="검색" onClick={onClickSearch}>
               <FiSearch size={28} />
             </button>
           </div>
