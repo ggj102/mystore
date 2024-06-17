@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
@@ -32,6 +33,7 @@ export default function Cart({
   const [totalPrice, setTotalPrice] = useState<PriceDataType>(priceData);
 
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
+  const [topBtnView, isTopBtnView] = useState<boolean>(true);
 
   // isChecked 속성 넣기
   const addPropIsChecked = (list: CartItemType[]) => {
@@ -173,6 +175,14 @@ export default function Cart({
         {cartList.length > 0 ? (
           <div className={cartStyles.cart_list_price}>
             <div className={cartStyles.cart_list}>
+              <motion.div
+                className={cartStyles.item_check_remove}
+                onViewportEnter={() => isTopBtnView(true)}
+                onViewportLeave={() => isTopBtnView(false)}
+              >
+                <button onClick={onClickAllChecked}>전체선택</button>
+                <button onClick={onClickSelectedRemove}>선택삭제</button>
+              </motion.div>
               <ul>
                 {cartList.map((val: CartItemType, idx: number) => {
                   return (
@@ -189,10 +199,12 @@ export default function Cart({
                 })}
               </ul>
               {/* <div className={cartStyles.summary}>[기본배송]</div> */}
-              <div className={cartStyles.item_check_remove}>
-                <button onClick={onClickAllChecked}>전체선택</button>
-                <button onClick={onClickSelectedRemove}>선택삭제</button>
-              </div>
+              {!topBtnView && (
+                <div className={cartStyles.item_check_remove}>
+                  <button onClick={onClickAllChecked}>전체선택</button>
+                  <button onClick={onClickSelectedRemove}>선택삭제</button>
+                </div>
+              )}
             </div>
             <div className={cartStyles.cart_total_price}>
               <h3>주문상품</h3>
