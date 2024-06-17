@@ -68,7 +68,6 @@ export default function DeliveryAddressForm({
   return (
     <FoldContainer title="배송지">
       <div className={deliveryAddressFormStyle.select_wrap}>
-        <Link href="/user/delivery">배송지 관리</Link>
         <Controller
           name="delivery_option"
           control={control}
