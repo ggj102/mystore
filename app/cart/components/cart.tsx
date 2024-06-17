@@ -35,15 +35,6 @@ export default function Cart({
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
   const [topBtnView, isTopBtnView] = useState<boolean>(true);
 
-  // isChecked 속성 넣기
-  const addPropIsChecked = (list: CartItemType[]) => {
-    const addPropMap = list.map((val: CartItemType) => {
-      return { ...val, isChecked: false };
-    });
-
-    setCartList(addPropMap);
-  };
-
   // 수량 변경 이벤트
   const onClickUpdateCount = async (
     index: number,
@@ -161,10 +152,6 @@ export default function Cart({
     const total = getTotalPrice(cartList);
     setTotalPrice(total);
   }, [cartList]);
-
-  useEffect(() => {
-    addPropIsChecked(cartData);
-  }, [cartData]);
 
   return (
     <div className={cartStyles.cart_container}>
