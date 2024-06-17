@@ -132,7 +132,7 @@ export default function Cart({
       setLoadingText("주문/결제 페이지로 이동 중 입니다.");
 
       const res = await createOrderAction(data);
-      setIsLoading(false);
+
       router.push(`/order?order_id=${res.order_id}`);
     } catch (err) {
       tokenExpiredErrorMessage(err);
