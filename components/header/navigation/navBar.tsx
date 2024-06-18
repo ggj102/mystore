@@ -9,6 +9,7 @@ import { FaRegUser } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
 
 import navigationStyle from "@styles/components/header/navigation/navigation.module.scss";
+import RevalidateLink from "@/components/revalidateLink";
 
 export default function NavBar({
   isSticky,
@@ -48,12 +49,12 @@ export default function NavBar({
         <button title="검색" onClick={onClickSearchBarOpen}>
           <FiSearch size={35} />
         </button>
-        <Link title="마이페이지" href="/user">
+        <RevalidateLink title="마이페이지" href="/user">
           <FaRegUser size={33} />
-        </Link>
-        <Link title="장바구니" className="cart_link" href="/cart">
+        </RevalidateLink>
+        <RevalidateLink title="장바구니" className="cart_link" href="/cart">
           <BsCart2 size={36} />
-        </Link>
+        </RevalidateLink>
       </div>
     </div>
   );

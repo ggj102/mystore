@@ -5,6 +5,7 @@ import { TbReportMoney } from "react-icons/tb";
 import { BsCart2 } from "react-icons/bs";
 
 import userStyle from "@styles/pages/user/user.module.scss";
+import RevalidateLink from "@/components/revalidateLink";
 
 export default function UserHeader({
   data,
@@ -41,7 +42,7 @@ export default function UserHeader({
             <span>{data.order_count}</span>
           </div>
         </Link>
-        <Link href="/cart">
+        <RevalidateLink href="/cart">
           <div className={userStyle.icon_wrap}>
             <BsCart2 size={24} />
           </div>
@@ -49,7 +50,7 @@ export default function UserHeader({
             <div>장바구니</div>
             <span>{data.cart_count}</span>
           </div>
-        </Link>
+        </RevalidateLink>
       </div>
     </div>
   );
