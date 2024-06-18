@@ -1,8 +1,10 @@
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export default function DaumPostcode({
+  isDisabled,
   setAddress,
 }: {
+  isDisabled: boolean;
   setAddress: (address: string, zone_code: string) => void;
 }) {
   const open = useDaumPostcodePopup(
@@ -48,7 +50,7 @@ export default function DaumPostcode({
   };
 
   return (
-    <button type="button" onClick={handleClick}>
+    <button type="button" onClick={handleClick} disabled={isDisabled}>
       주소찾기
     </button>
   );
