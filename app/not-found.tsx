@@ -4,13 +4,13 @@ import { useRouter } from "next/navigation";
 
 import Link from "next/link";
 
-import notFoundStyle from "@styles/components/notFound.module.scss";
+import errorStyle from "@styles/components/error.module.scss";
 
 export default function NotFound() {
   const router = useRouter();
 
   return (
-    <div className={notFoundStyle.not_found_container}>
+    <div className={errorStyle.not_found_container}>
       <div>
         <div>
           <p>접근하신 주소의 페이지는 없는 페이지 입니다.</p>
