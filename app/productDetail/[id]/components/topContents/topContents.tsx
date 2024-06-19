@@ -151,7 +151,6 @@ export default function TopContents({ data }: { data: ProductDetailData }) {
         await addCartAction(postData);
         const res = await createOrderAction(order_item);
 
-        setIsLoading(false);
         router.push(`/order?order_id=${res.order_id}`);
       } catch (err) {
         tokenExpiredErrorMessage(err);

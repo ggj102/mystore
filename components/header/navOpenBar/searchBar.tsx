@@ -34,11 +34,11 @@ export default function SearchBar({
               onChange={(e) => setCurrentKeyword(e.target.value)}
               onKeyUp={onKeyUpSearch}
             />
-            <button onClick={onClickSearch}>
+            <button title="검색" onClick={onClickSearch}>
               <FiSearch size={28} />
             </button>
           </div>
-          <button onClick={onClickSearchBarOpen}>
+          <button title="닫기" onClick={onClickSearchBarOpen}>
             <ImCross size={22} />
           </button>
         </div>

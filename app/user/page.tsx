@@ -11,15 +11,18 @@ async function getServerSideProps() {
 
   try {
     const userData = await api.get("/user/myPage", { headers: { Cookie } });
+    const RecentlyViewData = await api.get("/user/recentlyView", {
+      headers: { Cookie },
+    });
 
-    return { userData };
+    return { userData, RecentlyViewData };
   } catch (err) {
     return redirect("/signin");
   }
 }
 
 export default async function UserPage() {
-  const { userData } = await getServerSideProps();
+  const { userData, RecentlyViewData } = await getServerSideProps();
 
-  return <User userData={userData} />;
+  return <User userData={userData} RecentlyViewData={RecentlyViewData} />;
 }

@@ -28,7 +28,7 @@ export default function VerticalOpenBar({
 }) {
   return (
     <div className={verticalOpenBarStyle.vertical_open_bar}>
-      <button onClick={onClickBarClose}>
+      <button title="닫기" onClick={onClickBarClose}>
         <ImCross size={22} color="#000" />
       </button>
       <div>

@@ -2,22 +2,19 @@
 
 import { useRouter } from "next/navigation";
 
-import Link from "next/link";
-
 import errorStyle from "@styles/components/error.module.scss";
 
-export default function NotFound() {
+export default function Error() {
   const router = useRouter();
 
   return (
-    <div className={errorStyle.not_found_container}>
+    <div className={errorStyle.error_container}>
       <div>
         <div>
-          <p>접근하신 주소의 페이지는 없는 페이지 입니다.</p>
-          <p>주소를 다시 확인해주세요.</p>
+          <p>서버 에러가 발생 하였습니다.</p>
+          <p>서비스 이용에 불편을 드려 죄송합니다.</p>
         </div>
         <div>
-          <Link href="/">메인으로</Link>
           <button type="button" onClick={() => router.back()}>
             이전으로
           </button>

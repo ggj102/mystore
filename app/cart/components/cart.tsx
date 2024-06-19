@@ -2,6 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
 import { priceFormatter } from "@/utils/priceFormatter";
@@ -32,15 +33,7 @@ export default function Cart({
   const [totalPrice, setTotalPrice] = useState<PriceDataType>(priceData);
 
   const [isAllChecked, setIsAllChecked] = useState<boolean>(false);
-
-  // isChecked 속성 넣기
-  const addPropIsChecked = (list: CartItemType[]) => {
-    const addPropMap = list.map((val: CartItemType) => {
-      return { ...val, isChecked: false };
-    });
-
-    setCartList(addPropMap);
-  };
+  const [topBtnView, isTopBtnView] = useState<boolean>(true);
 
   // 수량 변경 이벤트
   const onClickUpdateCount = async (
@@ -132,7 +125,7 @@ export default function Cart({
       setLoadingText("주문/결제 페이지로 이동 중 입니다.");
 
       const res = await createOrderAction(data);
-      setIsLoading(false);
+
       router.push(`/order?order_id=${res.order_id}`);
     } catch (err) {
       tokenExpiredErrorMessage(err);
@@ -160,10 +153,6 @@ export default function Cart({
     setTotalPrice(total);
   }, [cartList]);
 
-  useEffect(() => {
-    addPropIsChecked(cartData);
-  }, [cartData]);
-
   return (
     <div className={cartStyles.cart_container}>
       <div className="site_wrap">
@@ -173,6 +162,14 @@ export default function Cart({
         {cartList.length > 0 ? (
           <div className={cartStyles.cart_list_price}>
             <div className={cartStyles.cart_list}>
+              <motion.div
+                className={cartStyles.item_check_remove}
+                onViewportEnter={() => isTopBtnView(true)}
+                onViewportLeave={() => isTopBtnView(false)}
+              >
+                <button onClick={onClickAllChecked}>전체선택</button>
+                <button onClick={onClickSelectedRemove}>선택삭제</button>
+              </motion.div>
               <ul>
                 {cartList.map((val: CartItemType, idx: number) => {
                   return (
@@ -189,10 +186,12 @@ export default function Cart({
                 })}
               </ul>
               {/* <div className={cartStyles.summary}>[기본배송]</div> */}
-              <div className={cartStyles.item_check_remove}>
-                <button onClick={onClickAllChecked}>전체선택</button>
-                <button onClick={onClickSelectedRemove}>선택삭제</button>
-              </div>
+              {!topBtnView && (
+                <div className={cartStyles.item_check_remove}>
+                  <button onClick={onClickAllChecked}>전체선택</button>
+                  <button onClick={onClickSelectedRemove}>선택삭제</button>
+                </div>
+              )}
             </div>
             <div className={cartStyles.cart_total_price}>
               <h3>주문상품</h3>

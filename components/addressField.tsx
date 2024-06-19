@@ -3,7 +3,7 @@ import DaumPostcode from "./daumPost";
 
 import addressFieldStyle from "@styles/components/addressField.module.scss";
 
-export default function AddressField({ control, setValue }: any) {
+export default function AddressField({ isDisabled, control, setValue }: any) {
   const setAddress = (address: string, zone_code: string) => {
     setValue("address", address, { shouldValidate: true });
     setValue("zone_code", zone_code, { shouldValidate: true });
@@ -21,28 +21,28 @@ export default function AddressField({ control, setValue }: any) {
           name="zone_code"
           control={control}
           defaultValue=""
-          render={({ field: { value } }) => (
+          render={({ field }) => (
             <input
+              {...field}
               className="read_only"
               placeholder="우편번호"
-              value={value}
               readOnly
               onChange={onChangeReset}
             />
           )}
         />
-        <DaumPostcode setAddress={setAddress} />
+        <DaumPostcode isDisabled={isDisabled} setAddress={setAddress} />
       </div>
       <Controller
         name="address"
         control={control}
         defaultValue=""
-        render={({ field: { value } }) => (
+        render={({ field }) => (
           <input
+            {...field}
             className="read_only"
             placeholder="주소"
             readOnly
-            value={value}
             onChange={onChangeReset}
           />
         )}
@@ -51,12 +51,8 @@ export default function AddressField({ control, setValue }: any) {
         name="detail_address"
         control={control}
         defaultValue=""
-        render={({ field: { value, onChange } }) => (
-          <input
-            placeholder="상세주소 입력"
-            value={value}
-            onChange={onChange}
-          />
+        render={({ field }) => (
+          <input {...field} placeholder="상세주소 입력" disabled={isDisabled} />
         )}
       />
     </div>

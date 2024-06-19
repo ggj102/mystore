@@ -6,7 +6,7 @@ import Select, { StylesConfig } from "react-select";
 import phoneFieldStyle from "@styles/components/phoneField.module.scss";
 import { ChangeEvent } from "react";
 
-export default function PhoneField({ control, setValue }: any) {
+export default function PhoneField({ isDisabled, control, setValue }: any) {
   const options = [
     { value: "010", label: "010" },
     { value: "011", label: "011" },
@@ -73,13 +73,13 @@ export default function PhoneField({ control, setValue }: any) {
         name="phone_prefix"
         control={control}
         defaultValue=""
-        render={({ field: { value, onChange } }) => (
+        render={({ field }) => (
           <Select
+            {...field}
             styles={customStyles}
             isSearchable={false}
-            value={value}
-            onChange={onChange}
             options={options}
+            isDisabled={isDisabled}
           />
         )}
       />
@@ -87,11 +87,12 @@ export default function PhoneField({ control, setValue }: any) {
         name="phone_start"
         control={control}
         defaultValue=""
-        render={({ field: { value } }) => (
+        render={({ field }) => (
           <input
+            {...field}
             maxLength={4}
-            value={value}
             onChange={(e) => onChangeNumber(e, "phone_start")}
+            disabled={isDisabled}
           />
         )}
       />
@@ -100,11 +101,12 @@ export default function PhoneField({ control, setValue }: any) {
         name="phone_end"
         control={control}
         defaultValue=""
-        render={({ field: { value } }) => (
+        render={({ field }) => (
           <input
+            {...field}
             maxLength={4}
-            value={value}
             onChange={(e) => onChangeNumber(e, "phone_end")}
+            disabled={isDisabled}
           />
         )}
       />

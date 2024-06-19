@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
 
 import { priceFormatter } from "@/utils/priceFormatter";
-import { tokenExpiredErrorMessage } from "@/httpClient/errorMessage";
-import { getRecentlyViewAction } from "./userActions";
 
 import { MdArrowForwardIos } from "react-icons/md";
 import userStyle from "@styles/pages/user/user.module.scss";
 
-export default function UserInterest({ title }: { title: string }) {
-  const [listData, setListData] = useState<ProductType[]>([]);
-
+export default function UserInterest({
+  title,
+  data,
+}: {
+  title: string;
+  data: ProductType[];
+}) {
   const limitLength = (num: number) => {
-    return listData.length > num ? num : listData.length;
+    return data.length > num ? num : data.length;
   };
 
   const settings = {
@@ -39,32 +40,15 @@ export default function UserInterest({ title }: { title: string }) {
     ],
   };
 
-  async function getData() {
-    try {
-      if (title === "찜한") {
-      } else if (title === "최근 본") {
-        const data = await getRecentlyViewAction();
-
-        setListData(data);
-      }
-    } catch (err) {
-      tokenExpiredErrorMessage(err);
-    }
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
-
   return (
     <div className={userStyle.interest_list}>
       <div className="title_wrap">
         <h3>{title} 상품</h3>
-        <span>{listData.length}</span>
+        <span>{data.length}</span>
       </div>
       <div className={userStyle.slider_container}>
         <Slider {...settings}>
-          {listData.map((val: ProductType, idx: number) => {
+          {data.map((val: ProductType, idx: number) => {
             return (
               <div key={idx} className={userStyle.product_item}>
                 <div className={userStyle.product_item_container}>

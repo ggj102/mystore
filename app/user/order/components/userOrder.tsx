@@ -42,7 +42,11 @@ export default function UserOrder({ data }: { data: UserOrderData[] }) {
                         </>
                       )}
                     </span>
-                    <button onClick={() => onClickOrderDelete(val.id)}>
+                    <button
+                      type="button"
+                      title="삭제"
+                      onClick={() => onClickOrderDelete(val.id)}
+                    >
                       <ImCross />
                     </button>
                   </div>

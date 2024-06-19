@@ -45,9 +45,7 @@ export default function DeliveryMessage({ control, setValue }: any) {
         name="direct_message"
         control={control}
         defaultValue=""
-        render={({ field: { value, onChange } }) => (
-          <textarea value={value} onChange={onChange} />
-        )}
+        render={({ field }) => <textarea {...field} />}
       />
     </div>
   );

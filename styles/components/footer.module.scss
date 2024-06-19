@@ -7,5 +7,32 @@
 
 .footer_contents {
   padding-top: 70px;
-  text-align: end;
+
+  display: flex;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    gap: 4px;
+    padding: 0 10px;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  & > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+
+    padding: 0 10px;
+  }
 }

@@ -110,3 +110,45 @@
     background-color: #dcdee0;
   }
 }
+
+.signup_success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 400px);
+
+  p {
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+
+    margin-bottom: 60px;
+  }
+
+  & > div > div {
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-weight: bold;
+
+      width: 100px;
+      height: 30px;
+
+      border: 1px solid var(--color-discount);
+      border-radius: 8px;
+
+      &:hover {
+        background-color: var(--color-discount);
+        color: #fff;
+      }
+    }
+  }
+}

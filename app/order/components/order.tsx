@@ -151,7 +151,6 @@ export default function Order({
     <div className={orderStyle.order_container}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={orderStyle.title_bar}>
-          <div>MY STORE</div>
           <h3>주문/결제</h3>
         </div>
         <DeliveryAddressInfo

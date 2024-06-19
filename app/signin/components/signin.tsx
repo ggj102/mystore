@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -16,6 +17,8 @@ const schema = yup.object().shape({
 });
 
 export default function Signin() {
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -24,11 +27,15 @@ export default function Signin() {
     resolver: yupResolver(schema),
   });
 
+  const isDisabled = isSubmitting || isSubmitSuccessful;
+
   const onSubmit = async (data: { user_id: string; password: string }) => {
     try {
       await signAction(data);
+      setIsSubmitSuccessful(true);
     } catch (err: any) {
       alert(err.message);
+      setIsSubmitSuccessful(false);
     }
   };
 
@@ -40,11 +47,15 @@ export default function Signin() {
             <h3>로그인</h3>
             <div className="field">
               <span>아이디</span>
-              <input {...register("user_id")} />
+              <input {...register("user_id")} disabled={isDisabled} />
             </div>
             <div className="field">
               <span>비밀번호</span>
-              <input type="password" {...register("password")} />
+              <input
+                type="password"
+                {...register("password")}
+                disabled={isDisabled}
+              />
             </div>
             {isSubmitting ? (
               <FormLoading
@@ -54,7 +65,11 @@ export default function Signin() {
                 strokeWidth="10"
               />
             ) : (
-              <button className={signinStyle.submit_btn} type="submit">
+              <button
+                className={signinStyle.submit_btn}
+                type="submit"
+                disabled={isSubmitSuccessful}
+              >
                 로그인
               </button>
             )}

@@ -36,7 +36,7 @@ export default function BottomContents({ data }: { data: ProductDetailData }) {
         >
           상품구매안내
         </button>
-        <button
+        {/* <button
           className={clsx({ current_menu: currnetMenu === 3 })}
           onClick={() => setCurrnetMenu(3)}
         >
@@ -47,7 +47,7 @@ export default function BottomContents({ data }: { data: ProductDetailData }) {
           onClick={() => setCurrnetMenu(4)}
         >
           =
-        </button>
+        </button> */}
       </div>
       {product_detail &&
       product_detail?.product_detail_image_path.length > 0 ? (

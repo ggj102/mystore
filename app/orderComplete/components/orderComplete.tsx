@@ -23,7 +23,6 @@ export default function OrderComplete({
     <div className={orderCompleteStyle.order_complete_container}>
       <div>
         <div className={orderCompleteStyle.title_bar}>
-          <div>MY STORE</div>
           <h3>주문완료</h3>
         </div>
         <PaymentResult data={order} />
