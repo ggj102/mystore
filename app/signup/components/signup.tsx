@@ -71,9 +71,9 @@ export default function Signup() {
   };
 
   const onClickIdDuplicationCheck = async () => {
-    if (isIdDuplicationCheck) return;
-
     const user_id = getValues("user_id");
+
+    if (isIdDuplicationCheck || user_id === "") return;
 
     try {
       await idDuplicationAction(user_id);
