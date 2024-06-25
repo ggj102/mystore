@@ -123,16 +123,15 @@ export default function Order({
       delivery_message: formData.direct_message,
     };
 
-    try {
-      await paymentAction(orderId, bodyData);
+    const res = await paymentAction(orderId, bodyData);
+    if (res.error) tokenExpiredErrorMessage(res.message);
+    else {
       await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName: order_name,
         successUrl: `http://localhost:3005/order/success?order_id=${orderId}`,
         failUrl: `${window.location.origin}/fail`,
       });
-    } catch (err) {
-      tokenExpiredErrorMessage(err);
     }
   };
 

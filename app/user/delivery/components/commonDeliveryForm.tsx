@@ -71,11 +71,16 @@ export default function CommonDeliveryForm({
       direct_message: formData.direct_message || "",
     };
 
-    try {
-      if (data) await editSubmitAction(data.id, submitData);
-      else await addSubmitAction(submitData);
-    } catch (err) {
-      tokenExpiredErrorMessage(err);
+    let response = null;
+
+    if (data) {
+      response = await editSubmitAction(data.id, submitData);
+    } else {
+      response = await addSubmitAction(submitData);
+    }
+
+    if (response.error) {
+      tokenExpiredErrorMessage(response.message);
     }
   };
 

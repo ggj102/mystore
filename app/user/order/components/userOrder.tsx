@@ -17,11 +17,8 @@ export default function UserOrder({ data }: { data: UserOrderData[] }) {
 
     if (!isConfirm) return;
 
-    try {
-      await orderDeleteAction(id);
-    } catch (err) {
-      tokenExpiredErrorMessage(err);
-    }
+    const res = await orderDeleteAction(id);
+    if (res.error) tokenExpiredErrorMessage(res.message);
   };
 
   return (

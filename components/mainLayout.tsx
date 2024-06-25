@@ -6,12 +6,9 @@ import Header from "./header";
 async function getServerSideProps() {
   const Cookie = getCookies();
 
-  try {
-    const userData = await api.get("/user", { headers: { Cookie } });
-    return { userData };
-  } catch (err) {
-    return { userData: undefined };
-  }
+  const userData = await api.get("/user", { headers: { Cookie } });
+  if (userData.error) return { userData: undefined };
+  else return { userData };
 }
 
 export default async function MainLayout({

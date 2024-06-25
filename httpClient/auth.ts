@@ -19,7 +19,7 @@ const fetchData = async (path: string, options: any) => {
     if (!response.ok) {
       const errorData = await response.json();
 
-      throw new Error(errorData.message || "Network response was not ok");
+      return { error: true, message: errorData.message };
     }
 
     const data = await response.json();
@@ -31,10 +31,6 @@ const fetchData = async (path: string, options: any) => {
 
     return data;
   } catch (error: any) {
-    console.error(
-      "There was a problem with the fetch operation:",
-      error.message
-    );
     throw error;
   }
 };
