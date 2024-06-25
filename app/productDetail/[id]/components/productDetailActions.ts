@@ -15,9 +15,5 @@ export async function recentlyViewAction(id: number) {
   const Cookie = getCookies();
   if (!Cookie) return;
 
-  try {
-    await api.post("/user/recentlyView", { id }, { headers: { Cookie } });
-  } catch (err) {
-    return;
-  }
+  await api.post("/user/recentlyView", { id }, { headers: { Cookie } });
 }

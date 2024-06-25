@@ -9,7 +9,8 @@ export async function orderDeleteAction(id: number) {
 
   return api
     .delete("/user/order", { order_id: id }, { headers: { Cookie } })
-    .then(() => {
-      revalidatePath("/user/order", "page");
+    .then((res) => {
+      if (res.error) return res;
+      else revalidatePath("/user/order", "page");
     });
 }

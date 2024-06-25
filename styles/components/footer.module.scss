@@ -10,7 +10,16 @@
 
   display: flex;
 
+  @media (max-width: 500px) {
+    flex-direction: column;
+    gap: 14px;
+  }
+
   & > div {
+    display: flex;
+  }
+
+  & > div > div {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -26,7 +35,7 @@
     }
   }
 
-  & > a {
+  & > div > a {
     display: flex;
     align-items: center;
     justify-content: center;

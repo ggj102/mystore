@@ -43,9 +43,10 @@ export default function Cart({
   ) => {
     if (count === 0) alert("수량이 부족합니다 (최소 1개)");
     else {
-      try {
-        await updateCountAction(count, info);
+      const res = await updateCountAction(count, info);
 
+      if (res.error) tokenExpiredErrorMessage(res.message);
+      else {
         const copy = [...cartList];
 
         copy[index] = {
@@ -54,8 +55,6 @@ export default function Cart({
         };
 
         setCartList(copy);
-      } catch (err) {
-        tokenExpiredErrorMessage(err);
       }
     }
   };
@@ -87,12 +86,9 @@ export default function Cart({
     const isConfirm = confirm("장바구니에서 제외 하시겠습니까?");
 
     if (isConfirm) {
-      try {
-        await itemRemoveAction(items);
-        setCartList(setData);
-      } catch (err) {
-        tokenExpiredErrorMessage(err);
-      }
+      const res = await itemRemoveAction(items);
+      if (res.error) tokenExpiredErrorMessage(res.message);
+      else setCartList(setData);
     }
   };
 
@@ -120,16 +116,13 @@ export default function Cart({
   };
 
   const createOrder = async (data: CartItemType[]) => {
-    try {
-      setIsLoading(true);
-      setLoadingText("주문/결제 페이지로 이동 중 입니다.");
+    setIsLoading(true);
+    setLoadingText("주문/결제 페이지로 이동 중 입니다.");
 
-      const res = await createOrderAction(data);
+    const res = await createOrderAction(data);
 
-      router.push(`/order?order_id=${res.order_id}`);
-    } catch (err) {
-      tokenExpiredErrorMessage(err);
-    }
+    if (res.error) tokenExpiredErrorMessage(res.message);
+    else router.push(`/order?order_id=${res.order_id}`);
   };
 
   const onClickProductOrder = (index: number) => {

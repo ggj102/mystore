@@ -18,11 +18,9 @@ export default function UserDelivery({ data }: { data: UserDeliveryType[] }) {
     const isConfirm = confirm("배송지를 삭제 하시겠습니까?");
     if (!isConfirm) return;
 
-    try {
-      await removeDeliveryItemAction(id);
-    } catch (err) {
-      tokenExpiredErrorMessage(err);
-    }
+    const res = await removeDeliveryItemAction(id);
+
+    if (res.error) tokenExpiredErrorMessage(res.message);
   };
 
   return (

@@ -16,10 +16,15 @@ interface SubmitDataType extends DeliveryFormType {
 export async function addSubmitAction(data: SubmitDataType) {
   const Cookie = getCookies();
 
-  return api.post("/user/delivery", data, { headers: { Cookie } }).then(() => {
-    revalidatePath("/user/delivery", "page");
-    redirect("/user/delivery");
-  });
+  return api
+    .post("/user/delivery", data, { headers: { Cookie } })
+    .then((res) => {
+      if (res.error) return res;
+      else {
+        revalidatePath("/user/delivery", "page");
+        redirect("/user/delivery");
+      }
+    });
 }
 
 export async function editSubmitAction(id: number, data: SubmitDataType) {
@@ -27,9 +32,12 @@ export async function editSubmitAction(id: number, data: SubmitDataType) {
 
   return api
     .put("/user/delivery", { id, data }, { headers: { Cookie } })
-    .then(() => {
-      revalidatePath("/user/delivery", "page");
-      redirect("/user/delivery");
+    .then((res) => {
+      if (res.error) return res;
+      else {
+        revalidatePath("/user/delivery", "page");
+        redirect("/user/delivery");
+      }
     });
 }
 
@@ -38,7 +46,8 @@ export async function removeDeliveryItemAction(id: number) {
 
   return api
     .delete("/user/delivery", { id }, { headers: { Cookie } })
-    .then(() => {
-      revalidatePath("/user/delivery", "page");
+    .then((res) => {
+      if (res.error) return res;
+      else revalidatePath("/user/delivery", "page");
     });
 }

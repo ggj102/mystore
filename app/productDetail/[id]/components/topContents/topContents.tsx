@@ -144,16 +144,16 @@ export default function TopContents({ data }: { data: ProductDetailData }) {
         return { item_id, option_id, count };
       });
 
-      try {
-        setIsLoading(true);
-        setLoadingText("주문/결제 페이지로 이동 중 입니다.");
+      setIsLoading(true);
+      setLoadingText("주문/결제 페이지로 이동 중 입니다.");
 
-        await addCartAction(postData);
+      const addCartRes = await addCartAction(postData);
+
+      if (addCartRes.error) {
+        tokenExpiredErrorMessage(addCartRes.message);
+      } else {
         const res = await createOrderAction(order_item);
-
         router.push(`/order?order_id=${res.order_id}`);
-      } catch (err) {
-        tokenExpiredErrorMessage(err);
       }
     }
   };
@@ -167,16 +167,16 @@ export default function TopContents({ data }: { data: ProductDetailData }) {
       return { item_id, option_id, count };
     });
 
-    try {
-      await addCartAction(postData);
+    const addCartRes = await addCartAction(postData);
 
+    if (addCartRes.error) {
+      setIsLoading(false);
+      tokenExpiredErrorMessage(addCartRes.message);
+    } else {
       const isConfirm = confirm(
         "장바구니에 담았습니다.\n장바구니 페이지로 이동하시겠습니까?"
       );
       if (isConfirm) router.push("/cart");
-    } catch (err) {
-      setIsLoading(false);
-      tokenExpiredErrorMessage(err);
     }
   };
 
