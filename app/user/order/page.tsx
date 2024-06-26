@@ -8,13 +8,10 @@ async function getServerSideProps() {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
-  try {
-    const orderData = await api.get("/user/order", { headers: { Cookie } });
+  const orderData = await api.get("/user/order", { headers: { Cookie } });
 
-    return { orderData };
-  } catch (err) {
-    return redirect("/signin");
-  }
+  if (orderData.error) return redirect("/signin");
+  else return { orderData };
 }
 
 export default async function UserOrderPage() {

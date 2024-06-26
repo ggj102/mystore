@@ -9,15 +9,12 @@ async function getServerSideProps() {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
-  try {
-    const deliveryData = await api.get("/user/deliveryList", {
-      headers: { Cookie },
-    });
+  const deliveryData = await api.get("/user/deliveryList", {
+    headers: { Cookie },
+  });
 
-    return { deliveryData };
-  } catch (err) {
-    return redirect("/signin");
-  }
+  if (deliveryData.error) return redirect("/signin");
+  else return { deliveryData };
 }
 
 export default async function UserDeliveryPage() {

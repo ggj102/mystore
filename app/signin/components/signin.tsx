@@ -30,13 +30,11 @@ export default function Signin() {
   const isDisabled = isSubmitting || isSubmitSuccessful;
 
   const onSubmit = async (data: { user_id: string; password: string }) => {
-    try {
-      await signAction(data);
-      setIsSubmitSuccessful(true);
-    } catch (err: any) {
-      alert(err.message);
+    const res = await signAction(data);
+    if (res.error) {
+      alert(res.message);
       setIsSubmitSuccessful(false);
-    }
+    } else setIsSubmitSuccessful(true);
   };
 
   return (

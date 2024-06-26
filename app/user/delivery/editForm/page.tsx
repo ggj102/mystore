@@ -10,19 +10,15 @@ async function getServerSideProps(searchParams: SearchParmarsProps) {
   if (!Cookie) return redirect("/signin");
 
   const deliveryId = searchParams.delivery_id;
+  const deliveryData = await api.get(
+    `/user/delivery?delivery_id=${deliveryId}`,
+    {
+      headers: { Cookie },
+    }
+  );
 
-  try {
-    const deliveryData = await api.get(
-      `/user/delivery?delivery_id=${deliveryId}`,
-      {
-        headers: { Cookie },
-      }
-    );
-
-    return { deliveryData };
-  } catch (err) {
-    return redirect("/signin");
-  }
+  if (deliveryData.error) return redirect("/signin");
+  else return { deliveryData };
 }
 
 export default async function UserDeliveryEditFormPage({

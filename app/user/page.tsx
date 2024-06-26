@@ -9,15 +9,15 @@ async function getServerSideProps() {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
-  try {
-    const userData = await api.get("/user/myPage", { headers: { Cookie } });
+  const userData = await api.get("/user/myPage", { headers: { Cookie } });
+
+  if (userData.error) return redirect("/signin");
+  else {
     const RecentlyViewData = await api.get("/user/recentlyView", {
       headers: { Cookie },
     });
 
     return { userData, RecentlyViewData };
-  } catch (err) {
-    return redirect("/signin");
   }
 }
 

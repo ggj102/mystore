@@ -10,21 +10,20 @@ async function getServerSideProps(searchParams: SearchParmarsProps) {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
-  const orderId = searchParams.order_id;
-
-  const orderItem = await api.get(`/order/orderItem?order_id=${orderId}`, {
+  const deliveryData = await api.get("/user/deliveryList", {
     headers: { Cookie },
   });
-  const priceData = getTotalPrice(orderItem);
 
-  try {
-    const deliveryData = await api.get("/user/deliveryList", {
+  if (deliveryData.error) return redirect("/signin");
+  else {
+    const orderId = searchParams.order_id;
+
+    const orderItem = await api.get(`/order/orderItem?order_id=${orderId}`, {
       headers: { Cookie },
     });
+    const priceData = getTotalPrice(orderItem);
 
     return { deliveryData, orderItem, priceData };
-  } catch (err) {
-    return redirect("/signin");
   }
 }
 

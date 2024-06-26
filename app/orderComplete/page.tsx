@@ -11,15 +11,12 @@ async function getServerSideProps(searchParams: SearchParmarsProps) {
 
   const orderId = searchParams.order_id;
 
-  try {
-    const orderCompleteData = await api.get(`/order?order_id=${orderId}`, {
-      headers: { Cookie },
-    });
+  const orderCompleteData = await api.get(`/order?order_id=${orderId}`, {
+    headers: { Cookie },
+  });
 
-    return { orderCompleteData };
-  } catch (err) {
-    return redirect("/signin");
-  }
+  if (orderCompleteData.error) return redirect("/signin");
+  else return { orderCompleteData };
 }
 
 export default async function OrderCompletePage({

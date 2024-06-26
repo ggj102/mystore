@@ -10,13 +10,13 @@ async function getServerSideProps() {
   const Cookie = getCookies();
   if (!Cookie) return redirect("/signin");
 
-  try {
-    const cartData = await api.get("/cart", { headers: { Cookie } });
+  const cartData = await api.get("/cart", { headers: { Cookie } });
+
+  if (cartData.error) return redirect("/signin");
+  else {
     const priceData = getTotalPrice(cartData);
 
     return { cartData, priceData };
-  } catch (err) {
-    return redirect("/signin");
   }
 }
 

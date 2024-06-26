@@ -8,12 +8,15 @@ import api from "@/httpClient/auth";
 
 export async function signAction(data: { user_id: string; password: string }) {
   return api.post("/signin", { ...data }).then((res) => {
-    const cookie = cookies();
-    const value = res.cookie.replace("accessToken=", "");
+    if (res.error) return res;
+    else {
+      const cookie = cookies();
+      const value = res.cookie.replace("accessToken=", "");
 
-    cookie.set("accessToken", value);
+      cookie.set("accessToken", value);
 
-    revalidatePath("/", "layout");
-    redirect("/");
+      revalidatePath("/", "layout");
+      redirect("/");
+    }
   });
 }

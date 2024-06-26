@@ -61,13 +61,11 @@ export default function Signup() {
       },
     };
 
-    try {
-      await signupSubmitAction(bodyData);
-      setIsSubmitSuccessful(true);
-    } catch (err: any) {
+    const res = await signupSubmitAction(bodyData);
+    if (res.error) {
       setIsSubmitSuccessful(false);
-      alert(err.message);
-    }
+      alert(res.message);
+    } else setIsSubmitSuccessful(true);
   };
 
   const onClickIdDuplicationCheck = async () => {
@@ -75,14 +73,14 @@ export default function Signup() {
 
     if (isIdDuplicationCheck || user_id === "") return;
 
-    try {
-      await idDuplicationAction(user_id);
+    const res = await idDuplicationAction(user_id);
 
+    if (res.error) {
+      setIsIdDuplicationCheck(false);
+      alert(res.message);
+    } else {
       setIsIdDuplicationCheck(true);
       alert("사용 가능한 아이디 입니다.");
-    } catch (err: any) {
-      setIsIdDuplicationCheck(false);
-      alert(err.message);
     }
   };
 
