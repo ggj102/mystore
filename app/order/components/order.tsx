@@ -126,10 +126,15 @@ export default function Order({
     const res = await paymentAction(orderId, bodyData);
     if (res.error) tokenExpiredErrorMessage(res.message);
     else {
+      const API_URL =
+        process.env.NODE_ENV === "production"
+          ? "https://mystore-server.vercel.app"
+          : "http://localhost:3005";
+
       await paymentWidget?.requestPayment({
         orderId: nanoid(),
         orderName: order_name,
-        successUrl: `http://localhost:3005/order/success?order_id=${orderId}`,
+        successUrl: `${API_URL}/order/success?order_id=${orderId}`,
         failUrl: `${window.location.origin}/fail`,
       });
     }
