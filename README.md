@@ -1,11 +1,13 @@
 <div >
   <img src='https://github.com/user-attachments/assets/e8d8efc5-c2e6-40f6-bdee-3c98ff5a02dd'/>
 </div>
+<br/>
+
+> 상품 판매 사이트
 
 ## 💻 프로젝트 소개
 - **이름**: MY STORE
 - **기간**: 2024.3.5 ~ 2024.6.19
-- **개요**: 상품 판매 사이트
 - **사이트**: [https://mystore-bay.vercel.app/](https://mystore-bay.vercel.app/)
 - **서버(Git)**: [https://github.com/ggj102/mystore-server](https://github.com/ggj102/mystore-server)
 
