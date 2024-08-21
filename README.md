@@ -13,7 +13,7 @@
 - **서버(Git)**: [https://github.com/ggj102/mystore-server](https://github.com/ggj102/mystore-server)
 
 ## 🛠️ 주요 기술
-### 클라이언트
+### 프론트엔드
 <div>
    <img src="https://img.shields.io/badge/Next-000000?style=for-the-badge&logo=Next.js&logoColor=white"/>
    <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white"/>
@@ -29,7 +29,7 @@
 </div>
 
 
-### 서버
+### 백엔드
 <div>
 <img src="https://img.shields.io/badge/express-000000?style=for-the-badge&logo=express&logoColor=white"/>
   <br/>
