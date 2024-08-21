@@ -5,9 +5,10 @@
 
 > 상품 판매 사이트
 
-## 💻 프로젝트 소개
+## 💻 프로젝트 개요
 - **이름**: MY STORE
 - **기간**: 2024.3.5 ~ 2024.6.19
+- **명세서**: [https://velog.io/@ggj102/MY-STORE-명세서](https://velog.io/@ggj102/MY-STORE-%EB%AA%85%EC%84%B8%EC%84%9C)
 - **사이트**: [https://mystore-bay.vercel.app/](https://mystore-bay.vercel.app/)
 - **서버(Git)**: [https://github.com/ggj102/mystore-server](https://github.com/ggj102/mystore-server)
 
